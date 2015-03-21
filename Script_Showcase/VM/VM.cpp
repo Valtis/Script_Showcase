@@ -1,6 +1,5 @@
 #include "VM.h"
 #include "VMState.h"
-#include "MemoryManager.h"
 #include "FFI/ConversionFunctions.h"
 #include "FFI/NativeBinding.h"
 #include "VMOperations.h"

@@ -39,9 +39,6 @@
     <ClCompile Include="VM\VM.cpp">
       <Filter>Source Files\VM</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMClass.cpp">
-      <Filter>Source Files\VM</Filter>
-    </ClCompile>
     <ClCompile Include="VM\VMFrame.cpp">
       <Filter>Source Files\VM</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Header Files\VM</Filter>
     </ClInclude>
     <ClInclude Include="VM\VM.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VMClass.h">
       <Filter>Header Files\VM</Filter>
     </ClInclude>
     <ClInclude Include="VM\VMFrame.h">

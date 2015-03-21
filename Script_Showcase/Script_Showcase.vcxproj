@@ -17,7 +17,6 @@
     <ClCompile Include="VM\FFI\NativeBinding.cpp" />
     <ClCompile Include="VM\MemoryManager.cpp" />
     <ClCompile Include="VM\VM.cpp" />
-    <ClCompile Include="VM\VMClass.cpp" />
     <ClCompile Include="VM\VMFrame.cpp" />
     <ClCompile Include="VM\VMFunction.cpp" />
     <ClCompile Include="VM\VMOperations.cpp" />
@@ -31,7 +30,6 @@
     <ClInclude Include="VM\FFI\NativeBindingTypedef.h" />
     <ClInclude Include="VM\MemoryManager.h" />
     <ClInclude Include="VM\VM.h" />
-    <ClInclude Include="VM\VMClass.h" />
     <ClInclude Include="VM\VMFrame.h" />
     <ClInclude Include="VM\VMFunction.h" />
     <ClInclude Include="VM\VMOperations.h" />

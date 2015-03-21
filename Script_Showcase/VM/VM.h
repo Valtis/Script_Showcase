@@ -2,7 +2,6 @@
 
 #include "VMValue.h"
 #include "VMFrame.h"
-#include "VMClass.h"
 #include <array>
 #include <vector>
 #include <cstdint>
