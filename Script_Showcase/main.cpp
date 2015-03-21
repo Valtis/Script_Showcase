@@ -13,7 +13,7 @@ uint32_t AllocateString(VMState &state, const std::string &str) {
   VMValue pointerToString = MemMgrInstance().AllocateArray(ObjectType::CHAR, str.length());
   // write the string into the array
   // we use the fact that string uses continuous storage inside (char array almost certainly)
-  // so address to first element is the address to the array and we can pass this as a pointer
+  // so address of the first element is the address of the array and we can pass this as a pointer
   // to the memory manager
   MemMgrInstance().WriteToArrayIndex(pointerToString, &str[0], 0, str.length());
   // save the pointer to constant object pool so it may be used later
