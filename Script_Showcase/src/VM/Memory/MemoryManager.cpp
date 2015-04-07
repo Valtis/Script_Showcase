@@ -115,7 +115,7 @@ MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteCommon(const VMVa
 
   auto arrayLength = VMObjectFunction::GetArrayLengthUnchecked(object, m_memory);
 
-  if (index + readWriteLength > arrayLength || index < 0 || arrayLength == 0) {
+  if (index > arrayLength - readWriteLength || arrayLength == 0) {
     std::string err = "Out of bounds array access: Array length: " + std::to_string(arrayLength) + "   Index: "
       + std::to_string(index) + "   Access length: " + std::to_string(readWriteLength);
     throw std::runtime_error(err);

@@ -1,0 +1,67 @@
+statics
+  string random_string_here as StuffForGc
+  string printer as Printer
+endstatics
+
+# garbage collection test
+function example
+  locals
+    array
+  endlocals
+  
+  
+  # allocate an array and set first value to 1
+  PushInteger 10
+  AllocateIntegerArray # new int[10] basically
+  StoreLocal array
+  
+  PushInteger 12345 # value to be stored
+  PushInteger 0  # index 
+  LoadLocal array # and array reference
+  StoreArrayIndex
+  
+  InvokeManaged ForceGc
+  
+  
+  # push value of index 0 into stack
+  PushInteger 0
+  LoadLocal array
+  LoadArrayIndex 
+  
+  # and print the value
+  LoadStatic Printer
+  InvokeNative
+  
+endfunction
+
+# allocate ~40mb of stuff, thus forcing GC (heap size assumed to be 32 megabytes)
+function ForceGc
+  locals
+    counter
+  endlocals
+  
+  # initialize counter
+  PushInteger 1000
+  StoreLocal counter
+  
+  Label start # loop start point
+  
+  PushInteger 10000
+  AllocateIntegerArray # new int[10000] so ~400 kilobytes 
+  # immediately get rid of the reference so that the memory is lost and can be collected
+  Pop
+  
+  # update counter
+  LoadLocal counter
+  PushInteger 1 
+  IntegerSubtract
+  StoreLocal counter
+  
+  # jump to beginning if positive
+  LoadLocal counter
+  JumpIfPositive start
+  
+
+endfunction
+
+

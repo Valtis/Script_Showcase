@@ -1,0 +1,27 @@
+statics
+  string memberFunction as func
+endstatics
+
+
+# receives two native pointers as arguments
+function example
+  locals
+    object1
+    object2    
+  endlocals
+  
+  StoreLocal object2
+  StoreLocal object1
+  
+  PushInteger 12345
+  LoadLocal object1
+  LoadStatic func
+  InvokeNative
+
+  PushInteger 9874
+  LoadLocal object2
+  LoadStatic func
+  InvokeNative
+  
+ 
+endfunction

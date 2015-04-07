@@ -32,7 +32,7 @@
 #define LABEL_TOKEN "Label"
 
 
-#define INTEGER_ADDITION_TOKEN "IntegerAddition"
+#define INTEGER_ADDITION_TOKEN "IntegerAdd"
 #define INTEGER_SUBTRACT_TOKEN "IntegerSubtract"
 #define INTEGER_MULTIPLY_TOKEN "IntegerMultiply"
 #define INTEGER_DIVIDE_TOKEN "IntegerDivide"
