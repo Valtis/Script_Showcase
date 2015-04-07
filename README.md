@@ -49,7 +49,7 @@ An interface for a class that provides root set for garbage collector. Currently
 An interface for garbage collector. Memory manager uses this when garbage collection is required.
 
 ### CheneyCollector
-Implementation of GarbageCollector interface. Currently only collector implemented. Uses ![Cheney's algorithm](http://en.wikipedia.org/wiki/Cheney%27s_algorithm)
+Implementation of GarbageCollector interface. Currently this is the only implementation. The collector uses Cheney's algorithm: http://en.wikipedia.org/wiki/Cheney%27s_algorithm 
 
 ## Compilation
 
