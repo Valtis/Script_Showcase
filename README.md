@@ -42,9 +42,18 @@ Contains functions that allow conversion between VMValue and native types.
 ### MemoryManager
 Manages VM heap. Currently only allows allocation of arrays. Garbage collector is not yet implemented either.
 
+### RootSetProvider
+An interface for a class that provides root set for garbage collector. Currently VM is the only implementing class.
+
+### GarbageCollector
+An interface for garbage collector. Memory manager uses this when garbage collection is required.
+
+### CheneyCollector
+Implementation of GarbageCollector interface. Currently only collector implemented. Uses ![Cheney's algorithm](http://en.wikipedia.org/wiki/Cheney%27s_algorithm)
+
 ## Compilation
 
-Should compile without problems with Visual Studio 2013. Not tested with other compilers
+Tested with visual studio 2013. Project should compile without issues. 
 
 ## Expected output: 
 
