@@ -25,75 +25,177 @@
     <Filter Include="Source Files\VM\FFI">
       <UniqueIdentifier>{72fd3af4-edab-4579-8f22-519ed40b078b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\VM\Memory">
+      <UniqueIdentifier>{3f5b8d3e-14c9-472f-bc6c-135718b684ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\ScriptLoader">
+      <UniqueIdentifier>{419324b4-c8b8-4bff-842e-0af252aba64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\ScriptLoader\ByteCodeCreator">
+      <UniqueIdentifier>{64d511f6-1f94-445a-83e2-51e45be73e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Core">
+      <UniqueIdentifier>{5e931512-e9a6-49cc-bf3c-f20d46c62213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Core">
+      <UniqueIdentifier>{e64a04bb-04c0-4eb8-bfb7-c9aca4af5ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Memory">
+      <UniqueIdentifier>{fbea797a-6863-4042-97bb-20ec6857f39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\ScriptLoader">
+      <UniqueIdentifier>{20a1524b-5090-4cde-9df9-aee76b929c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\ScriptLoader\ByteCodeCreator">
+      <UniqueIdentifier>{4a98800e-74ef-4007-8ad8-33d0790c2ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{d0f350f3-850b-4aaa-911f-feacbf33fd5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Utility">
+      <UniqueIdentifier>{13f2640d-1fc9-4e53-8454-981b788b2465}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMValue.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.cpp">
+      <Filter>Source Files\VM\ScriptLoader\ByteCodeCreator</Filter>
     </ClCompile>
-    <ClCompile Include="VM\MemoryManager.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\ScriptLoader\ScriptLoader.cpp">
+      <Filter>Source Files\VM\ScriptLoader</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VM.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\CheneyCollector.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMFrame.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\GarbageCollector.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMFunction.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\GCFactory.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMOperations.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\MemoryManager.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\VMState.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\RootSetProvider.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\ByteCode.cpp">
-      <Filter>Source Files\VM</Filter>
+    <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="VM\FFI\ConversionFunctions.cpp">
+    <ClCompile Include="src\VM\FFI\NativeBinding.cpp">
       <Filter>Source Files\VM\FFI</Filter>
     </ClCompile>
-    <ClCompile Include="VM\FFI\NativeBinding.cpp">
+    <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp">
       <Filter>Source Files\VM\FFI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\ByteCode.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VM.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMFrame.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMFunction.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMOperations.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMState.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMValue.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Utility\Logger.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Utility\LoggerManager.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Utility\StringUtility.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VM\VMValue.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\ByteCode.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\MemoryManager.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VM.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VMFrame.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VMFunction.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VMOperations.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\VMState.h">
-      <Filter>Header Files\VM</Filter>
-    </ClInclude>
-    <ClInclude Include="VM\FFI\ConversionFunctions.h">
+    <ClInclude Include="src\VM\FFI\ConversionFunctions.h">
       <Filter>Header Files\VM\FFI</Filter>
     </ClInclude>
-    <ClInclude Include="VM\FFI\NativeBinding.h">
+    <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h">
       <Filter>Header Files\VM\FFI</Filter>
     </ClInclude>
-    <ClInclude Include="VM\FFI\NativeBindingTypedef.h">
+    <ClInclude Include="src\VM\FFI\NativeBinding.h">
       <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\CheneyCollector.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\GarbageCollector.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\GCFactory.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\MemoryManager.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\RootSetProvider.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\VMObjectFunctions.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\ByteCode.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VM.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMFrame.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMFunction.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMOperations.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMState.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMValue.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\ScriptLoader\ScriptLoader.h">
+      <Filter>Header Files\VM\ScriptLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\ScriptLoader\Tokens.h">
+      <Filter>Header Files\VM\ScriptLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.h">
+      <Filter>Header Files\VM\ScriptLoader\ByteCodeCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Utility\Logger.h">
+      <Filter>Header Files\VM\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Utility\LoggerManager.h">
+      <Filter>Header Files\VM\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Utility\Logs.h">
+      <Filter>Header Files\VM\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Utility\StringUtility.h">
+      <Filter>Header Files\VM\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

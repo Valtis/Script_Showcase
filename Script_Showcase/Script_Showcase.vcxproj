@@ -12,29 +12,53 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="VM\ByteCode.cpp" />
-    <ClCompile Include="VM\FFI\ConversionFunctions.cpp" />
-    <ClCompile Include="VM\FFI\NativeBinding.cpp" />
-    <ClCompile Include="VM\MemoryManager.cpp" />
-    <ClCompile Include="VM\VM.cpp" />
-    <ClCompile Include="VM\VMFrame.cpp" />
-    <ClCompile Include="VM\VMFunction.cpp" />
-    <ClCompile Include="VM\VMOperations.cpp" />
-    <ClCompile Include="VM\VMState.cpp" />
-    <ClCompile Include="VM\VMValue.cpp" />
+    <ClCompile Include="src\VM\Core\ByteCode.cpp" />
+    <ClCompile Include="src\VM\Core\VM.cpp" />
+    <ClCompile Include="src\VM\Core\VMFrame.cpp" />
+    <ClCompile Include="src\VM\Core\VMFunction.cpp" />
+    <ClCompile Include="src\VM\Core\VMOperations.cpp" />
+    <ClCompile Include="src\VM\Core\VMState.cpp" />
+    <ClCompile Include="src\VM\Core\VMValue.cpp" />
+    <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp" />
+    <ClCompile Include="src\VM\FFI\NativeBinding.cpp" />
+    <ClCompile Include="src\VM\Memory\CheneyCollector.cpp" />
+    <ClCompile Include="src\VM\Memory\GarbageCollector.cpp" />
+    <ClCompile Include="src\VM\Memory\GCFactory.cpp" />
+    <ClCompile Include="src\VM\Memory\MemoryManager.cpp" />
+    <ClCompile Include="src\VM\Memory\RootSetProvider.cpp" />
+    <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp" />
+    <ClCompile Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.cpp" />
+    <ClCompile Include="src\VM\ScriptLoader\ScriptLoader.cpp" />
+    <ClCompile Include="src\VM\Utility\Logger.cpp" />
+    <ClCompile Include="src\VM\Utility\LoggerManager.cpp" />
+    <ClCompile Include="src\VM\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VM\ByteCode.h" />
-    <ClInclude Include="VM\FFI\ConversionFunctions.h" />
-    <ClInclude Include="VM\FFI\NativeBinding.h" />
-    <ClInclude Include="VM\FFI\NativeBindingTypedef.h" />
-    <ClInclude Include="VM\MemoryManager.h" />
-    <ClInclude Include="VM\VM.h" />
-    <ClInclude Include="VM\VMFrame.h" />
-    <ClInclude Include="VM\VMFunction.h" />
-    <ClInclude Include="VM\VMOperations.h" />
-    <ClInclude Include="VM\VMState.h" />
-    <ClInclude Include="VM\VMValue.h" />
+    <ClInclude Include="src\VM\Core\ByteCode.h" />
+    <ClInclude Include="src\VM\Core\VM.h" />
+    <ClInclude Include="src\VM\Core\VMFrame.h" />
+    <ClInclude Include="src\VM\Core\VMFunction.h" />
+    <ClInclude Include="src\VM\Core\VMOperations.h" />
+    <ClInclude Include="src\VM\Core\VMState.h" />
+    <ClInclude Include="src\VM\Core\VMValue.h" />
+    <ClInclude Include="src\VM\FFI\ConversionFunctions.h" />
+    <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h" />
+    <ClInclude Include="src\VM\FFI\NativeBinding.h" />
+    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h" />
+    <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h" />
+    <ClInclude Include="src\VM\Memory\CheneyCollector.h" />
+    <ClInclude Include="src\VM\Memory\GarbageCollector.h" />
+    <ClInclude Include="src\VM\Memory\GCFactory.h" />
+    <ClInclude Include="src\VM\Memory\MemoryManager.h" />
+    <ClInclude Include="src\VM\Memory\RootSetProvider.h" />
+    <ClInclude Include="src\VM\Memory\VMObjectFunctions.h" />
+    <ClInclude Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.h" />
+    <ClInclude Include="src\VM\ScriptLoader\ScriptLoader.h" />
+    <ClInclude Include="src\VM\ScriptLoader\Tokens.h" />
+    <ClInclude Include="src\VM\Utility\Logger.h" />
+    <ClInclude Include="src\VM\Utility\LoggerManager.h" />
+    <ClInclude Include="src\VM\Utility\Logs.h" />
+    <ClInclude Include="src\VM\Utility\StringUtility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76D37EB1-8DBF-461A-8FCE-29193FAE23EF}</ProjectGuid>
@@ -65,7 +89,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);src/</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;src/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
