@@ -1,9 +1,10 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/VMFunction.h"
-#include "VM/Memory/MemoryManager.h"
 #include "VM/ScriptLoader/ScriptLoader.h"
 #include "VM/ScriptLoader/ByteCodeCreator/ByteCodeCreator.h"
 #include "VM/ScriptLoader/Tokens.h"
+
+#include "VM/Memory/MemoryManager.h"
 #include "VM/Utility/StringUtility.h"
 
 ScriptLoader::ScriptLoader(VMState &state, std::string path) : m_state(state), m_path(path), m_line(0) {

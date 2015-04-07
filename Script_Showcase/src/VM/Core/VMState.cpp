@@ -4,8 +4,31 @@
 #include "VM/ScriptLoader/ScriptLoader.h"
 VMState::VMState(const std::string &path) {
   LoadByteCodeFile(path);
+  VMInstance().RegisterVMState(this);
 }
 
+VMState::VMState(VMState &&rhs) {
+  DoMove(rhs);
+}
+
+VMState &VMState::operator=(VMState &&rhs) {
+  if (&rhs != this) {
+    DoMove(rhs);
+  }
+
+  return *this;
+}
+
+void VMState::DoMove(VMState &rhs) {
+  VMInstance().UnregisterVMState(&rhs);
+
+  m_functioNameToIndexMapping = std::move(rhs.m_functioNameToIndexMapping);
+  m_functions = std::move(rhs.m_functions);
+  m_native_bindings = std::move(rhs.m_native_bindings);
+  m_static_objects = std::move(rhs.m_static_objects);
+
+  VMInstance().RegisterVMState(this);
+}
 
 VMState::~VMState() {
   VMInstance().UnregisterVMState(this);

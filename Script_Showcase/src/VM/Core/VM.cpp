@@ -1,10 +1,11 @@
 #include "VM/Core/VMOperations.h"
 #include "VM/Core/VM.h"
 #include "VM/Core/VMState.h"
-#include "VM/FFI/ConversionFunctions.h"
-#include "VM/FFI/NativeBinding.h"
 #include "VM/Memory/MemoryManager.h"
 #include "VM/Utility/LoggerManager.h"
+
+#include "VM/FFI/ConversionFunctions.h"
+#include "VM/FFI/NativeBinding.h"
 
 #include <map>
 
@@ -194,13 +195,6 @@ void VM::AddValueStackToErrorMessage(std::string &stack_trace) {
   }
 }
 
-
-VM &VMInstance() {
-  static VM vm;
-  return vm;
-}
-
-
 std::vector<VMValue *> VM::GetRootSet()  {
   std::vector<VMValue *> rootSet;
   GetRootsFromStack(rootSet);
@@ -237,4 +231,15 @@ void VM::GetRootsFromStates(std::vector<VMValue *> &rootSet) {
       }
     }
   }
+}
+
+
+
+
+
+
+
+VM &VMInstance() {
+  static VM vm;
+  return vm;
 }

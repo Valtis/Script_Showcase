@@ -14,6 +14,10 @@ class VMState {
 public:
 
   VMState(const std::string &path);
+  VMState(const VMState &) = delete;
+  VMState(VMState &&);
+  VMState &operator=(const VMState &) = delete;
+  VMState &operator=(VMState &&);
   ~VMState();
   void LoadByteCodeFile(const std::string &path);
 
@@ -36,4 +40,7 @@ private:
   std::vector<VMFunction> m_functions;
   std::unordered_map<std::string, NativeBinding> m_native_bindings;
   std::vector<VMValue> m_static_objects;
+
+
+  void DoMove(VMState &rhs);
 };
