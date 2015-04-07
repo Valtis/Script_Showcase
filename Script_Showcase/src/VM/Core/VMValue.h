@@ -16,94 +16,94 @@ class VMValue {
 public:
 
   VMValue() { m_type = ValueType::UNINITIALIZED; m_value.double_value = 0; } 
-  explicit VMValue(const int32_t v) { set_int(v); }
-  explicit VMValue(const float v) { set_float(v); }
-  explicit VMValue(const double v) { set_double(v); }
-  explicit VMValue(const bool v) { set_bool(v); }
-  explicit VMValue(const char v) { set_char(v); }
-  explicit VMValue(void * const v) { set_native_pointer(v); }
+  explicit VMValue(const int32_t v) { SetInt(v); }
+  explicit VMValue(const float v) { SetFloat(v); }
+  explicit VMValue(const double v) { SetDouble(v); }
+  explicit VMValue(const bool v) { SetBool(v); }
+  explicit VMValue(const char v) { SetChar(v); }
+  explicit VMValue(void * const v) { SetNativePointer(v); }
   explicit VMValue(ValueType type) { m_type = type; memset(&m_value, 0, sizeof(m_value)); }
 
-  void set_int(const int32_t v) {
+  void SetInt(const int32_t v) {
     m_type = ValueType::INT;
     m_value.int_value = v;
   }
 
-  void set_float(const float v) {
+  void SetFloat(const float v) {
     m_type = ValueType::FLOAT;
     m_value.float_value = v;
   }
 
-  void set_double(const double v) {
+  void SetDouble(const double v) {
     m_type = ValueType::DOUBLE;
     m_value.double_value = v;
   }
 
-  void set_bool(const bool v) {
+  void SetBool(const bool v) {
     m_type = ValueType::BOOL;
     m_value.bool_value = v;
   } 
   
-  void set_char(const char v) {
+  void SetChar(const char v) {
     m_type = ValueType::CHAR;
     m_value.char_value = v;
   }
   
-  void set_native_pointer(void * const v) {
+  void SetNativePointer(void * const v) {
     m_type = ValueType::NATIVE_POINTER;
     m_value.native_pointer_value = v;
   }
 
-  void set_managed_pointer(uint32_t v) {
+  void SetManagedPointer(uint32_t v) {
     m_type = ValueType::MANAGED_POINTER;
     m_value.managed_pointer_value = v;
   }
 
-  int32_t as_int() const {
-    assert_type(ValueType::INT);
+  int32_t AsInt() const {
+    AssertType(ValueType::INT);
     return m_value.int_value;
   }
 
-  float as_float() const  {
-    assert_type(ValueType::FLOAT);
+  float AsFloat() const  {
+    AssertType(ValueType::FLOAT);
     return m_value.float_value;
   }
 
-  double as_double() const  {
-    assert_type(ValueType::DOUBLE);
+  double AsDouble() const  {
+    AssertType(ValueType::DOUBLE);
     return m_value.double_value;
   }
 
-  bool as_bool() const  {
-    assert_type(ValueType::BOOL);
+  bool AsBool() const  {
+    AssertType(ValueType::BOOL);
     return m_value.bool_value;
   }
   
-  char as_char() const {
-    assert_type(ValueType::CHAR);
+  char AsChar() const {
+    AssertType(ValueType::CHAR);
     return m_value.char_value;
   }
 
-  void *as_native_pointer() const {
-    assert_type(ValueType::NATIVE_POINTER);
+  void *AsNativePointer() const {
+    AssertType(ValueType::NATIVE_POINTER);
     return m_value.native_pointer_value;
   }
 
-  uint32_t as_managed_pointer() const {
-    assert_type(ValueType::MANAGED_POINTER);
+  uint32_t AsManagedPointer() const {
+    AssertType(ValueType::MANAGED_POINTER);
     return m_value.managed_pointer_value;
   }
 
-  std::string to_string() const;
+  std::string ToString() const;
 
-  ValueType type() {
+  ValueType GetType() {
     return m_type;
   }
 
-  void *value_pointer() { return &m_value; }
+  void *ValuePointer() { return &m_value; }
     
 private:
-  void assert_type(const ValueType t) const {
+  void AssertType(const ValueType t) const {
     if (m_type != t) {
       std::string error = "TypeError: Expected " + TypeToString(t) + " but was " + TypeToString(m_type);
       throw std::runtime_error(error);

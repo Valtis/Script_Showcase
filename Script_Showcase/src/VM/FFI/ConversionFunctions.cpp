@@ -12,27 +12,27 @@ std::string ToNativeType<std::string>(VMValue obj) {
 
 template<> 
 int32_t ToNativeType<int32_t>(VMValue obj) {
-   return obj.as_int();
+   return obj.AsInt();
 }
 
 template<>
 float ToNativeType<float>(VMValue obj) {
-  return obj.as_float();
+  return obj.AsFloat();
 }
 
 template<>
 double ToNativeType<double>(VMValue obj) {
-  return obj.as_double();
+  return obj.AsDouble();
 }
 
 template<>
 bool ToNativeType<bool>(VMValue obj) {
-  return obj.as_bool();
+  return obj.AsBool();
 }
 
 template<>
 char ToNativeType<char>(VMValue obj) {
-  return obj.as_char();
+  return obj.AsChar();
 }
 
 template<>

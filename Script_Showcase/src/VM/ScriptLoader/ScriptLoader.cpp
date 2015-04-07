@@ -73,7 +73,7 @@ void ScriptLoader::AddStaticValue(const std::vector<std::string> &tokens) {
     
   }
   else if (tokens[0] == NATIVE_POINTER_TOKEN) {
-    obj.set_native_pointer(nullptr);
+    obj.SetNativePointer(nullptr);
   }
   else {
     throw std::runtime_error("Unexpected token " + tokens[0] + ". Expected type declaration");

@@ -191,7 +191,7 @@ void VM::AddFrameStackToErrorMessage(std::string &stack_trace) {
 void VM::AddValueStackToErrorMessage(std::string &stack_trace) {
   stack_trace += "Script stack:\n\n";
   for (int i = m_stack.size() - 1; i >= 0; --i) {
-    stack_trace += std::to_string(i) + ": " + m_stack[i].to_string() + "\n";
+    stack_trace += std::to_string(i) + ": " + m_stack[i].ToString() + "\n";
   }
 }
 
@@ -206,7 +206,7 @@ std::vector<VMValue *> VM::GetRootSet()  {
 
 void VM::GetRootsFromStack(std::vector<VMValue *> &rootSet)  {
   for (auto &value : m_stack) {
-    if (value.type() == ValueType::MANAGED_POINTER) {
+    if (value.GetType() == ValueType::MANAGED_POINTER) {
       rootSet.push_back(&value);
     }
   }
@@ -215,7 +215,7 @@ void VM::GetRootsFromStack(std::vector<VMValue *> &rootSet)  {
 void VM::GetRootsFromFrames(std::vector<VMValue *> &rootSet) {
   for (auto &frame : m_frames) {
     for (size_t i = 0; i < frame.GetLocalVariableCount(); ++i) {
-      if (frame.GetLocalVariableReference(i).type() == ValueType::MANAGED_POINTER) {
+      if (frame.GetLocalVariableReference(i).GetType() == ValueType::MANAGED_POINTER) {
         rootSet.push_back(&frame.GetLocalVariableReference(i));
       }
     }
@@ -226,7 +226,7 @@ void VM::GetRootsFromStates(std::vector<VMValue *> &rootSet) {
   for (auto state : m_states) {
     for (size_t i = 0; i < state->GetStaticObjectCount(); ++i) {
       VMValue *object = &state->GetStaticObjectReference(i);
-      if (object->type() == ValueType::MANAGED_POINTER) {
+      if (object->GetType() == ValueType::MANAGED_POINTER) {
         rootSet.push_back(object);
       }
     }

@@ -3,7 +3,7 @@
 template<typename T>
 T ToNativeType(VMValue obj) {
   static_assert ( std::is_pointer<T>::value, "This type of conversion is not implemented");
-  return (T)obj.as_native_pointer();
+  return (T)obj.AsNativePointer();
 }
 
 template<>

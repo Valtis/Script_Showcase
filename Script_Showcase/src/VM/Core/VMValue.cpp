@@ -23,7 +23,7 @@ uint32_t TypeSize(ValueType type) {
 }
 
 
-std::string VMValue::to_string() const {
+std::string VMValue::ToString() const {
   std::string str = TypeToString(m_type) + ": ";
    switch (m_type) {
    case ValueType::INT:

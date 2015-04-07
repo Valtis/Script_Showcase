@@ -43,7 +43,7 @@ namespace Op {
     auto type = MemMgrInstance().GetArrayType(array);
     
     VMValue value{ type };
-    MemMgrInstance().ReadFromArrayIndex(array, value.value_pointer(), index.as_int(), 1);
+    MemMgrInstance().ReadFromArrayIndex(array, value.ValuePointer(), index.AsInt(), 1);
     PushValue(value, stack);
   }
 
@@ -52,35 +52,35 @@ namespace Op {
     auto index = PopValue(stack);
     auto value = PopValue(stack);
     auto type = MemMgrInstance().GetArrayType(array);
-    if (type != value.type()) {
+    if (type != value.GetType()) {
       throw std::runtime_error("Array type and value type mismatch: Array is of type " + TypeToString(type) + " and value is of type " + 
-        TypeToString(value.type()));
+        TypeToString(value.GetType()));
     }
 
-    MemMgrInstance().WriteToArrayIndex(array, value.value_pointer(), index.as_int(), 1);
+    MemMgrInstance().WriteToArrayIndex(array, value.ValuePointer(), index.AsInt(), 1);
   }
 
   void AddInteger(std::vector<VMValue> &stack) {
-    auto second = PopValue(stack).as_int();
-    auto first = PopValue(stack).as_int();
+    auto second = PopValue(stack).AsInt();
+    auto first = PopValue(stack).AsInt();
     PushValue(VMValue{ first + second }, stack);
   }
 
   void SubInteger(std::vector<VMValue> &stack) {
-    auto second = PopValue(stack).as_int();
-    auto first = PopValue(stack).as_int();
+    auto second = PopValue(stack).AsInt();
+    auto first = PopValue(stack).AsInt();
     PushValue(VMValue{ first - second }, stack);
   }
 
   void MulInteger(std::vector<VMValue> &stack) {
-    auto second = PopValue(stack).as_int();
-    auto first = PopValue(stack).as_int();
+    auto second = PopValue(stack).AsInt();
+    auto first = PopValue(stack).AsInt();
     PushValue(VMValue{ first * second }, stack);
   }
 
   void DivInteger(std::vector<VMValue> &stack) {
-    auto second = PopValue(stack).as_int();
-    auto first = PopValue(stack).as_int();
+    auto second = PopValue(stack).AsInt();
+    auto first = PopValue(stack).AsInt();
     PushValue(VMValue{ first / second }, stack);
   }
 
@@ -110,7 +110,7 @@ namespace Op {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
 
-    if (value.as_int() == 0) {
+    if (value.AsInt() == 0) {
       frames.back().SetNextInstruction(jumpDestination);
     }
   }
@@ -118,7 +118,7 @@ namespace Op {
   void JumpIfNegative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
-    if (value.as_int() < 0) {
+    if (value.AsInt() < 0) {
       frames.back().SetNextInstruction(jumpDestination);
     }
   }
@@ -127,7 +127,7 @@ namespace Op {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
 
-    if (value.as_int() > 0) {
+    if (value.AsInt() > 0) {
       frames.back().SetNextInstruction(jumpDestination);
     }
   }
@@ -146,18 +146,18 @@ namespace Op {
 
   void DoubleToInteger(std::vector<VMValue> &stack) {
     auto value = PopValue(stack);
-    value.set_int(static_cast<int32_t>(value.as_double()));
+    value.SetInt(static_cast<int32_t>(value.AsDouble()));
     PushValue(value, stack);
   }
 
   void AllocateIntegerArray(std::vector<VMValue> &stack) {
     auto size = PopValue(stack);
-    PushValue(MemMgrInstance().AllocateArray(ValueType::INT, size.as_int()), stack);
+    PushValue(MemMgrInstance().AllocateArray(ValueType::INT, size.AsInt()), stack);
   }
 
   void AllocateObjectArray(std::vector<VMValue> &stack) {
     auto size = PopValue(stack);
-    PushValue(MemMgrInstance().AllocateArray(ValueType::MANAGED_POINTER, size.as_int()), stack);
+    PushValue(MemMgrInstance().AllocateArray(ValueType::MANAGED_POINTER, size.AsInt()), stack);
   }
 
 }

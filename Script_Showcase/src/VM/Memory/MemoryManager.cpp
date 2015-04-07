@@ -58,7 +58,7 @@ VMValue MemoryManager::AllocateArray(const ValueType objectType, const uint32_t 
   memset(m_memory + m_freeSpacePointer, 0, requiredSpace);
 
   VMValue object;
-  object.set_managed_pointer(m_freeSpacePointer);
+  object.SetManagedPointer(m_freeSpacePointer);
   uint32_t *typeField = (uint32_t *)(m_memory + m_freeSpacePointer);
   *typeField = (1 << 31) | static_cast<uint32_t>(objectType);
 
@@ -110,7 +110,7 @@ MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteCommon(const VMVa
   uint32_t typeField = VMObjectFunction::GetTypeField(object, m_memory);
   EnsureArray(typeField);
 
-  auto address = object.as_managed_pointer();
+  auto address = object.AsManagedPointer();
   ValueType type = VMObjectFunction::GetArrayValueType(typeField);
 
   auto arrayLength = VMObjectFunction::GetArrayLengthUnchecked(object, m_memory);
@@ -127,7 +127,7 @@ MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteCommon(const VMVa
 
 
 void MemoryManager::EnsureNotNull(VMValue object) const {
-  if (object.as_managed_pointer() == VM_NULLPTR) {
+  if (object.AsManagedPointer() == VM_NULLPTR) {
     throw std::runtime_error("Null pointer");
   }
 }
@@ -140,7 +140,7 @@ void MemoryManager::EnsureArray(uint32_t typeField) const {
 }
 
 void MemoryManager::EnsureValidAccess(VMValue pointer) const{
-  if (pointer.as_managed_pointer() >= m_freeSpacePointer) {
+  if (pointer.AsManagedPointer() >= m_freeSpacePointer) {
     throw std::runtime_error("Read beyond allocated memory");
   }
 }
@@ -197,7 +197,7 @@ void MemoryManager::LogMemoryLayout() const {
   std::string msg = "Memory layout dump:\n";
   for (size_t i = HEAP_BEGIN_ADDRESS; i < m_freeSpacePointer;) {
     VMValue f;
-    f.set_managed_pointer(i);
+    f.SetManagedPointer(i);
     auto typeField = VMObjectFunction::GetTypeField(f, m_memory);
     if (VMObjectFunction::IsArray(typeField)) {
       msg += "\nArray at address " + std::to_string(i) + "\n";

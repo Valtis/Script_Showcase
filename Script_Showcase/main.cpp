@@ -6,7 +6,7 @@
 #include <vector>
 
 void VMLogger(VMValue value) {
-  LoggerManager::GetLog(SCRIPT_LOG).AddLine(LogLevel::INFO, "Topmost value in stack: " + value.to_string());
+  LoggerManager::GetLog(SCRIPT_LOG).AddLine(LogLevel::INFO, "Topmost value in stack: " + value.ToString());
 }
 
 int main() {

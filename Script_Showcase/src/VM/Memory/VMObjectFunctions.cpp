@@ -10,7 +10,7 @@ namespace VMObjectFunction {
   }
 
   uint32_t GetTypeField(VMValue object, uint8_t *memoryArea) {
-    uint32_t *typeField = (uint32_t *)(memoryArea + object.as_managed_pointer());
+    uint32_t *typeField = (uint32_t *)(memoryArea + object.AsManagedPointer());
     return *typeField;
   }
 
@@ -37,7 +37,7 @@ namespace VMObjectFunction {
 
 
   uint32_t GetArrayLengthUnchecked(VMValue object, uint8_t *memoryArea) {
-    uint32_t *length_field = (uint32_t *)(memoryArea + object.as_managed_pointer()
+    uint32_t *length_field = (uint32_t *)(memoryArea + object.AsManagedPointer()
       + TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE);
     return *length_field;
   }

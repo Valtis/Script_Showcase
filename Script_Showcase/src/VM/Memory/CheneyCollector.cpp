@@ -39,7 +39,7 @@ void CheneyCollector::EvacuateObjects(uint8_t *fromSpace) {
 
   while (scanPointer < m_freeSpacePointer) {
     VMValue pointer;
-    pointer.set_managed_pointer(scanPointer);
+    pointer.SetManagedPointer(scanPointer);
     CopyPointedObjects(pointer, fromSpace);
     scanPointer += VMObjectFunction::CalculateObjectSize(pointer, m_toSpace);
   }
@@ -49,7 +49,7 @@ void CheneyCollector::EvacuateObjects(uint8_t *fromSpace) {
 // and updates the subpointer
 void CheneyCollector::CopyPointedObjects(VMValue &pointer, uint8_t *fromSpace) {
   
-  assert(pointer.as_managed_pointer() != VM_NULLPTR);
+  assert(pointer.AsManagedPointer() != VM_NULLPTR);
   auto typeField = VMObjectFunction::GetTypeField(pointer, m_toSpace);
   
   if (VMObjectFunction::IsArray(typeField)) {
@@ -60,7 +60,7 @@ void CheneyCollector::CopyPointedObjects(VMValue &pointer, uint8_t *fromSpace) {
 
 
     // some calculate starting position, get array length, get index size
-    auto position = pointer.as_managed_pointer() + VMObjectFunction::ArrayMetaDataSize();
+    auto position = pointer.AsManagedPointer() + VMObjectFunction::ArrayMetaDataSize();
     auto length = VMObjectFunction::GetArrayLengthUnchecked(pointer, m_toSpace);
     auto typeSize = TypeSize(VMObjectFunction::GetArrayValueType(typeField));
 
@@ -74,12 +74,12 @@ void CheneyCollector::CopyPointedObjects(VMValue &pointer, uint8_t *fromSpace) {
 
       // temp conversion, MoveObject expects VmValue
       VMValue tempPointer;
-      tempPointer.set_managed_pointer(pointerAddress);
+      tempPointer.SetManagedPointer(pointerAddress);
       // move object (if needed) that is in the fromspace, update pointer
       MoveObject(&tempPointer, fromSpace);
 
       // write new address of the object back to array index
-      pointerAddress = tempPointer.as_managed_pointer();
+      pointerAddress = tempPointer.AsManagedPointer();
       memcpy(m_toSpace + pointerInArrayLocation, &pointerAddress, sizeof(pointerAddress));
     }
   }
@@ -91,7 +91,7 @@ void CheneyCollector::CopyPointedObjects(VMValue &pointer, uint8_t *fromSpace) {
 
 // moves object pointed by the pointer if it did not contain forwarding pointer, otherwise merely updates pointer
 void CheneyCollector::MoveObject(VMValue *pointer, uint8_t *fromSpace) {
-  if (pointer->as_managed_pointer() == VM_NULLPTR) {
+  if (pointer->AsManagedPointer() == VM_NULLPTR) {
     return;
   }
 
@@ -108,7 +108,7 @@ void CheneyCollector::PerformCopy(VMValue *pointer, uint8_t *fromSpace) {
 
   // get object size, and copy it from fromSpace into toSpace
   auto size = VMObjectFunction::CalculateObjectSize(*pointer, fromSpace);
-  memcpy(m_toSpace + m_freeSpacePointer, fromSpace + pointer->as_managed_pointer(), size);
+  memcpy(m_toSpace + m_freeSpacePointer, fromSpace + pointer->AsManagedPointer(), size);
 
   // write new object address into the forwarding pointer
   UpdateForwardingPointer(pointer, fromSpace);
@@ -120,20 +120,20 @@ void CheneyCollector::PerformCopy(VMValue *pointer, uint8_t *fromSpace) {
 
 // writes new object address into the forwarding pointer field in the old object location in fromSpace
 void CheneyCollector::UpdateForwardingPointer(VMValue *pointer, uint8_t *fromSpace) {
-  auto position = pointer->as_managed_pointer() + TYPE_POINTER_SIZE; // skip first header field
+  auto position = pointer->AsManagedPointer() + TYPE_POINTER_SIZE; // skip first header field
   memcpy(fromSpace + position, &m_freeSpacePointer, sizeof(m_freeSpacePointer));
 }
 
 
 uint32_t CheneyCollector::GetForwardingPointer(VMValue *pointer, uint8_t *fromSpace) {
   uint32_t ptr;
-  auto position = pointer->as_managed_pointer() + TYPE_POINTER_SIZE; // skip first header field
+  auto position = pointer->AsManagedPointer() + TYPE_POINTER_SIZE; // skip first header field
   memcpy(&ptr, fromSpace + position, sizeof(FORWARD_POINTER_SIZE));
   return ptr;
 }
 
 void CheneyCollector::UpdatePointer(VMValue *pointer, uint32_t newValue) {
   VMValue newLocation;
-  newLocation.set_managed_pointer(newValue);
+  newLocation.SetManagedPointer(newValue);
   *pointer = newLocation;
 }
