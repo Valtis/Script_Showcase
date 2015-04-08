@@ -12,6 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp" />
     <ClCompile Include="src\VM\Core\ByteCode.cpp" />
     <ClCompile Include="src\VM\Core\VM.cpp" />
     <ClCompile Include="src\VM\Core\VMFrame.cpp" />
@@ -34,6 +39,12 @@
     <ClCompile Include="src\VM\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\VM\Compiler\Compiler.h" />
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h" />
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\Token.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\Tokens.h" />
     <ClInclude Include="src\VM\Core\ByteCode.h" />
     <ClInclude Include="src\VM\Core\VM.h" />
     <ClInclude Include="src\VM\Core\VMFrame.h" />

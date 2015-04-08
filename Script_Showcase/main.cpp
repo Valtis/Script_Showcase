@@ -4,6 +4,7 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/VMValue.h"
 #include "VM/FFI/NativeBinding.h"
+#include "VM/Compiler/Compiler.h"
 #include <vector>
 
 void printer(VMValue value) {
@@ -28,7 +29,7 @@ private:
 int main() {
 
   try {
-    LoggerManager::SetGlobalLogLevel(LogLevel::ALL);
+    /*LoggerManager::SetGlobalLogLevel(LogLevel::ALL);
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
     states.push_back(std::move(VMState{ "examples/example1.txt" }));
@@ -46,7 +47,9 @@ int main() {
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
       VMInstance().InvokeFunction(state, "example", { VMValue(&exampleObject1), VMValue(&exampleObject2) });
       std::cout << "\n\n";
-    }
+    }*/
+
+    VMState state = Compiler::Compile("examples/scripttest.txt");
 
   } catch (const std::exception &ex) {
     std::cout << "Exception: " << ex.what() << "\n";
