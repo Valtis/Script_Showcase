@@ -39,6 +39,8 @@ namespace Compiler {
     virtual ~Token();
     TokenType GetType();
     virtual std::string ToString() = 0;
+    int GetLine() { return m_line; }
+    int GetColumn() { return m_column;  }
   private:
     TokenType m_type;
     int32_t m_line;

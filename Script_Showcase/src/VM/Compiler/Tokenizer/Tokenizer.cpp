@@ -215,7 +215,4 @@ namespace Compiler {
     m_tokens.push_back(TokenFactory::CreateToken(type, line, column, number));
   }
 
-
-  void ParseNumberTypeCharacter(char ch, std::string number);
-
 }

@@ -73,6 +73,12 @@
     <Filter Include="Header Files\VM\Compiler\Tokens">
       <UniqueIdentifier>{073f31d7-9b10-4de7-8018-924412f5b447}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VM\Compiler\Parser">
+      <UniqueIdentifier>{7c7c8da3-fb29-4c1f-8a4f-eb2443df0bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\Parser">
+      <UniqueIdentifier>{3cac7576-6218-4000-8a19-ab5bb1e971ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp">
       <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp">
+      <Filter>Source Files\VM\Compiler\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h">
       <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Parser\Parser.h">
+      <Filter>Header Files\VM\Compiler\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
