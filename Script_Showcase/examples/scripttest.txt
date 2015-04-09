@@ -1,31 +1,5 @@
-# initialize statics that are shared between functions
-(statics invTimeLeft owningEntity)
-
-# register function onDamageTaken as callback when entity takes damage
-# parameters: pointer to the entity, pointer to the VMState. 
-(fn initialize (entity state)
-  (
-    (setvalue owningEntity entity)
-    (invokenative "RegisterMessageHandler" state 10 4 "onDamageTaken")  
-  )
-)
-
-
-(fn update (ticksPassed) (
-  (if (> invTimeLeft 0)
-    (
-      (- invTimeLeft 1)
-    )  
-  )
-))
-
-(fn onDamageTaken ()
-  (if (= invTimeLeft 0)
-    (
-      (setvalue invTimeLeft 60)
-      (invokenative "SendBlinkMessage" owningEntity invTimeLeft)
-      (return 0)
-    )
-    (return 1)
+(fn example ()
+  ( 
+    (invokenative "printer" (+ 1 (- 2 3))) 
   )
 )

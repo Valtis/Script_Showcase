@@ -13,14 +13,23 @@ namespace Compiler {
     void ParseIdentifierList();
     void ParseFunction();
     void ParseStatements();
+    void ParseStatement();
 
-
+    void ParseSetValue();
+    void ParseInvokeNative();
+    void ParseArithmeticExpression(TokenType type);
+    void ParseArgumentList();
+    
     std::vector<std::unique_ptr<Token>> m_tokens;
-    int m_position;
+    size_t m_position;
 
     Token *Peek(); // peeks next token
     Token *Peek2(); // peeks token following the next one
     Token *Advance();
     Token *Expect(TokenType type);
+    Token *ExpectOneOf(std::vector<TokenType> tokenTypes);
+
+    std::string GetTokenPositionInfo(const Token *token);
+    
   };
 }

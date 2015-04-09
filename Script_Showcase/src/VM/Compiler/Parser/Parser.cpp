@@ -28,7 +28,7 @@ namespace Compiler {
   }
 
   void Parser::ParseIdentifierList() {
-    while (Peek()->GetType() == TokenType::IDENTIFIER) {
+    while (Peek() && Peek()->GetType() == TokenType::IDENTIFIER) {
       Advance();
     }
   }
@@ -43,13 +43,89 @@ namespace Compiler {
     Expect(TokenType::LPAREN);
     ParseStatements();
     Expect(TokenType::RPAREN);
-    Expect(TokenType::RPAREN);
   }
 
   void Parser::ParseStatements() {
+    while (true) {
+      if (Peek() && Peek()->GetType() != TokenType::LPAREN) {
+        return;
+      }
 
+      Expect(TokenType::LPAREN);
+      ParseStatement();
+
+    }
+  }
+  
+  void Parser::ParseStatement()
+  {
+
+    auto token = ExpectOneOf({ 
+      TokenType::SET_VALUE, TokenType::INVOKE_NATIVE, TokenType::PLUS, TokenType::MINUS, 
+      TokenType::MULTIPLY, TokenType::DIVIDE });
+
+
+    switch (token->GetType()) {
+    case TokenType::SET_VALUE:
+      ParseSetValue();
+      break;
+    case TokenType::INVOKE_NATIVE:
+      ParseInvokeNative();
+      break;
+    case TokenType::PLUS:
+    case TokenType::MINUS:
+    case TokenType::MULTIPLY:
+    case TokenType::DIVIDE:
+      ParseArithmeticExpression(token->GetType());
+      break;
+    default:
+      throw std::runtime_error("Internal compiler error. Default case reached while parsing statement. Current token"
+        + token->ToString());
+    }
+
+
+    Expect(TokenType::RPAREN);
   }
 
+
+  void Parser::ParseSetValue() {
+    Expect(TokenType::IDENTIFIER);
+    auto token = ExpectOneOf({
+      TokenType::IDENTIFIER,
+      TokenType::DOUBLE_NUMBER,
+      TokenType::FLOAT_NUMBER,
+      TokenType::INTEGER_NUMBER,
+      TokenType::STRING });
+    
+  }
+
+  void Parser::ParseInvokeNative() {
+    ExpectOneOf({ TokenType::STRING, TokenType::IDENTIFIER });
+    ParseArgumentList();
+  }
+
+  void Parser::ParseArithmeticExpression(TokenType type) {
+    ParseArgumentList();
+  }
+
+
+  void Parser::ParseArgumentList() {
+    while (true) {
+      if (Peek() && Peek()->GetType() == TokenType::RPAREN) {
+        return;
+      }
+      auto token = ExpectOneOf({TokenType::IDENTIFIER, TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER, 
+        TokenType::INTEGER_NUMBER, TokenType::STRING, TokenType::LPAREN});
+      
+      switch (token->GetType()) {
+        case TokenType::LPAREN:
+          ParseStatement();
+          break;
+        default:
+          ;
+      }
+    }
+  }
 
   Token *Parser::Peek() {
     if (m_position >= m_tokens.size()) {
@@ -66,17 +142,45 @@ namespace Compiler {
   }
 
   Token *Parser::Advance() {
+    if (m_position >= m_tokens.size()) {
+      throw std::runtime_error("Unexpected end-of-file while parsing");
+    }
+    
     return m_tokens[m_position++].get();
   }
 
   Token *Parser::Expect(TokenType type) {
-    if (m_tokens[m_position]->GetType() != type) {
-      auto expected = "TODO-WRITE-TOKENS-TO-STRING. TokenID: " + std::to_string(static_cast<int>(type));
-      auto actual = m_tokens[m_position].get();
-      throw std::runtime_error("Invalid token " + actual->ToString() + " at line " + std::to_string(actual->GetLine())
-        + " column " +  std::to_string(actual->GetColumn()) + ". Token " + expected + " was expected");
+    Token *actual;
+    try {
+      actual = Advance();
+    } catch (std::exception &ex) {
+      throw std::runtime_error(std::string(ex.what()) + ". Expected token '" + TokenName(type) + "'");
     }
+    if (actual->GetType() != type) {
+      auto expected = TokenName(type);
+      throw std::runtime_error("Unexpected token '" + actual->ToString() + "' at " 
+        + GetTokenPositionInfo(actual) + ". Token '" + expected + "' was expected");
+    }
+    return actual;
+  }
 
-    return Advance();
+  Token *Parser::ExpectOneOf(std::vector<TokenType> tokenTypes) {
+    auto actual = Advance();
+
+    if (std::find(tokenTypes.begin(), tokenTypes.end(), actual->GetType()) == tokenTypes.end()) {
+      std::string tokenList = "";
+      for (auto type : tokenTypes) {
+        tokenList += " '" + TokenName(type) + "'";
+      }
+      throw std::runtime_error("Unexpected token '" + actual->ToString() + "' at " +
+        GetTokenPositionInfo(actual) + ". Expected one of" + tokenList);
+    }
+    return actual;
+  }
+
+
+  std::string Parser::GetTokenPositionInfo(const Token *token) {
+    return std::string("line ") + std::to_string(token->GetLine())
+      + " column " + std::to_string(token->GetColumn());
   }
 }
