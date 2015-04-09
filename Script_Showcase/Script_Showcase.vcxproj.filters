@@ -186,11 +186,11 @@
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp">
       <Filter>Source Files\VM\Compiler\CodeGen</Filter>
     </ClCompile>
-    <ClCompile Include="src\VM\Compiler\CodeGen\ArithmeticNode.cpp">
-      <Filter>Source Files\VM\Compiler\AST</Filter>
-    </ClCompile>
     <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp">
       <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\AST\ArithmeticNode.cpp">
+      <Filter>Source Files\VM\Compiler\AST</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,11 +302,11 @@
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h">
       <Filter>Header Files\VM\Compiler\CodeGen</Filter>
     </ClInclude>
-    <ClInclude Include="src\VM\Compiler\CodeGen\ArithmeticNode.h">
-      <Filter>Header Files\VM\Compiler\AST</Filter>
-    </ClInclude>
     <ClInclude Include="src\VM\Compiler\Tokens\TokenType.h">
       <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,9 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\VM\Compiler\AST\ArithmeticNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
-    <ClCompile Include="src\VM\Compiler\CodeGen\ArithmeticNode.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
     <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
@@ -46,9 +46,9 @@
     <ClCompile Include="src\VM\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
-    <ClInclude Include="src\VM\Compiler\CodeGen\ArithmeticNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />
