@@ -9,8 +9,6 @@
 
 #include <map>
 
-const uint32_t stackSize = 4096;
-const uint32_t frameSize = 1024;
 VM::VM() {
   m_stack.reserve(stackSize);
   m_frames.reserve(frameSize);
@@ -64,6 +62,12 @@ void VM::Execute(VMState &state) {
     case ByteCode::PUSH_INTEGER:
       Op::PushInteger(m_stack, m_frames);
       break;
+    case ByteCode::PUSH_FLOAT:
+      Op::PushFloat(m_stack, m_frames);
+      break;
+    case ByteCode::PUSH_DOUBLE:
+      Op::PushDouble(m_stack, m_frames);
+      break;
 
     case ByteCode::LOAD_LOCAL:
       Op::LoadLocal(state, m_stack, m_frames);
@@ -91,6 +95,18 @@ void VM::Execute(VMState &state) {
       break; 
     case ByteCode::JUMP_IF_POSITIVE:
       Op::JumpIfPositive(state, m_stack, m_frames);
+      break;
+    case ByteCode::ADD:
+      Op::Add(m_stack);
+      break;
+    case ByteCode::SUB:
+      Op::Sub(m_stack);
+      break;
+    case ByteCode::MUL:
+      Op::Mul(m_stack);
+      break;
+    case ByteCode::DIV:
+      Op::Div(m_stack);
       break;
     case ByteCode::ADD_INTEGER:
       Op::AddInteger(m_stack);

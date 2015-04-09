@@ -17,8 +17,7 @@ namespace Compiler {
     Parser parser(std::move(tokens));
     auto node = parser.Parse();
 
-    GenerateCode(node);
+    return GenerateCode(node);
 
-    return VMState{ };
   }
 }

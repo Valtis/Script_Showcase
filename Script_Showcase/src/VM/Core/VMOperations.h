@@ -5,10 +5,15 @@ class VMState;
 class VMFrame;
 class VMValue;
 
+const uint32_t stackSize = 4096;
+const uint32_t frameSize = 1024;
+
 namespace Op {
   void PushValue(const VMValue &value, std::vector<VMValue> &stack);
   VMValue PopValue(std::vector<VMValue> &stack);
   void PushInteger(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void PushFloat(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void PushDouble(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   
   void LoadStaticObject(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void StoreStaticObject(VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
@@ -20,6 +25,13 @@ namespace Op {
   void SubInteger(std::vector<VMValue> &stack);
   void MulInteger(std::vector<VMValue> &stack);
   void DivInteger(std::vector<VMValue> &stack);
+  
+
+  // these functions will do type conversions automatically
+  void Add(std::vector<VMValue> &stack);
+  void Sub(std::vector<VMValue> &stack);
+  void Mul(std::vector<VMValue> &stack);
+  void Div(std::vector<VMValue> &stack);
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
   void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);

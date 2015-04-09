@@ -9,6 +9,10 @@ const char *GetByteCodeName(ByteCode code) {
       return "RETURN";
     case ByteCode::PUSH_INTEGER:
       return "PUSH_INTEGER";
+    case ByteCode::PUSH_FLOAT:
+      return "PUSH_FLOAT";
+    case ByteCode::PUSH_DOUBLE:
+      return "PUSH_DOUBLE";
     case ByteCode::POP:
       return "POP";
     case ByteCode::STORE_STATIC_OBJECT:
@@ -26,7 +30,15 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::INVOKE_NATIVE:
       return "INVOKE_NATIVE";
     case ByteCode::INVOKE_MANAGED:
-      return "INVOKE_MANAGED";
+      return "INVOKE_MANAGED";    
+    case ByteCode::ADD:
+        return "ADD";
+      case ByteCode::SUB:
+        return "SUB";
+      case ByteCode::MUL:
+        return "MUL";
+      case ByteCode::DIV:
+        return "DIV";
     case ByteCode::ADD_INTEGER:
       return "ADD_INTEGER";
     case ByteCode::SUB_INTEGER:

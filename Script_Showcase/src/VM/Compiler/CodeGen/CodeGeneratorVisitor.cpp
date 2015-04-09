@@ -15,7 +15,6 @@
 #include "VM/Core/VMValue.h"
 #include "VM/Memory/MemoryManager.h"
 
-#include <iostream> // can be removed - debugging only
 namespace Compiler {
 
   VMState CodeGeneratorVisitor::AcquireState() {
@@ -49,21 +48,37 @@ namespace Compiler {
 
     children[0]->Accept(*this);
     children[1]->Accept(*this);
-    std::cout << operation << "\n";
+    m_current_function->AddByteCode(operation);
 
     for (size_t i = 2; i < children.size(); ++i) {
       children[i]->Accept(*this);
-      std::cout << operation << "\n";
+      m_current_function->AddByteCode(operation);
 
     }
   }
 
   void CodeGeneratorVisitor::Visit(DoubleNode *node) {
-    std::cout << "PUSH_DOUBLE " << node->GetNumber() << "\n";
+
+    m_current_function->AddByteCode(ByteCode::PUSH_DOUBLE);
+
+    static_assert(sizeof(double) == sizeof(uint64_t), "Invalid assumption in casting");
+    double number = node->GetNumber();
+    auto val = *reinterpret_cast<uint64_t *>(&number);
+    uint32_t mask_bit = 0;
+    mask_bit--; // unsigned overflow is defined to wrap around, so we get uint32_max
+    uint64_t mask = mask_bit;
+    m_current_function->AddByteCode(static_cast<ByteCode>((val >> 32) & mask));
+    m_current_function->AddByteCode(static_cast<ByteCode>(val & mask));
+
   }
 
   void CodeGeneratorVisitor::Visit(FloatNode *node) {
-    std::cout << "PUSH_FLOAT " << node->GetNumber() << "\n";
+    m_current_function->AddByteCode(ByteCode::PUSH_FLOAT);
+    static_assert(sizeof(float) == sizeof(uint32_t), "Invalid assumption in casting");
+    float number = node->GetNumber();
+    auto val = *reinterpret_cast<uint32_t *>(&number);
+    m_current_function->AddByteCode(static_cast<ByteCode>(val));
+
   }
 
   void CodeGeneratorVisitor::Visit(FunctionNode *node) {
@@ -90,17 +105,23 @@ namespace Compiler {
     auto name = node->GetName();
     if (m_localsNameMap.find(name) != m_localsNameMap.end()) {
       id = m_localsNameMap[name];
-      std::cout << "Identifier(local) " << name << " id: " << id << "\n";
+      m_current_function->AddByteCode(ByteCode::LOAD_LOCAL);
+      m_current_function->AddByteCode(static_cast<ByteCode>(id));
+
     } else if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
       id = m_staticsNameMap[name];
-      std::cout << "Identifier(static) " << name << " id: " << id << "\n";
+      m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
+      m_current_function->AddByteCode(static_cast<ByteCode>(id));
+      
     } else {
       throw std::runtime_error("Usage of undeclared identifier " + name + " at " + node->GetPositionInfo());
     }
 
   }
   void CodeGeneratorVisitor::Visit(IntegerNode *node) {
-    std::cout << "PUSH_INTEGER " << node->GetNumber() << "\n";
+
+    m_current_function->AddByteCode(ByteCode::PUSH_INTEGER);
+    m_current_function->AddByteCode(static_cast<ByteCode>(node->GetNumber()));
   }
   
   void CodeGeneratorVisitor::Visit(InvokeNativeNode *node) {
@@ -116,7 +137,7 @@ namespace Compiler {
 
     children[0]->Accept(*this);
 
-    std::cout << "InvokeNative\n";
+    m_current_function->AddByteCode(ByteCode::INVOKE_NATIVE);
   }
 
   void CodeGeneratorVisitor::Visit(RootNode *node) {
@@ -143,6 +164,7 @@ namespace Compiler {
 
       children[i]->Accept(*this);
 
+      m_current_function->AddByteCode(ByteCode::RETURN);
       // check that compiler generated id actually matches the id that VMState chose. Should only fail if
       // implementation is changed. (TODO: Let the compiler decide the id?)
       if (m_state.AddFunction(*m_current_function) != m_functionNameMap[m_current_function->GetName()]) {
@@ -164,11 +186,14 @@ namespace Compiler {
     auto name = identifierNode->GetName();
     if (m_localsNameMap.find(name) != m_localsNameMap.end()) {
       id = m_localsNameMap[name];
-      std::cout << "Store to Identifier(local) " << name<< " id: " << id << "\n";
+
+      m_current_function->AddByteCode(ByteCode::STORE_LOCAL);
+      m_current_function->AddByteCode(static_cast<ByteCode>(id));
     }
     else if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
       id = m_staticsNameMap[name];
-      std::cout << "Store to Identifier(static) " << name << " id: " << id << "\n";
+      m_current_function->AddByteCode(ByteCode::STORE_STATIC_OBJECT);
+      m_current_function->AddByteCode(static_cast<ByteCode>(id));
     }
     else {
       throw std::runtime_error("Usage of undeclared identifier " + name + " at " + node->GetPositionInfo());
@@ -203,8 +228,9 @@ namespace Compiler {
     auto ptr = MemMgrInstance().AllocateArray(ValueType::CHAR, node->GetValue().length());
     MemMgrInstance().WriteToArrayIndex(ptr, &node->GetValue()[0], 0, node->GetValue().length());
     int id = m_state.AddStaticObject(ptr); 
-    std::cout << "LoadStatic " << id << " (string)";
 
+    m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
+    m_current_function->AddByteCode(static_cast<ByteCode>(id));
   }
 
 }

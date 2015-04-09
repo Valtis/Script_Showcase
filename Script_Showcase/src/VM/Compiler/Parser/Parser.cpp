@@ -56,7 +56,7 @@ namespace Compiler {
       auto token = Advance();
       identifierNode->SetLine(token->GetLine());
       identifierNode->SetLine(token->GetColumn());
-      identifierNode->SetName(dynamic_cast<StringToken *>(token)->GetValue());      
+      identifierNode->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());      
       parent->AddChildren(identifierNode);
     }
   }
