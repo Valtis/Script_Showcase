@@ -9,13 +9,13 @@ namespace Compiler {
     Tokenizer tokenizer;
     auto tokens = tokenizer.Tokenize(path);
 
-    std::cout << "Tokens:\n";
+  /*  std::cout << "Tokens:\n";
     for (auto &token : tokens) {
       std::cout << token->ToString() << "\n";
-    }
+    }*/
     Parser parser(std::move(tokens));
     parser.Parse();
 
-    return VMState{ "path" };
+    return VMState{ };
   }
 }

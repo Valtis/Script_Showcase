@@ -79,6 +79,18 @@
     <Filter Include="Header Files\VM\Compiler\Parser">
       <UniqueIdentifier>{3cac7576-6218-4000-8a19-ab5bb1e971ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VM\Compiler\AST">
+      <UniqueIdentifier>{dc2dd15a-7d29-4734-8ce7-1e7f658c8232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\AST">
+      <UniqueIdentifier>{432278e3-879a-417e-b734-557233060b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\CodeGen">
+      <UniqueIdentifier>{e227e11b-4423-4986-8627-d0c27e5de8ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\CodeGen">
+      <UniqueIdentifier>{422ea60a-a4ee-4ad4-b630-3a18105e2f15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +173,18 @@
     </ClCompile>
     <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp">
       <Filter>Source Files\VM\Compiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp">
+      <Filter>Source Files\VM\Compiler\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp">
+      <Filter>Source Files\VM\Compiler\CodeGen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp">
+      <Filter>Source Files\VM\Compiler\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp">
+      <Filter>Source Files\VM\Compiler\CodeGen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +283,18 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\Parser\Parser.h">
       <Filter>Header Files\VM\Compiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ASTNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h">
+      <Filter>Header Files\VM\Compiler\CodeGen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h">
+      <Filter>Header Files\VM\Compiler\CodeGen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
