@@ -14,6 +14,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
+    <ClCompile Include="src\VM\Compiler\CodeGen\ArithmeticNode.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
     <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
@@ -22,6 +23,7 @@
     <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp" />
     <ClCompile Include="src\VM\Core\ByteCode.cpp" />
     <ClCompile Include="src\VM\Core\VM.cpp" />
     <ClCompile Include="src\VM\Core\VMFrame.cpp" />
@@ -46,6 +48,7 @@
   <ItemGroup>
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
+    <ClInclude Include="src\VM\Compiler\CodeGen\ArithmeticNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />
@@ -55,6 +58,7 @@
     <ClInclude Include="src\VM\Compiler\Tokens\Token.h" />
     <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h" />
     <ClInclude Include="src\VM\Compiler\Tokens\Tokens.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenType.h" />
     <ClInclude Include="src\VM\Core\ByteCode.h" />
     <ClInclude Include="src\VM\Core\VM.h" />
     <ClInclude Include="src\VM\Core\VMFrame.h" />
