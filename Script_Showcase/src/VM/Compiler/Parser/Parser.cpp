@@ -79,6 +79,7 @@ namespace Compiler {
     Expect(TokenType::LPAREN);
     ParseStatements(functionNode);
     Expect(TokenType::RPAREN);
+    Expect(TokenType::RPAREN);
   }
 
   void Parser::ParseStatements(std::shared_ptr<ASTNode> parent) {
@@ -143,11 +144,12 @@ namespace Compiler {
     auto token = Expect(TokenType::SET_VALUE);
     
     auto setValueNode = std::make_shared<SetValueNode>();
+    parent->AddChildren(setValueNode);
     setValueNode->SetLine(token->GetLine());
     setValueNode->SetColumn(token->GetColumn());
     ParseLiteralOrIdentifier(setValueNode);
 
-    ParseExpression(parent);
+    ParseExpression(setValueNode);
     Expect(TokenType::RPAREN);
   }
 

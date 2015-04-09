@@ -194,7 +194,7 @@ namespace Compiler {
     bool dotFound = false;
 
     while (true) {
-      auto ch = m_reader.Get();
+      auto ch = m_reader.Peek();
       if (ch >= '0' && ch <= '9') {
         number += ch;
       } else if (ch == '.') {
@@ -204,13 +204,17 @@ namespace Compiler {
         dotFound = true;
         number += ch;
         type = TokenType::DOUBLE_NUMBER;
+
       }  else if (ch == 'f') {
         type = TokenType::FLOAT_NUMBER;
+
       } else if (ch == 'd') {
         type = TokenType::DOUBLE_NUMBER;
+        
       } else {
         break;
       }
+      m_reader.Get();
     }
     m_tokens.push_back(TokenFactory::CreateToken(type, line, column, number));
   }
