@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\VM\Compiler\AST\ArithmeticNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
@@ -49,6 +48,14 @@
     <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
+    <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FloatNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />

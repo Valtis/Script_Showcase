@@ -189,9 +189,6 @@
     <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp">
       <Filter>Source Files\VM\Compiler\Tokens</Filter>
     </ClCompile>
-    <ClCompile Include="src\VM\Compiler\AST\ArithmeticNode.cpp">
-      <Filter>Source Files\VM\Compiler\AST</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VM\FFI\ConversionFunctions.h">
@@ -306,6 +303,30 @@
       <Filter>Header Files\VM\Compiler\Tokens</Filter>
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\RootNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\StringNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FloatNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
   </ItemGroup>
