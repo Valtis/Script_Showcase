@@ -329,5 +329,11 @@
     <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

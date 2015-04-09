@@ -17,7 +17,9 @@ namespace Compiler {
     void Visit(FunctionNode *node) override;
     void Visit(IdentifierNode *node) override;
     void Visit(IntegerNode *node) override;
+    void Visit(InvokeNativeNode *node) override;
     void Visit(RootNode *node) override;
+    void Visit(SetValueNode *node) override;
     void Visit(StaticsNode *node) override;
     void Visit(StringNode *node) override;
 

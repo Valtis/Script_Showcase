@@ -8,7 +8,9 @@ namespace Compiler {
   class FunctionNode;
   class IdentifierNode;
   class IntegerNode;
+  class InvokeNativeNode;
   class RootNode;
+  class SetValueNode;
   class StaticsNode;
   class StringNode;
 
@@ -20,8 +22,10 @@ namespace Compiler {
     virtual void Visit(FloatNode *node) = 0;
     virtual void Visit(FunctionNode *node) = 0;
     virtual void Visit(IdentifierNode *node) = 0;
+    virtual void Visit(InvokeNativeNode *node) = 0;
     virtual void Visit(IntegerNode *node) = 0;
     virtual void Visit(RootNode *node) = 0;
+    virtual void Visit(SetValueNode *node) = 0;
     virtual void Visit(StaticsNode *node) = 0;
     virtual void Visit(StringNode *node) = 0;
   };

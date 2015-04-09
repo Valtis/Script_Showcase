@@ -7,7 +7,7 @@ namespace Compiler {
   public:
     void SetType(TokenType type) { m_type = type; };
     TokenType GetType() { return m_type; };
-    void Visit(ASTVisitor &visitor) { visitor.Visit(this);  }
+    void Accept(ASTVisitor &visitor) override { visitor.Visit(this);  }
   private:
     TokenType m_type;
   };

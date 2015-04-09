@@ -4,7 +4,7 @@
 namespace Compiler {
   class StaticsNode : public ASTNode {
   public:
-    void Visit(ASTVisitor &visitor) { visitor.Visit(this); }
+    void Accept(ASTVisitor &visitor) override { visitor.Visit(this); }
   private:
   };
 }

@@ -4,7 +4,7 @@
 namespace Compiler {
   class IntegerNode : public ASTNode {
   public:
-    void Visit(ASTVisitor &visitor) { visitor.Visit(this); }
+    void Accept(ASTVisitor &visitor) override  { visitor.Visit(this); }
     void SetNumber(int32_t number) { m_number = number ; };
     int32_t GetNumber() { return m_number; }
   private:

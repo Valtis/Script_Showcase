@@ -53,7 +53,9 @@
     <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
