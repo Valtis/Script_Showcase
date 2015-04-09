@@ -2,6 +2,7 @@
 #include "VM/Compiler/Tokenizer/Tokenizer.h"
 #include "VM/Compiler/Tokens/Token.h"
 #include "VM/Compiler/Parser/Parser.h"
+#include "VM/Compiler/CodeGen/CodeGenerator.h"
 
 #include <iostream>
 namespace Compiler {
@@ -14,7 +15,9 @@ namespace Compiler {
       std::cout << token->ToString() << "\n";
     }*/
     Parser parser(std::move(tokens));
-    parser.Parse();
+    auto node = parser.Parse();
+
+    GenerateCode(node);
 
     return VMState{ };
   }

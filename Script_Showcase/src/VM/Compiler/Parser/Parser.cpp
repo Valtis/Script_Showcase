@@ -126,9 +126,10 @@ namespace Compiler {
         break;
       case TokenType::INVOKE_NATIVE:
         ParseInvokeNative(parent);
+        break;
       default:
         throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
-          + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call or invokenatie");
+          + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call or invokenative");
       }
       return;
     } else {
@@ -151,13 +152,13 @@ namespace Compiler {
   }
 
   void Parser::ParseInvokeNative(std::shared_ptr<ASTNode> parent) {
-
+    Expect(TokenType::LPAREN);
     auto invokeNativeToken = Expect(TokenType::INVOKE_NATIVE); 
     
     auto invokeNativeNode = std::make_shared<InvokeNativeNode>();
     invokeNativeNode->SetLine(invokeNativeToken->GetLine());
     invokeNativeNode->SetColumn(invokeNativeToken->GetColumn());
-
+    parent->AddChildren(invokeNativeNode);
     auto token = Peek();
     if (token == nullptr) {
       throw std::runtime_error("Unexpected end-of-file when parsing invokenative");
@@ -170,12 +171,15 @@ namespace Compiler {
     }
     
     ParseArgumentList(invokeNativeNode);
+    Expect(TokenType::RPAREN);
+
   }
 
   void Parser::ParseArithmeticExpression(std::shared_ptr<ASTNode> parent) {
     Expect(TokenType::LPAREN);
     auto token = ExpectOneOf({ TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLY, TokenType::DIVIDE });
     auto exp = std::make_shared<ArithmeticNode>();
+    parent->AddChildren(exp);
     exp->SetLine(token->GetLine());
     exp->SetColumn(token->GetColumn());
     exp->SetType(token->GetType());
@@ -217,7 +221,7 @@ namespace Compiler {
         auto string = std::make_shared<StringNode>();
         string->SetLine(token->GetLine());
         string->SetColumn(token->GetColumn());
-        string->SetValue(dynamic_cast<IdentifierToken *>(token)->GetValue());
+        string->SetValue(dynamic_cast<StringToken *>(token)->GetValue());
         parent->AddChildren(string);
       }
       break;

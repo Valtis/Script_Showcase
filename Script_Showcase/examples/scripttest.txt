@@ -1,5 +1,5 @@
 (fn example ()
   ( 
-    (invokenative "printer" (+ 1 (- 2 3))) 
+    (invokenative "printer" (* 2 (- 3.5 3))) 
   )
 )

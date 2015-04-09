@@ -5,7 +5,7 @@
 
 
 namespace Compiler {
-  VMState GenerateCode(ASTNode *root) {
+  VMState GenerateCode(std::shared_ptr<ASTNode> root) {
     CodeGeneratorVisitor visitor;
     root->Accept(visitor);
     return visitor.AcquireState();

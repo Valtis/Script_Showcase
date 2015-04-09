@@ -11,6 +11,7 @@
 #include "VM/Compiler/AST/StaticsNode.h"
 #include "VM/Compiler/AST/StringNode.h"
 
+#include "VM/Core/ByteCode.h"
 #include "VM/Core/VMValue.h"
 #include "VM/Memory/MemoryManager.h"
 
@@ -27,20 +28,20 @@ namespace Compiler {
     if (children.size() < 2) {
       throw std::runtime_error("Too few parameters for arithmetic node at " + node->GetPositionInfo());
     }
-    std::string operation = "";
+    ByteCode operation;
     switch (node->GetType()) {
 
     case TokenType::PLUS:
-      operation = "ADD";
+      operation = ByteCode::ADD;
       break;
     case TokenType::MINUS:
-      operation = "SUB";
+      operation = ByteCode::SUB;
       break; 
     case TokenType::MULTIPLY:
-        operation = "MUL";
+      operation = ByteCode::MUL;
         break;
       case TokenType::DIVIDE:
-        operation = "DIV";
+        operation = ByteCode::DIV;
         break;
     default:
       throw std::runtime_error("Internal compiler error: Invalid operation type with arithmetic node");
@@ -58,11 +59,11 @@ namespace Compiler {
   }
 
   void CodeGeneratorVisitor::Visit(DoubleNode *node) {
-    std::cout << "PUSH_DOUBLE " <<  node->GetNumber();
+    std::cout << "PUSH_DOUBLE " << node->GetNumber() << "\n";
   }
 
   void CodeGeneratorVisitor::Visit(FloatNode *node) {
-    std::cout << "PUSH_FLOAT " << node->GetNumber();
+    std::cout << "PUSH_FLOAT " << node->GetNumber() << "\n";
   }
 
   void CodeGeneratorVisitor::Visit(FunctionNode *node) {
@@ -99,7 +100,7 @@ namespace Compiler {
 
   }
   void CodeGeneratorVisitor::Visit(IntegerNode *node) {
-    std::cout << "PUSH_INTEGER" << node->GetNumber();
+    std::cout << "PUSH_INTEGER " << node->GetNumber() << "\n";
   }
   
   void CodeGeneratorVisitor::Visit(InvokeNativeNode *node) {
