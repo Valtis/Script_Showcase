@@ -13,6 +13,7 @@ namespace Compiler {
     void ParseOptionalStaticsList(std::shared_ptr<ASTNode> parent);
     void ParseIdentifierList(std::shared_ptr<ASTNode> parent);
     void ParseFunction(std::shared_ptr<ASTNode> parent);
+    void ParseLocals(std::shared_ptr<ASTNode> parent);
     void ParseStatements(std::shared_ptr<ASTNode> parent);
     void ParseStatement(std::shared_ptr<ASTNode> parent);
     void ParseExpression(std::shared_ptr<ASTNode> parent);

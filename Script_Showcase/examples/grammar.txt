@@ -4,21 +4,23 @@ TOPLEVEL ::= STATICS FUNCTIONS
 STATICS ::= (statics IDENTIFIER_LIST) | e
 IDENTIFIER_LIST ::= identifier IDENTIFIER_LIST | e
 FUNCTIONS ::= FUNCTION FUNCTIONS | e
-FUNCTION ::= (fn identifier (IDENTIFIER_LIST) (STATEMENTS))
+FUNCTION ::= (fn identifier (IDENTIFIER_LIST) LOCALS (STATEMENTS))
+LOCALS ::= (locals IDENTIFIER_LIST) | e
 STATEMENTS ::= STATEMENT STATEMENTS  
-STATEMENT ::= (EXPRESSION) | IF_STATEMENT | (ASSIGNMENT)
-EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER
+STATEMENT ::= EXPRESSION | IF_STATEMENT | ASSIGNMENT
+IF_STATEMENT = (if (EXPRESSION) (STATEMENT) (STATEMENT) | e )
+ASSIGNMENT ::= setvalue identifier EXPRESSION
+EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION
 ARITHMETIC_EXPRESSION ::= (+|-|*|/ ARGUMENT_LIST)
-IF_STATEMENT = (if (COMPARISON_OPERATOR EXPRESSION EXPRESSION) (STATEMENT) (STATEMENT)|e )
 NATIVE_INVOKATION ::= (invokenative string|identifier ARGUMENT_LIST)
 FUNCTION_CALL ::= (identifier ARGUMENT_LIST)
-LITERAL ::= identifier|number|string
+LITERAL_OR_IDENTIFIER ::= identifier|number|string
 ARGUMENT_LIST ::= EXPRESSION ARGUMENT_LIST | e
-ASSIGNMENT ::= setvalue identifier identifier|number|string|
 
 
 Identifier may start with lower or uppercase letter a - z or underscore. May contain the previous and numbers.
 String stars and ends with '"'-character. Escape sequences \n, \t, \\ and \" 
+
 
 Reserved words
 
@@ -28,3 +30,9 @@ return
 if
 statics
 locals
+
+
+Notes:
+
+if-statement expects boolean expression
+native invokation might not return value if the registered function has void return type. 

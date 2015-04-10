@@ -12,7 +12,7 @@ namespace Compiler {
     void SetLine(uint32_t line) { m_line = line;  }
     void SetColumn(uint32_t column) { m_column = column;  }
 
-    void AddChildren(std::shared_ptr<ASTNode> node);
+    void AddChild(std::shared_ptr<ASTNode> node);
     virtual void Accept(ASTVisitor &visitor) = 0;
     std::string GetPositionInfo();
   private:

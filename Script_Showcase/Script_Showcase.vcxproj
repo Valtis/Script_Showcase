@@ -48,10 +48,13 @@
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
     <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\FloatNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IfNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />

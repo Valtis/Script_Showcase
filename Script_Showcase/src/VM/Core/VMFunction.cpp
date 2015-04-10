@@ -1,5 +1,9 @@
 #include "VM/Core/VMFunction.h"
 
+VMFunction::VMFunction() : m_localCount(0) {
+
+}
+
 size_t VMFunction::AddByteCode(ByteCode code) {
   m_bytecode.push_back(code);
   return m_bytecode.size() - 1;

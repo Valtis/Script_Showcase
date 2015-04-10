@@ -1,6 +1,6 @@
-(fn example (a b)
+(fn example (x y z)
+  (locals a b)
   ( 
-    # locals not implemented yet, so stealing function args for this
     (setvalue a "printer")
     (setvalue b 25 )
     (invokenative a (* 2 (- 3.5 2 1))) 

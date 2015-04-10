@@ -5,7 +5,7 @@ namespace Compiler {
 
   }
 
-  void ASTNode::AddChildren(std::shared_ptr<ASTNode> node) {
+  void ASTNode::AddChild(std::shared_ptr<ASTNode> node) {
     m_children.push_back(node);
   }
 

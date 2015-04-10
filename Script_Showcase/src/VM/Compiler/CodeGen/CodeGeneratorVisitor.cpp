@@ -3,9 +3,12 @@
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
+#include "VM/Compiler/AST/FunctionParameterListNode.h"
 #include "VM/Compiler/AST/IdentifierNode.h"
+#include "VM/Compiler/AST/IfNode.h"
 #include "VM/Compiler/AST/IntegerNode.h"
 #include "VM/Compiler/AST/InvokeNativeNode.h"
+#include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -23,7 +26,7 @@ namespace Compiler {
 
   void CodeGeneratorVisitor::Visit(ArithmeticNode *node)
   {
-    auto children = node->GetChildren();    
+    auto children = node->GetChildren();
     if (children.size() < 2) {
       throw std::runtime_error("Too few parameters for arithmetic node at " + node->GetPositionInfo());
     }
@@ -35,13 +38,13 @@ namespace Compiler {
       break;
     case TokenType::MINUS:
       operation = ByteCode::SUB;
-      break; 
+      break;
     case TokenType::MULTIPLY:
       operation = ByteCode::MUL;
-        break;
-      case TokenType::DIVIDE:
-        operation = ByteCode::DIV;
-        break;
+      break;
+    case TokenType::DIVIDE:
+      operation = ByteCode::DIV;
+      break;
     default:
       throw std::runtime_error("Internal compiler error: Invalid operation type with arithmetic node");
     }
@@ -83,21 +86,32 @@ namespace Compiler {
 
   void CodeGeneratorVisitor::Visit(FunctionNode *node) {
     auto children = node->GetChildren();
-    auto argumentList = children[0]->GetChildren();
-    m_current_function->SetLocalCount(argumentList.size());
-
-    for (size_t i = 0; i < argumentList.size(); ++i) {
-      auto name = dynamic_cast<IdentifierNode *>(argumentList[i])->GetName();
-      if (m_localsNameMap.find(name) != m_localsNameMap.end()) {
-        throw std::runtime_error("Redeclaration of function argument " + name + " at " + argumentList[i]->GetPositionInfo());
-      }
-      m_localsNameMap[name] = i;
-
-    }
-    for (size_t i = 1; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       children[i]->Accept(*this);
     }
   }
+
+
+  void CodeGeneratorVisitor::LocalVariableHelper(ASTNode *node) {
+    auto arguments = node->GetChildren();
+    auto variableID = m_current_function->GetLocalCount(); // start ID number at current local count (variable ids start at zero)
+    m_current_function->SetLocalCount(arguments.size() + m_current_function->GetLocalCount());
+
+    for (size_t i = 0; i < arguments.size(); ++i, ++variableID) {
+      auto name = dynamic_cast<IdentifierNode *>(arguments[i])->GetName();
+      if (m_localsNameMap.find(name) != m_localsNameMap.end()) {
+        throw std::runtime_error("Redeclaration of variable " + name + " at " + arguments[i]->GetPositionInfo());
+      }
+      m_localsNameMap[name] = variableID;
+
+    }
+  }
+
+  void CodeGeneratorVisitor::Visit(FunctionParameterListNode *node) {
+    LocalVariableHelper(node);
+  }
+
+
 
   void CodeGeneratorVisitor::Visit(IdentifierNode *node) {
     int id;
@@ -108,24 +122,31 @@ namespace Compiler {
       m_current_function->AddByteCode(ByteCode::LOAD_LOCAL);
       m_current_function->AddByteCode(static_cast<ByteCode>(id));
 
-    } else if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
+    }
+    else if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
       id = m_staticsNameMap[name];
       m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
       m_current_function->AddByteCode(static_cast<ByteCode>(id));
-      
-    } else {
+
+    }
+    else {
       throw std::runtime_error("Usage of undeclared identifier " + name + " at " + node->GetPositionInfo());
     }
 
   }
+
+  void CodeGeneratorVisitor::Visit(IfNode *node) {
+
+  }
+
   void CodeGeneratorVisitor::Visit(IntegerNode *node) {
 
     m_current_function->AddByteCode(ByteCode::PUSH_INTEGER);
     m_current_function->AddByteCode(static_cast<ByteCode>(node->GetNumber()));
   }
-  
+
   void CodeGeneratorVisitor::Visit(InvokeNativeNode *node) {
-    auto children =  node->GetChildren();
+    auto children = node->GetChildren();
     if (children.size() == 0) {
       throw std::runtime_error("Invalid argument count for invokenative at " + node->GetPositionInfo());
     }
@@ -138,6 +159,11 @@ namespace Compiler {
     children[0]->Accept(*this);
 
     m_current_function->AddByteCode(ByteCode::INVOKE_NATIVE);
+  }
+
+
+  void CodeGeneratorVisitor::Visit(LocalsNode *node) {
+    LocalVariableHelper(node);
   }
 
   void CodeGeneratorVisitor::Visit(RootNode *node) {

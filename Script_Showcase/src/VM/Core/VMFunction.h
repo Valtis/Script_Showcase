@@ -6,7 +6,7 @@
 
 class VMFunction {
 public:
-
+  VMFunction();
   void SetName(const std::string &name);
   std::string GetName() const;
   size_t VMFunction::AddByteCode(ByteCode code);

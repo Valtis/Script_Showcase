@@ -5,9 +5,12 @@
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
+#include "VM/Compiler/AST/FunctionParameterListNode.h"
 #include "VM/Compiler/AST/IdentifierNode.h"
+#include "VM/Compiler/AST/IfNode.h"
 #include "VM/Compiler/AST/IntegerNode.h"
 #include "VM/Compiler/AST/InvokeNativeNode.h"
+#include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -39,7 +42,7 @@ namespace Compiler {
   void Parser::ParseOptionalStaticsList(std::shared_ptr<ASTNode> parent) {
 
     auto staticsNode = std::make_shared<StaticsNode>();
-    parent->AddChildren(std::dynamic_pointer_cast<ASTNode>(staticsNode));
+    parent->AddChild(std::dynamic_pointer_cast<ASTNode>(staticsNode));
 
     auto token = Peek2();
     if (token && token->GetType() == TokenType::STATICS) {
@@ -57,13 +60,13 @@ namespace Compiler {
       identifierNode->SetLine(token->GetLine());
       identifierNode->SetLine(token->GetColumn());
       identifierNode->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());      
-      parent->AddChildren(identifierNode);
+      parent->AddChild(identifierNode);
     }
   }
 
   void Parser::ParseFunction(std::shared_ptr<ASTNode> parent) {
     auto functionNode = std::make_shared<FunctionNode>();
-    parent->AddChildren(functionNode);
+    parent->AddChild(functionNode);
     
     Expect(TokenType::LPAREN);
     Expect(TokenType::FUNCTION);
@@ -72,14 +75,31 @@ namespace Compiler {
     Expect(TokenType::LPAREN);
 
 
-    auto argumentListNode = std::make_shared<RootNode>();
-    functionNode->AddChildren(argumentListNode);
+    auto argumentListNode = std::make_shared<FunctionParameterListNode>();
+    functionNode->AddChild(argumentListNode);
     ParseIdentifierList(argumentListNode);
     Expect(TokenType::RPAREN);
+    ParseLocals(functionNode);
     Expect(TokenType::LPAREN);
     ParseStatements(functionNode);
     Expect(TokenType::RPAREN);
     Expect(TokenType::RPAREN);
+  }
+
+
+  void Parser::ParseLocals(std::shared_ptr<ASTNode> parent) {
+    auto node = Peek2();
+    if (node == nullptr || node->GetType() != TokenType::LOCALS) {
+      return;
+    }
+
+    auto localsNode = std::make_shared<LocalsNode>();
+    parent->AddChild(localsNode);
+    Expect(TokenType::LPAREN);
+    Expect(TokenType::LOCALS);
+    ParseArgumentList(localsNode);
+    Expect(TokenType::RPAREN);
+
   }
 
   void Parser::ParseStatements(std::shared_ptr<ASTNode> parent) {
@@ -144,10 +164,16 @@ namespace Compiler {
     auto token = Expect(TokenType::SET_VALUE);
     
     auto setValueNode = std::make_shared<SetValueNode>();
-    parent->AddChildren(setValueNode);
+    parent->AddChild(setValueNode);
     setValueNode->SetLine(token->GetLine());
     setValueNode->SetColumn(token->GetColumn());
-    ParseLiteralOrIdentifier(setValueNode);
+    
+    auto idToken = Expect(TokenType::IDENTIFIER);
+    auto idNode = std::make_shared<IdentifierNode>();
+    setValueNode->AddChild(idNode);
+    idNode->SetLine(idToken->GetLine());
+    idNode->SetColumn(idToken->GetColumn());
+    idNode->SetName(dynamic_cast<IdentifierToken *>(idToken)->GetValue());
 
     ParseExpression(setValueNode);
     Expect(TokenType::RPAREN);
@@ -160,7 +186,7 @@ namespace Compiler {
     auto invokeNativeNode = std::make_shared<InvokeNativeNode>();
     invokeNativeNode->SetLine(invokeNativeToken->GetLine());
     invokeNativeNode->SetColumn(invokeNativeToken->GetColumn());
-    parent->AddChildren(invokeNativeNode);
+    parent->AddChild(invokeNativeNode);
     auto token = Peek();
     if (token == nullptr) {
       throw std::runtime_error("Unexpected end-of-file when parsing invokenative");
@@ -181,7 +207,7 @@ namespace Compiler {
     Expect(TokenType::LPAREN);
     auto token = ExpectOneOf({ TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLY, TokenType::DIVIDE });
     auto exp = std::make_shared<ArithmeticNode>();
-    parent->AddChildren(exp);
+    parent->AddChild(exp);
     exp->SetLine(token->GetLine());
     exp->SetColumn(token->GetColumn());
     exp->SetType(token->GetType());
@@ -214,7 +240,7 @@ namespace Compiler {
         identifier->SetLine(token->GetLine());
         identifier->SetColumn(token->GetColumn());
         identifier->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());
-        parent->AddChildren(identifier);
+        parent->AddChild(identifier);
       }
       break;
 
@@ -224,7 +250,7 @@ namespace Compiler {
         string->SetLine(token->GetLine());
         string->SetColumn(token->GetColumn());
         string->SetValue(dynamic_cast<StringToken *>(token)->GetValue());
-        parent->AddChildren(string);
+        parent->AddChild(string);
       }
       break;
       case TokenType::INTEGER_NUMBER:
@@ -233,7 +259,7 @@ namespace Compiler {
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
         number->SetNumber(dynamic_cast<IntegerToken *>(token)->GetValue());
-        parent->AddChildren(number);
+        parent->AddChild(number);
       }
       break;
 
@@ -243,7 +269,7 @@ namespace Compiler {
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
         number->SetNumber(dynamic_cast<DoubleToken *>(token)->GetValue());
-        parent->AddChildren(number);
+        parent->AddChild(number);
       }
       break;
       case TokenType::FLOAT_NUMBER:
@@ -252,7 +278,7 @@ namespace Compiler {
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
         number->SetNumber(dynamic_cast<FloatToken *>(token)->GetValue());
-        parent->AddChildren(number);
+        parent->AddChild(number);
       }
       break;
       default:
