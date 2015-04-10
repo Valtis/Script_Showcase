@@ -4,6 +4,6 @@
     (setvalue a "printer")
     (setvalue b 25 )
     (invokenative a (* 2 (- 3.5 2 1))) 
-    (invokenative a (+ b b)) 
+    (invokenative a (/ (+ b b) 4))  
   )
 )

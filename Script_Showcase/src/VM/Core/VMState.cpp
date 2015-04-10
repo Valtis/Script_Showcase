@@ -1,7 +1,7 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/ByteCode.h"
 #include "VM/Core/VM.h"
-#include "VM/ScriptLoader/ScriptLoader.h"
+
 VMState::VMState() {
   VMInstance().RegisterVMState(this);
 }

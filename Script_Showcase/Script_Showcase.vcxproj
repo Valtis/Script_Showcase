@@ -38,8 +38,6 @@
     <ClCompile Include="src\VM\Memory\MemoryManager.cpp" />
     <ClCompile Include="src\VM\Memory\RootSetProvider.cpp" />
     <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp" />
-    <ClCompile Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.cpp" />
-    <ClCompile Include="src\VM\ScriptLoader\ScriptLoader.cpp" />
     <ClCompile Include="src\VM\Utility\Logger.cpp" />
     <ClCompile Include="src\VM\Utility\LoggerManager.cpp" />
     <ClCompile Include="src\VM\Utility\StringUtility.cpp" />
@@ -86,9 +84,6 @@
     <ClInclude Include="src\VM\Memory\MemoryManager.h" />
     <ClInclude Include="src\VM\Memory\RootSetProvider.h" />
     <ClInclude Include="src\VM\Memory\VMObjectFunctions.h" />
-    <ClInclude Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.h" />
-    <ClInclude Include="src\VM\ScriptLoader\ScriptLoader.h" />
-    <ClInclude Include="src\VM\ScriptLoader\Tokens.h" />
     <ClInclude Include="src\VM\Utility\Logger.h" />
     <ClInclude Include="src\VM\Utility\LoggerManager.h" />
     <ClInclude Include="src\VM\Utility\Logs.h" />

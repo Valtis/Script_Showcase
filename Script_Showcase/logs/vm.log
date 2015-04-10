@@ -1,15 +1,15 @@
-[2015.4.10 02:14:29] Opening new log file
+[2015.4.10 11:35:23] Opening new log file
 
-[02:14:29]  Error: 
-An error has occurred during script execution: TypeError: Expected Managed pointer but was Uninitialized
+[11:35:23]  Error: 
+An error has occurred during script execution: TypeError: Could not convert Managed pointer to Integer
 	When executing script function 'example'
-	When executing instruction 'INVOKE_NATIVE'
-	With program counter value 17
+	When executing instruction 'ADD'
+	With program counter value 36
 
 Script stack:
 
-3: Double: 1.000000
-2: Managed pointer: 4
-1: Native pointer: 0x0105FC34
-0: Native pointer: 0x0105FC40
+1: Native pointer: 0x008EF86C
+0: Native pointer: 0x008EF878
 
+
+[2015.4.10 11:35:24] Closing log file

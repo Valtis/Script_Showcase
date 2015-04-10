@@ -28,12 +28,6 @@
     <Filter Include="Header Files\VM\Memory">
       <UniqueIdentifier>{3f5b8d3e-14c9-472f-bc6c-135718b684ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\VM\ScriptLoader">
-      <UniqueIdentifier>{419324b4-c8b8-4bff-842e-0af252aba64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\VM\ScriptLoader\ByteCodeCreator">
-      <UniqueIdentifier>{64d511f6-1f94-445a-83e2-51e45be73e70}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\VM\Core">
       <UniqueIdentifier>{5e931512-e9a6-49cc-bf3c-f20d46c62213}</UniqueIdentifier>
     </Filter>
@@ -42,12 +36,6 @@
     </Filter>
     <Filter Include="Source Files\VM\Memory">
       <UniqueIdentifier>{fbea797a-6863-4042-97bb-20ec6857f39d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\VM\ScriptLoader">
-      <UniqueIdentifier>{20a1524b-5090-4cde-9df9-aee76b929c7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\VM\ScriptLoader\ByteCodeCreator">
-      <UniqueIdentifier>{4a98800e-74ef-4007-8ad8-33d0790c2ebf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{d0f350f3-850b-4aaa-911f-feacbf33fd5d}</UniqueIdentifier>
@@ -95,12 +83,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.cpp">
-      <Filter>Source Files\VM\ScriptLoader\ByteCodeCreator</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VM\ScriptLoader\ScriptLoader.cpp">
-      <Filter>Source Files\VM\ScriptLoader</Filter>
     </ClCompile>
     <ClCompile Include="src\VM\Memory\CheneyCollector.cpp">
       <Filter>Source Files\VM\Memory</Filter>
@@ -244,15 +226,6 @@
     </ClInclude>
     <ClInclude Include="src\VM\Core\VMValue.h">
       <Filter>Header Files\VM\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\ScriptLoader\ScriptLoader.h">
-      <Filter>Header Files\VM\ScriptLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\ScriptLoader\Tokens.h">
-      <Filter>Header Files\VM\ScriptLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\ScriptLoader\ByteCodeCreator\ByteCodeCreator.h">
-      <Filter>Header Files\VM\ScriptLoader\ByteCodeCreator</Filter>
     </ClInclude>
     <ClInclude Include="src\VM\Utility\Logger.h">
       <Filter>Header Files\VM\Utility</Filter>
