@@ -17,6 +17,7 @@ namespace Compiler {
   class SetValueNode;
   class StaticsNode;
   class StringNode;
+  class WhileNode;
 
   class ASTVisitor {
   public:
@@ -36,6 +37,7 @@ namespace Compiler {
     virtual void Visit(SetValueNode *node) = 0;
     virtual void Visit(StaticsNode *node) = 0;
     virtual void Visit(StringNode *node) = 0;
+    virtual void Visit(WhileNode *node) = 0;
   };
 
 }

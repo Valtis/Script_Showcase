@@ -46,6 +46,8 @@ namespace Compiler {
       return "setvalue";
     case TokenType::IF:
       return "if";
+    case TokenType::WHILE:
+      return "while";
     case TokenType::RETURN:
       return "return";
     case TokenType::INVOKE_NATIVE:

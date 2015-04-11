@@ -320,5 +320,8 @@
     <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\WhileNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

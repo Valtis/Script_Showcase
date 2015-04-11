@@ -14,6 +14,7 @@
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
 #include "VM/Compiler/AST/StringNode.h"
+#include "VM/Compiler/AST/WhileNode.h"
 
 #include "VM/Core/ByteCode.h"
 #include "VM/Core/VMValue.h"
@@ -170,7 +171,7 @@ namespace Compiler {
   void CodeGeneratorVisitor::Visit(IfNode *node) {
     auto children = node->GetChildren();
     if (children.size() < 2 || children.size() > 3) {
-      throw std::runtime_error("Incorrect parameter count for if statement" + node->GetPositionInfo());
+      throw std::runtime_error("Incorrect parameter count for if statement " + node->GetPositionInfo());
     }
 
     // this is the boolean node
@@ -183,10 +184,6 @@ namespace Compiler {
       child->Accept(*this);
     }
     
-
-   
-
-
     if (children.size() == 3) {
       m_current_function->AddByteCode(ByteCode::JUMP);
       auto skip_false_branch_placeholder = m_current_function->AddByteCode(ByteCode::NOP);
@@ -323,6 +320,30 @@ namespace Compiler {
 
     m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
     m_current_function->AddByteCode(static_cast<ByteCode>(id));
+  }
+
+  void CodeGeneratorVisitor::Visit(WhileNode *node) {
+    auto children = node->GetChildren();
+    if (children.size() < 2) {
+      throw std::runtime_error("Incorrect parameter count for while statement " + node->GetPositionInfo());
+    }
+
+    auto startPosition = m_current_function->GetByteCodeCount();
+    // this is the boolean node
+    children[0]->Accept(*this);
+    m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
+    auto placeholderPosition = m_current_function->AddByteCode(ByteCode::NOP);
+
+
+    for (size_t i = 1; i < children.size(); ++i) {
+      children[i]->Accept(*this);
+    }
+
+    m_current_function->AddByteCode(ByteCode::JUMP);
+    m_current_function->AddByteCode(static_cast<ByteCode>(startPosition));
+
+    m_current_function->ChangeByteCode(placeholderPosition, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+  
   }
 
 }

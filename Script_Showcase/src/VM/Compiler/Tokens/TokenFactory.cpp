@@ -57,7 +57,10 @@ namespace Compiler {
             break;
       case TokenType::IF:
         token.reset(new IfToken(type, line, column));
-        break;
+        break;      
+      case TokenType::WHILE:
+          token.reset(new WhileToken(type, line, column));
+          break;
       case TokenType::RETURN:
         token.reset(new ReturnToken(type, line, column));
         break;
@@ -75,7 +78,8 @@ namespace Compiler {
         break;
       case TokenType::STATICS:
         token.reset(new StaticsToken(type, line, column));
-        break;
+        break; 
+
       default: 
         throw std::runtime_error("Unrecognized token type id " + std::to_string(static_cast<int>(type)));
       }

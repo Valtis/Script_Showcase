@@ -63,6 +63,7 @@ namespace Compiler {
     TOKEN_WITH_NO_VALUE(LessOrEqualToken)
     TOKEN_WITH_NO_VALUE(EqualToken)
     TOKEN_WITH_NO_VALUE(IfToken)
+    TOKEN_WITH_NO_VALUE(WhileToken)
     TOKEN_WITH_NO_VALUE(SetValueToken)
     TOKEN_WITH_NO_VALUE(ReturnToken)
     TOKEN_WITH_NO_VALUE(InvokeNativeToken)

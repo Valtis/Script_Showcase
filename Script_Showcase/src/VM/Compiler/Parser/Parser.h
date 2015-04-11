@@ -17,6 +17,7 @@ namespace Compiler {
     void ParseStatements(std::shared_ptr<ASTNode> parent);
     void ParseStatement(std::shared_ptr<ASTNode> parent);
     void ParseIf(std::shared_ptr<ASTNode> parent);
+    void ParseWhile(std::shared_ptr<ASTNode> parent);
     void ParseExpression(std::shared_ptr<ASTNode> parent);
     void ParseSetValue(std::shared_ptr<ASTNode> parent);
     void ParseInvokeNative(std::shared_ptr<ASTNode> parent);

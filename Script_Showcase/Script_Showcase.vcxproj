@@ -60,6 +60,7 @@
     <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\WhileNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />

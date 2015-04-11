@@ -24,6 +24,7 @@ namespace Compiler {
     LOCALS,
     SET_VALUE,
     IF,
+    WHILE,
     RETURN,
     INVOKE_NATIVE,
   };

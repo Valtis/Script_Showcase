@@ -15,6 +15,7 @@
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
 #include "VM/Compiler/AST/StringNode.h"
+#include "VM/Compiler/AST/WhileNode.h"
 
 
 #define AST_CAST(x) std::dynamic_pointer_cast<ASTNode>(x)
@@ -119,9 +120,10 @@ namespace Compiler {
     if (token) {
       if (token->GetType() == TokenType::SET_VALUE) {
         ParseSetValue(parent);
-      }
-      else if (token->GetType() == TokenType::IF) {
+      } else if (token->GetType() == TokenType::IF) {
         ParseIf(parent);
+      } else if (token->GetType() == TokenType::WHILE) {
+        ParseWhile(parent);
       } else {
         ParseExpression(parent);
       }
@@ -132,8 +134,10 @@ namespace Compiler {
     auto ifNode = std::make_shared<IfNode>();
     parent->AddChild(ifNode);
     Expect(TokenType::LPAREN);
-    Expect(TokenType::IF);
-        
+    auto token = Expect(TokenType::IF);
+
+    ifNode->SetLine(token->GetLine());
+    ifNode->SetColumn(token->GetColumn());
     ParseExpression(ifNode);
 
     auto trueBranch = std::make_shared<RootNode>();
@@ -154,6 +158,24 @@ namespace Compiler {
     Expect(TokenType::RPAREN);
   }
 
+  void Parser::ParseWhile(std::shared_ptr<ASTNode> parent) {
+    auto whileNode = std::make_shared<WhileNode>();
+    parent->AddChild(whileNode);
+    
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::WHILE);
+    whileNode->SetLine(token->GetLine());
+    whileNode->SetColumn(token->GetColumn());
+
+    ParseExpression(whileNode);
+
+
+    Expect(TokenType::LPAREN);
+    ParseStatements(whileNode);
+    Expect(TokenType::RPAREN);
+
+    Expect(TokenType::RPAREN);
+  }
 
   void Parser::ParseExpression(std::shared_ptr<ASTNode> parent) {
   

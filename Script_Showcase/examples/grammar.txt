@@ -7,7 +7,8 @@ FUNCTIONS ::= FUNCTION FUNCTIONS | e
 FUNCTION ::= (fn identifier (IDENTIFIER_LIST) LOCALS (STATEMENTS))
 LOCALS ::= (locals IDENTIFIER_LIST) | e
 STATEMENTS ::= STATEMENT STATEMENTS | e  
-STATEMENT ::= EXPRESSION | IF_STATEMENT | ASSIGNMENT
+STATEMENT ::= EXPRESSION | IF_STATEMENT | WHILE_STATEMENT | ASSIGNMENT
+WHILE_STATEMENT ::= (while EXPRESSION (STATEMENTS))
 IF_STATEMENT = (if EXPRESSION (STATEMENTS) (STATEMENTS)|e)
 ASSIGNMENT ::= setvalue identifier EXPRESSION
 EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION
@@ -29,11 +30,12 @@ setvalue
 invokenative
 return
 if
+while
 statics
 locals
 
 
 Notes:
 
-if-statement expects boolean expression
+if and while statements expect boolean expression
 native invokation might not return value if the registered function has void return type. 

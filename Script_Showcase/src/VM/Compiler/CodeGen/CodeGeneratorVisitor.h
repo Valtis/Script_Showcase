@@ -28,6 +28,7 @@ namespace Compiler {
     void Visit(SetValueNode *node) override;
     void Visit(StaticsNode *node) override;
     void Visit(StringNode *node) override;
+    void Visit(WhileNode *node) override;
 
   private:
     VMState m_state;

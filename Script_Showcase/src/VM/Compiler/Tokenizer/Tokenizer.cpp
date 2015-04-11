@@ -14,6 +14,8 @@ namespace Compiler {
     m_singleCharSymbols['>'] = TokenType::GREATER_THAN; 
     m_singleCharSymbols['<'] = TokenType::LESS_THAN;
 
+
+    m_keyWords["while"] = TokenType::WHILE;
     m_keyWords["if"] = TokenType::IF;
     m_keyWords["invokenative"] = TokenType::INVOKE_NATIVE;
     m_keyWords["return"] = TokenType::RETURN;
