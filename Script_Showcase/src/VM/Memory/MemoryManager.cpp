@@ -95,6 +95,16 @@ void MemoryManager::ReadFromArrayIndex(const VMValue object, void *value,
   memcpy(value, arrayData.data + index * TypeSize(arrayData.type), TypeSize(arrayData.type)*length);
 }
 
+bool MemoryManager::IsArray(const VMValue object) {
+  
+  if (object.GetType() != ValueType::MANAGED_POINTER) {
+    return false;
+  }
+  
+  auto typeField = VMObjectFunction::GetTypeField(object, m_memory);
+  return VMObjectFunction::IsArray(typeField);
+}
+
 ValueType MemoryManager::GetArrayType(const VMValue object) {
   EnsureNotNull(object);
   uint32_t typeField = VMObjectFunction::GetTypeField(object, m_memory);

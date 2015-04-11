@@ -168,6 +168,40 @@ namespace Compiler {
   }
 
   void CodeGeneratorVisitor::Visit(IfNode *node) {
+    auto children = node->GetChildren();
+    if (children.size() < 2 || children.size() > 3) {
+      throw std::runtime_error("Incorrect parameter count for if statement" + node->GetPositionInfo());
+    }
+
+    // this is the boolean node
+    children[0]->Accept(*this);
+    // jump to false branch if boolean node was false
+    m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
+    auto false_branch_placeholder = m_current_function->AddByteCode(ByteCode::NOP);
+    
+    for (auto child : children[1]->GetChildren()) {
+      child->Accept(*this);
+    }
+    
+
+   
+
+
+    if (children.size() == 3) {
+      m_current_function->AddByteCode(ByteCode::JUMP);
+      auto skip_false_branch_placeholder = m_current_function->AddByteCode(ByteCode::NOP);
+      
+      m_current_function->ChangeByteCode(false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+
+      for (auto child : children[2]->GetChildren()) {
+        child->Accept(*this);
+      }
+
+      m_current_function->ChangeByteCode(skip_false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+    } else {
+      m_current_function->ChangeByteCode(false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+    }
+
 
   }
 

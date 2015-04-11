@@ -101,6 +101,9 @@ void VM::Execute(VMState &state) {
     case ByteCode::IS_LESS: 
       Op::IsLess(m_stack);
       break;
+    case ByteCode::JUMP:
+      Op::Jump(state, m_stack, m_frames);
+      break;
     case ByteCode::JUMP_IF_TRUE: 
       Op::JumpIfTrue(state, m_stack, m_frames);
       break;

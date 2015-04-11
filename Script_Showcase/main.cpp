@@ -5,10 +5,16 @@
 #include "VM/Core/VMValue.h"
 #include "VM/FFI/NativeBinding.h"
 #include "VM/Compiler/Compiler.h"
+#include "VM/Memory/MemoryManager.h"
 #include <vector>
 
 void printer(VMValue value) {
-  std::cout << "Topmost value in stack: " + value.ToString() << "\n";
+  // really stupid and hacky way of resolving this.
+  if (value.GetType() == ValueType::MANAGED_POINTER && MemMgrInstance().IsArray(value) && MemMgrInstance().GetArrayType(value) == ValueType::CHAR) {
+    std::cout << ToNativeType<std::string>(value) << "\n";
+  } else {
+    std::cout << "Topmost value in stack: " + value.ToString() << "\n";
+  }
 }
 
 class ExampleClass

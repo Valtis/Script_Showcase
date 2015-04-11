@@ -130,10 +130,11 @@ namespace Compiler {
 
   void Parser::ParseIf(std::shared_ptr<ASTNode> parent) {
     auto ifNode = std::make_shared<IfNode>();
-   // parent->AddChild(ifNode);
+    parent->AddChild(ifNode);
     Expect(TokenType::LPAREN);
     Expect(TokenType::IF);
-
+        
+    ParseExpression(ifNode);
 
     auto trueBranch = std::make_shared<RootNode>();
     ifNode->AddChild(trueBranch);
@@ -145,10 +146,11 @@ namespace Compiler {
     ParseStatements(trueBranch);
     Expect(TokenType::RPAREN);
 
-    Expect(TokenType::LPAREN);
-    ParseStatements(falseBranch);
-    Expect(TokenType::RPAREN);
-
+    if (Peek() && Peek()->GetType() == TokenType::LPAREN) {
+      Expect(TokenType::LPAREN);
+      ParseStatements(falseBranch);
+      Expect(TokenType::RPAREN);
+    }
     Expect(TokenType::RPAREN);
   }
 

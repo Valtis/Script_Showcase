@@ -28,6 +28,8 @@ public:
   VMValue AllocateArray(const ValueType objectType, const uint32_t length);
   void WriteToArrayIndex(const VMValue object, const void *value, const uint32_t index, const uint32_t length);
   void ReadFromArrayIndex(const VMValue object, void *value, const uint32_t index, const uint32_t length) const;
+  
+  bool IsArray(const VMValue object);
   ValueType GetArrayType(const VMValue object);
 
   void RunGc();

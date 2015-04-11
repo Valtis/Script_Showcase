@@ -28,6 +28,7 @@ enum class ByteCode : uint32_t {
   IS_EQ,
   IS_LESS_OR_EQ,
   IS_LESS,
+  JUMP,
   JUMP_IF_TRUE,
   JUMP_IF_FALSE,
   JUMP_IF_ZERO,

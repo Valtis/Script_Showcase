@@ -1,16 +1,13 @@
-[2015.4.10 19:53:44] Opening new log file
+[2015.4.11 20:36:57] Opening new log file
 
-[19:53:44]  Error: 
-An error has occurred during script execution: TypeError: Expected Managed pointer but was Integer
+[20:36:57]  Error: 
+An error has occurred during script execution: Stack underflow
 	When executing script function 'example'
-	When executing instruction 'INVOKE_NATIVE'
-	With program counter value 23
+	When executing instruction 'Unknown code'
+	With program counter value 115
 
 Script stack:
 
-2: Double: 1.000000
-1: Native pointer: 0x0038FEB8
-0: Native pointer: 0x0038FEC4
 
 
-[2015.4.10 19:53:48] Closing log file
+[2015.4.11 20:37:31] Closing log file

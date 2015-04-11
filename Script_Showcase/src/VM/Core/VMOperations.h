@@ -48,6 +48,8 @@ namespace Op {
   void IsLessOrEq(std::vector<VMValue> &stack);
   void IsLess(std::vector<VMValue> &stack);
 
+
+  void Jump(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfFalse(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfZero(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);

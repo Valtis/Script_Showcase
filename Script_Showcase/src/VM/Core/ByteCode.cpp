@@ -30,8 +30,9 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::IS_EQ: return "IS_EQ";
     case ByteCode::IS_LESS_OR_EQ: return "IS_LESS_OR_EQ";
     case ByteCode::IS_LESS: return "IS_LESS";
-    case ByteCode::JUMP_IF_TRUE: "JUMP_IF_TRUE";
-    case ByteCode::JUMP_IF_FALSE: "JUMP_IF_FALSE";
+    case ByteCode::JUMP: return "JUMP_IF_TRUE";
+    case ByteCode::JUMP_IF_TRUE: return "JUMP_IF_TRUE";
+    case ByteCode::JUMP_IF_FALSE: return "JUMP_IF_FALSE";
     case ByteCode::JUMP_IF_ZERO:  return "JUMP_IF_ZERO";
     case ByteCode::JUMP_IF_NEGATIVE: return "JUMP_IF_NEGATIVE";
     case ByteCode::JUMP_IF_POSITIVE: return "Jump_IF_POSITIVE";

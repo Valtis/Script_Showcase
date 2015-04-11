@@ -14,7 +14,7 @@
 (fn update (ticksPassed) (
   (if (> invTimeLeft 0)
     (
-      (- invTimeLeft 1)
+      (setvalue invTimeLeft (- invTimeLeft 1))
     )  
   )
 ))

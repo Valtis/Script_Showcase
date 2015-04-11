@@ -240,6 +240,13 @@ namespace Op {
 
   }
 
+  void Jump(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+    auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
+    auto value = PopValue(stack);
+    frames.back().SetNextInstruction(jumpDestination);
+  }
+
+
   void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
