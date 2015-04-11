@@ -14,6 +14,7 @@ namespace Compiler {
     VMState AcquireState();
     
     void Visit(ArithmeticNode *node) override;
+    void Visit(ComparisonNode *node) override;
     void Visit(DoubleNode *node) override;
     void Visit(FloatNode *node) override;
     void Visit(FunctionNode *node) override;

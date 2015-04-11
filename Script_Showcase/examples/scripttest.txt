@@ -1,9 +1,11 @@
-(fn example (x y z)
-  (locals a b)
+(fn example ()
+  (locals function_name val)
   ( 
-    (setvalue a "printer")
-    (setvalue b 25 )
-    (invokenative a (* 2 (- 3.5 2 1))) 
-    (invokenative a (/ (+ b b) 4))  
+  
+    (setvalue val 25 )
+    (setvalue function_name "printer")
+    (invokenative function_name (* 2 (- 3.5 2 1))) 
+    (invokenative function_name (/ (+ val val) 4))  
+   
   )
 )

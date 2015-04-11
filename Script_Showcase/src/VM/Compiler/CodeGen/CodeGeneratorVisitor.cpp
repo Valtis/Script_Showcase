@@ -1,5 +1,6 @@
 #include "VM/Compiler/CodeGen/CodeGeneratorVisitor.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
+#include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
@@ -46,7 +47,7 @@ namespace Compiler {
       operation = ByteCode::DIV;
       break;
     default:
-      throw std::runtime_error("Internal compiler error: Invalid operation type with arithmetic node");
+      throw std::logic_error("Internal compiler error: Invalid operation type with arithmetic node");
     }
 
     children[0]->Accept(*this);
@@ -58,6 +59,37 @@ namespace Compiler {
       m_current_function->AddByteCode(operation);
 
     }
+  }
+
+  void CodeGeneratorVisitor::Visit(ComparisonNode *node) {
+    auto children = node->GetChildren();
+    if (children.size() != 2) {
+      throw std::runtime_error("Incorrect parameter count for comparison at " + node->GetPositionInfo());
+    }
+    ByteCode operation;
+    switch (node->GetType()) {
+    case TokenType::GREATER_THAN:
+      operation = ByteCode::IS_GREATER;
+      break;
+    case TokenType::GREATER_OR_EQUAL_THAN:
+      operation = ByteCode::IS_GREATER_OR_EQ;
+      break;
+    case TokenType::EQUAL:
+      operation = ByteCode::IS_EQ;
+      break;
+    case TokenType::LESS_OR_EQUAL_THAN:
+      operation = ByteCode::IS_LESS_OR_EQ;
+      break;
+    case TokenType::LESS_THAN:
+      operation = ByteCode::IS_LESS;
+      break;
+    default:
+      throw std::logic_error("Internal compiler error: Invalid operation type with comparison node");
+    }
+
+    children[0]->Accept(*this);
+    children[1]->Accept(*this);
+    m_current_function->AddByteCode(operation);
   }
 
   void CodeGeneratorVisitor::Visit(DoubleNode *node) {

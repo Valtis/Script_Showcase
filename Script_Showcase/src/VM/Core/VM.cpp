@@ -68,7 +68,6 @@ void VM::Execute(VMState &state) {
     case ByteCode::PUSH_DOUBLE:
       Op::PushDouble(m_stack, m_frames);
       break;
-
     case ByteCode::LOAD_LOCAL:
       Op::LoadLocal(state, m_stack, m_frames);
       break;
@@ -87,6 +86,27 @@ void VM::Execute(VMState &state) {
     case ByteCode::STORE_ARRAY_INDEX:
       Op::StoreArrayIndex(m_stack);
       break;    
+    case ByteCode::IS_GREATER:   
+      Op::IsGreater(m_stack);
+      break;
+    case ByteCode::IS_GREATER_OR_EQ: 
+      Op::IsGreaterOrEq(m_stack);
+      break;
+    case ByteCode::IS_EQ: 
+      Op::IsEq(m_stack);
+      break;
+    case ByteCode::IS_LESS_OR_EQ: 
+      Op::IsLessOrEq(m_stack);
+      break;
+    case ByteCode::IS_LESS: 
+      Op::IsLess(m_stack);
+      break;
+    case ByteCode::JUMP_IF_TRUE: 
+      Op::JumpIfTrue(state, m_stack, m_frames);
+      break;
+    case ByteCode::JUMP_IF_FALSE: 
+      Op::JumpIfFalse(state, m_stack, m_frames);
+      break;
     case ByteCode::JUMP_IF_ZERO:
       Op::JumpIfZero(state, m_stack, m_frames);
       break;
@@ -111,7 +131,6 @@ void VM::Execute(VMState &state) {
     case ByteCode::ADD_INTEGER:
       Op::AddInteger(m_stack);
       break;
-    
     case ByteCode::SUB_INTEGER:
       Op::SubInteger(m_stack);
       break;    
@@ -121,14 +140,12 @@ void VM::Execute(VMState &state) {
     case ByteCode::DIV_INTEGER:
       Op::DivInteger(m_stack);
       break;
-
     case ByteCode::INVOKE_NATIVE:
       Op::InvokeNative(state, m_stack);
       break;
     case ByteCode::INVOKE_MANAGED:
       Op::InvokeManaged(state, m_stack, m_frames);
       break;
-
     case ByteCode::ALLOCATE_INTEGER_ARRAY:
       Op::AllocateIntegerArray(m_stack);
       break; 
@@ -143,7 +160,6 @@ void VM::Execute(VMState &state) {
         return;
       }
       break;
-    
     case ByteCode::NOP:
       break;
     default: 

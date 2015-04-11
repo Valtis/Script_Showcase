@@ -16,10 +16,12 @@ namespace Compiler {
     void ParseLocals(std::shared_ptr<ASTNode> parent);
     void ParseStatements(std::shared_ptr<ASTNode> parent);
     void ParseStatement(std::shared_ptr<ASTNode> parent);
+    void ParseIf(std::shared_ptr<ASTNode> parent);
     void ParseExpression(std::shared_ptr<ASTNode> parent);
     void ParseSetValue(std::shared_ptr<ASTNode> parent);
     void ParseInvokeNative(std::shared_ptr<ASTNode> parent);
     void ParseArithmeticExpression(std::shared_ptr<ASTNode> parent);
+    void ParseComparisonExpression(std::shared_ptr<ASTNode> parent);
     void ParseArgumentList(std::shared_ptr<ASTNode> parent);
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);

@@ -1,13 +1,17 @@
 #pragma once
-#include <cstdint>
+#include "VM/Core/VMValue.h"
+
 #include <vector>
+
 class VMState;
 class VMFrame;
 class VMValue;
 
 const uint32_t stackSize = 4096;
 const uint32_t frameSize = 1024;
-
+/*
+  Functions that actually perform the work required by the VM opcodes.
+*/
 namespace Op {
   void PushValue(const VMValue &value, std::vector<VMValue> &stack);
   VMValue PopValue(std::vector<VMValue> &stack);
@@ -35,7 +39,17 @@ namespace Op {
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
   void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  
+
+
+  // these functions will do type conversions automatically
+  void IsGreater(std::vector<VMValue> &stack);
+  void IsGreaterOrEq(std::vector<VMValue> &stack);
+  void IsEq(std::vector<VMValue> &stack);
+  void IsLessOrEq(std::vector<VMValue> &stack);
+  void IsLess(std::vector<VMValue> &stack);
+
+  void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void JumpIfFalse(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfZero(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfNegative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfPositive(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);

@@ -317,5 +317,8 @@
     <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

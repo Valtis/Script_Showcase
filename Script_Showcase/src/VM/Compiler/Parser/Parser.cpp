@@ -1,7 +1,7 @@
 #include "VM/Compiler/Parser/Parser.h"
-#include "VM/Compiler/Tokens/TokenFactory.h"
 #include "VM/Compiler/Tokens/Tokens.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
+#include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
@@ -39,8 +39,8 @@ namespace Compiler {
     return rootNode;
   }
 
-  void Parser::ParseOptionalStaticsList(std::shared_ptr<ASTNode> parent) {
-
+  void Parser::ParseOptionalStaticsList(std::shared_ptr<ASTNode> parent) { 
+    
     auto staticsNode = std::make_shared<StaticsNode>();
     parent->AddChild(std::dynamic_pointer_cast<ASTNode>(staticsNode));
 
@@ -119,12 +119,39 @@ namespace Compiler {
     if (token) {
       if (token->GetType() == TokenType::SET_VALUE) {
         ParseSetValue(parent);
+      }
+      else if (token->GetType() == TokenType::IF) {
+        ParseIf(parent);
       } else {
         ParseExpression(parent);
       }
     }
-
   }
+
+  void Parser::ParseIf(std::shared_ptr<ASTNode> parent) {
+    auto ifNode = std::make_shared<IfNode>();
+   // parent->AddChild(ifNode);
+    Expect(TokenType::LPAREN);
+    Expect(TokenType::IF);
+
+
+    auto trueBranch = std::make_shared<RootNode>();
+    ifNode->AddChild(trueBranch);
+
+    auto falseBranch = std::make_shared<RootNode>();
+    ifNode->AddChild(falseBranch);
+
+    Expect(TokenType::LPAREN);
+    ParseStatements(trueBranch);
+    Expect(TokenType::RPAREN);
+
+    Expect(TokenType::LPAREN);
+    ParseStatements(falseBranch);
+    Expect(TokenType::RPAREN);
+
+    Expect(TokenType::RPAREN);
+  }
+
 
   void Parser::ParseExpression(std::shared_ptr<ASTNode> parent) {
   
@@ -138,19 +165,27 @@ namespace Compiler {
       if (innerToken == nullptr) {
         throw std::runtime_error("Unexpected end-of-file while parsing an expression");
       }
+
       switch (innerToken->GetType()) {
-      case TokenType::PLUS:
-      case TokenType::MINUS:
-      case TokenType::MULTIPLY:
-      case TokenType::DIVIDE:
-        ParseArithmeticExpression(parent);
-        break;
-      case TokenType::INVOKE_NATIVE:
-        ParseInvokeNative(parent);
-        break;
-      default:
-        throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
-          + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call or invokenative");
+        case TokenType::PLUS:
+        case TokenType::MINUS:
+        case TokenType::MULTIPLY:
+        case TokenType::DIVIDE:
+          ParseArithmeticExpression(parent);
+          break;
+        case TokenType::GREATER_OR_EQUAL_THAN:
+        case TokenType::GREATER_THAN:
+        case TokenType::EQUAL:
+        case TokenType::LESS_OR_EQUAL_THAN:
+        case TokenType::LESS_THAN:
+          ParseComparisonExpression(parent);
+          break;
+        case TokenType::INVOKE_NATIVE:
+          ParseInvokeNative(parent);
+          break;
+        default:
+          throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
+            + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call, comparison or invokenative");
       }
       return;
     } else {
@@ -206,12 +241,33 @@ namespace Compiler {
   void Parser::ParseArithmeticExpression(std::shared_ptr<ASTNode> parent) {
     Expect(TokenType::LPAREN);
     auto token = ExpectOneOf({ TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLY, TokenType::DIVIDE });
-    auto exp = std::make_shared<ArithmeticNode>();
-    parent->AddChild(exp);
-    exp->SetLine(token->GetLine());
-    exp->SetColumn(token->GetColumn());
-    exp->SetType(token->GetType());
-    ParseArgumentList(exp);
+    auto arithmeticNode = std::make_shared<ArithmeticNode>();
+    
+    parent->AddChild(arithmeticNode);
+    arithmeticNode->SetLine(token->GetLine());
+    arithmeticNode->SetColumn(token->GetColumn());
+    arithmeticNode->SetType(token->GetType());
+
+    ParseArgumentList(arithmeticNode);
+    Expect(TokenType::RPAREN);
+  }
+
+  void Parser::ParseComparisonExpression(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN); 
+    auto comparisonNode = std::make_shared<ComparisonNode>();
+    parent->AddChild(comparisonNode);
+
+    auto token = ExpectOneOf({TokenType::GREATER_OR_EQUAL_THAN, TokenType::GREATER_THAN, 
+      TokenType::EQUAL, TokenType::LESS_OR_EQUAL_THAN, TokenType::LESS_THAN});
+      
+
+    comparisonNode->SetLine(token->GetLine());
+    comparisonNode->SetColumn(token->GetColumn());
+    comparisonNode->SetType(token->GetType());
+
+    ParseExpression(comparisonNode);
+    ParseExpression(comparisonNode);
+    
     Expect(TokenType::RPAREN);
   }
 

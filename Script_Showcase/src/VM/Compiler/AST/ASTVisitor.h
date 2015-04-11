@@ -3,6 +3,7 @@
 namespace Compiler {
 
   class ArithmeticNode;
+  class ComparisonNode;
   class DoubleNode;
   class FloatNode;
   class FunctionNode;
@@ -21,6 +22,7 @@ namespace Compiler {
   public:
     virtual ~ASTVisitor();
     virtual void Visit(ArithmeticNode *node) = 0;
+    virtual void Visit(ComparisonNode *node) = 0;
     virtual void Visit(DoubleNode *node) = 0;
     virtual void Visit(FloatNode *node) = 0;
     virtual void Visit(FunctionNode *node) = 0;
