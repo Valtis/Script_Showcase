@@ -5,7 +5,9 @@ namespace Compiler {
   class AndNode;
   class ArithmeticNode;
   class ComparisonNode;
+  class CondNode;
   class DoubleNode;
+  class ElseNode;
   class FloatNode;
   class FunctionNode;
   class FunctionParameterListNode;
@@ -27,8 +29,10 @@ namespace Compiler {
 
     virtual void Visit(AndNode *node) = 0;
     virtual void Visit(ArithmeticNode *node) = 0;
-    virtual void Visit(ComparisonNode *node) = 0;
+    virtual void Visit(ComparisonNode *node) = 0; 
+    virtual void Visit(CondNode *node) = 0;
     virtual void Visit(DoubleNode *node) = 0;
+    virtual void Visit(ElseNode *node) = 0;
     virtual void Visit(FloatNode *node) = 0;
     virtual void Visit(FunctionNode *node) = 0;
     virtual void Visit(FunctionParameterListNode *node) = 0;

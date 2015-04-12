@@ -3,7 +3,9 @@
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
+#include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
+#include "VM/Compiler/AST/ElseNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
 #include "VM/Compiler/AST/FunctionParameterListNode.h"
@@ -19,8 +21,6 @@
 #include "VM/Compiler/AST/StringNode.h"
 #include "VM/Compiler/AST/WhileNode.h"
 
-
-#define AST_CAST(x) std::dynamic_pointer_cast<ASTNode>(x)
 
 namespace Compiler {
   Parser::Parser(std::vector<std::unique_ptr<Token>> tokens) 
@@ -122,6 +122,8 @@ namespace Compiler {
     if (token) {
       if (token->GetType() == TokenType::SET_VALUE) {
         ParseSetValue(parent);
+      } else if (token->GetType() == TokenType::COND) {
+        ParseCond(parent);
       } else if (token->GetType() == TokenType::IF) {
         ParseIf(parent);
       } else if (token->GetType() == TokenType::WHILE) {
@@ -130,6 +132,59 @@ namespace Compiler {
         ParseExpression(parent);
       }
     }
+  }
+
+  void Parser::ParseCond(std::shared_ptr<ASTNode> parent) {
+    auto condNode = std::make_shared<CondNode>();
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::COND);
+    
+    condNode->SetLine(token->GetLine());
+    condNode->SetColumn(token->GetColumn());
+    parent->AddChild(condNode);
+    while (true) {
+      auto next = Peek();
+      if (next) {
+        if (next->GetType() == TokenType::RPAREN) {
+          break;
+        } 
+        
+        if (next->GetType() == TokenType::ELSE) {
+          auto elseToken = Advance();
+          auto elseNode = std::make_shared<ElseNode>();
+          elseNode->SetLine(elseToken->GetLine());
+          elseNode->SetColumn(elseToken->GetColumn());
+          
+
+          condNode->AddChild(elseNode);
+          
+          auto statementsNode = std::make_shared<RootNode>();
+          elseNode->AddChild(statementsNode);
+          Expect(TokenType::LPAREN);
+          ParseStatements(statementsNode);
+          Expect(TokenType::RPAREN);
+          break;
+        }
+
+        auto condStatementsNode = std::make_shared<RootNode>();
+        condNode->AddChild(condStatementsNode);
+        ParseExpression(condStatementsNode);
+
+
+        Expect(TokenType::LPAREN);
+        auto statementsNode = std::make_shared<RootNode>();
+        condStatementsNode->AddChild(statementsNode);
+        ParseStatements(statementsNode);
+        Expect(TokenType::RPAREN);
+
+
+      }
+
+    }
+
+
+
+    Expect(TokenType::RPAREN);
   }
 
   void Parser::ParseIf(std::shared_ptr<ASTNode> parent) {

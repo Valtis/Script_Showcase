@@ -26,6 +26,7 @@ namespace Compiler {
     SET_VALUE,
     IF,
     COND,
+    ELSE,
     AND,
     OR,
     WHILE,

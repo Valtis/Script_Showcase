@@ -1,13 +1,13 @@
-[2015.4.12 20:41:21] Opening new log file
+[2015.4.13 00:36:55] Opening new log file
 
-[20:41:21]  Error: 
-An error has occurred during script execution: TypeError: Expected Integer but was Float
+[00:36:55]  Error: 
+An error has occurred during script execution: Stack underflow
 	When executing script function 'example'
-	When executing instruction 'DIV'
-	With program counter value 38
+	When executing instruction 'RETURN'
+	With program counter value 2
 
 Script stack:
 
 
 
-[2015.4.12 20:41:26] Closing log file
+[2015.4.13 00:36:57] Closing log file

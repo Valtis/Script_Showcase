@@ -1,16 +1,16 @@
 (statics foobar)
 
 (fn example (a b )
-  (locals counter)
   (
-    (setvalue counter 0)
-    (while (<= counter 10) 
-      (
-        (invokenative "printer" (mod counter 5))
-        (setvalue counter (+ counter 1))
-      )
+    (invokenative "printer" "before")
+    (cond (= 1 9) ((invokenative "printer" "first"))
+          (= 2 9) ((invokenative "printer" "second"))
+          (= 3 9) ((invokenative "printer" "third"))
+          else ((invokenative "printer" "else"))
     )
     
-        (invokenative "printer" (mod 5.1 2.3f))
+    (invokenative "printer" 12345.67)
+    (invokenative "printer" "after")
+    
   )
 )

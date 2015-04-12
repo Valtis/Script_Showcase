@@ -60,7 +60,10 @@ namespace Compiler {
         break;
       case TokenType::IF:
         token.reset(new IfToken(type, line, column));
-        break;
+        break; 
+      case TokenType::ELSE:
+          token.reset(new ElseToken(type, line, column));
+          break;
       case TokenType::COND:
         token.reset(new CondToken(type, line, column));
         break;

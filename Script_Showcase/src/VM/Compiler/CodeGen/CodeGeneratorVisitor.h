@@ -16,7 +16,9 @@ namespace Compiler {
     void Visit(AndNode *node) override;
     void Visit(ArithmeticNode *node) override;
     void Visit(ComparisonNode *node) override;
+    void Visit(CondNode *node) override;
     void Visit(DoubleNode *node) override;
+    void Visit(ElseNode *node) override;
     void Visit(FloatNode *node) override;
     void Visit(FunctionNode *node) override;
     void Visit(FunctionParameterListNode *node) override;

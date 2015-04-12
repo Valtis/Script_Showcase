@@ -28,8 +28,6 @@ namespace Compiler {
 
     bool StartsNumber(char ch);
     void ParseNumber();
-    void ParseDecimalPortion(std::string number);
-    void ParseNumberTypeCharacter(char ch, std::string number);
 
     std::vector<std::unique_ptr<Token>> m_tokens;
 

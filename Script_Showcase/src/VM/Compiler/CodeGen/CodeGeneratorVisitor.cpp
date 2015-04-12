@@ -2,7 +2,9 @@
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
+#include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
+#include "VM/Compiler/AST/ElseNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
 #include "VM/Compiler/AST/FunctionParameterListNode.h"
@@ -138,6 +140,54 @@ namespace Compiler {
     m_current_function->AddByteCode(operation);
   }
 
+  void CodeGeneratorVisitor::Visit(CondNode* node) {
+
+    auto children = node->GetChildren();
+    if (children.size() < 1) {
+      throw std::runtime_error("Invalid parameter count for cond statement");
+    }
+
+    std::vector<size_t> falseJumpPlaceholders;
+    std::vector<size_t> jumpPlaceholders;
+
+    
+    for (size_t i = 0; i < children.size(); ++i) {
+       
+      if (falseJumpPlaceholders.size() > 0) {
+        m_current_function->ChangeByteCode(falseJumpPlaceholders[0], static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+        falseJumpPlaceholders.pop_back();
+      }
+
+      if (i == children.size() - 1 && dynamic_cast<ElseNode *>(children.back()) != nullptr) {
+        // if last node is infact else node, handle slightly differently; no need for condition evaluation or final jumps
+        children.back()->GetChildren()[0]->Accept(*this);
+        
+        break;
+      }
+
+      auto condStatements = children[i]->GetChildren();
+      // condition expression
+      condStatements[0]->Accept(*this);
+      m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
+      falseJumpPlaceholders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
+
+      // statement block executed if condition was true
+      condStatements[1]->Accept(*this);
+      m_current_function->AddByteCode(ByteCode::JUMP);      
+      jumpPlaceholders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
+    }
+
+    if (falseJumpPlaceholders.size() > 0) {
+      m_current_function->ChangeByteCode(falseJumpPlaceholders[0], static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+      falseJumpPlaceholders.pop_back();
+    }
+
+
+    for (auto index : jumpPlaceholders) {
+      m_current_function->ChangeByteCode(index, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+    }
+  }
+
   void CodeGeneratorVisitor::Visit(DoubleNode *node) {
 
     m_current_function->AddByteCode(ByteCode::PUSH_DOUBLE);
@@ -151,6 +201,10 @@ namespace Compiler {
     m_current_function->AddByteCode(static_cast<ByteCode>((val >> 32) & mask));
     m_current_function->AddByteCode(static_cast<ByteCode>(val & mask));
 
+  }
+
+  void CodeGeneratorVisitor::Visit(ElseNode* node) {
+    throw std::logic_error("Else node should have been handled at higher level");
   }
 
   void CodeGeneratorVisitor::Visit(FloatNode *node) {

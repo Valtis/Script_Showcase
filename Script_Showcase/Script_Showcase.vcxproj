@@ -48,7 +48,9 @@
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
     <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\CondNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ElseNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\FloatNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />

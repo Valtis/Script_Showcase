@@ -48,6 +48,8 @@ namespace Compiler {
       return "setvalue";
     case TokenType::IF:
       return "if";
+    case TokenType::ELSE:
+      return "else";
     case TokenType::COND:
       return "cond";
     case TokenType::AND:

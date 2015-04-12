@@ -17,6 +17,7 @@ namespace Compiler {
     m_keyWords["mod"] = TokenType::MOD;
     m_keyWords["while"] = TokenType::WHILE;
     m_keyWords["if"] = TokenType::IF;
+    m_keyWords["else"] = TokenType::ELSE;
     m_keyWords["cond"] = TokenType::COND;
     m_keyWords["and"] = TokenType::AND;
     m_keyWords["or"] = TokenType::OR;
