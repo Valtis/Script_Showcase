@@ -27,40 +27,45 @@ namespace Compiler {
   VMState CodeGeneratorVisitor::AcquireState() {
     return std::move(m_state);
   }
-
-  void CodeGeneratorVisitor::Visit(AndNode *node) {
+  
+  void CodeGeneratorVisitor::AndOrHelper(ASTNode *node, ByteCode jumpInstructionAfterConditionEvaluation, bool returnValueIfAllPass)
+  {
     auto children = node->GetChildren();
     if (children.size() == 0) {
       throw std::runtime_error("Invalid argument count for or at " + node->GetPositionInfo());
     }
     std::vector<std::size_t> shortCircuitPlaceHolders;
     children[0]->Accept(*this);
-    m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
+    m_current_function->AddByteCode(jumpInstructionAfterConditionEvaluation);
     shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
 
     for (size_t i = 1; i < children.size(); ++i) {
       children[i]->Accept(*this);
-      m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
+      m_current_function->AddByteCode(jumpInstructionAfterConditionEvaluation);
       shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
     }
 
-    // if these instructions are reached, all branches have been true, and we must thus return true
+    // if these instructions are reached, all branches have been true(and) or false(or), and we must thus return true\false
     m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
-    m_current_function->AddByteCode(static_cast<ByteCode>(1));
-    // jump over the false return branch
+    m_current_function->AddByteCode(static_cast<ByteCode>(returnValueIfAllPass));
+    // jump over the true return branch
     m_current_function->AddByteCode(ByteCode::JUMP);
     auto endPlaceholder = m_current_function->AddByteCode(ByteCode::NOP);
-    
+
     // update short circuit placeholders to next instruction
     for (auto index : shortCircuitPlaceHolders) {
       m_current_function->ChangeByteCode(index, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
     }
 
     m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
-    m_current_function->AddByteCode(static_cast<ByteCode>(0));
+    m_current_function->AddByteCode(static_cast<ByteCode>(!returnValueIfAllPass));
 
-    // and update the jump instruction which happens after pushing true into stack
+    // and update the jump instruction which happens after pushing the boolean value when all passed into stack
     m_current_function->ChangeByteCode(endPlaceholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+  }
+
+  void CodeGeneratorVisitor::Visit(AndNode *node) {
+    AndOrHelper(node, ByteCode::JUMP_IF_FALSE, true);
   }
 
   void CodeGeneratorVisitor::Visit(ArithmeticNode *node)
@@ -224,15 +229,15 @@ namespace Compiler {
     // jump to false branch if boolean node was false
     m_current_function->AddByteCode(ByteCode::JUMP_IF_FALSE);
     auto false_branch_placeholder = m_current_function->AddByteCode(ByteCode::NOP);
-    
+
     for (auto child : children[1]->GetChildren()) {
       child->Accept(*this);
     }
-    
+
     if (children.size() == 3) {
       m_current_function->AddByteCode(ByteCode::JUMP);
       auto skip_false_branch_placeholder = m_current_function->AddByteCode(ByteCode::NOP);
-      
+
       m_current_function->ChangeByteCode(false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
 
       for (auto child : children[2]->GetChildren()) {
@@ -240,7 +245,8 @@ namespace Compiler {
       }
 
       m_current_function->ChangeByteCode(skip_false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
-    } else {
+    }
+    else {
       m_current_function->ChangeByteCode(false_branch_placeholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
     }
 
@@ -272,41 +278,11 @@ namespace Compiler {
 
   void CodeGeneratorVisitor::Visit(LocalsNode *node) {
     LocalVariableHelper(node);
-  }  
-  
+  }
+
+
   void CodeGeneratorVisitor::Visit(OrNode *node) {
-    auto children = node->GetChildren();
-    if (children.size() == 0) {
-      throw std::runtime_error("Invalid argument count for or at " + node->GetPositionInfo());
-    }
-    std::vector<std::size_t> shortCircuitPlaceHolders;
-    children[0]->Accept(*this);
-    m_current_function->AddByteCode(ByteCode::JUMP_IF_TRUE);
-    shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
-
-    for (size_t i = 1; i < children.size(); ++i) {
-      children[i]->Accept(*this);
-      m_current_function->AddByteCode(ByteCode::JUMP_IF_TRUE);
-      shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
-    }
-
-    // if these instructions are reached, all branches have been false, and we must thus return false
-    m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
-    m_current_function->AddByteCode(static_cast<ByteCode>(0));
-    // jump over the true return branch
-    m_current_function->AddByteCode(ByteCode::JUMP);
-    auto endPlaceholder = m_current_function->AddByteCode(ByteCode::NOP);
-
-    // update short circuit placeholders to next instruction
-    for (auto index : shortCircuitPlaceHolders) {
-      m_current_function->ChangeByteCode(index, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
-    }
-
-    m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
-    m_current_function->AddByteCode(static_cast<ByteCode>(1));
-
-    // and update the jump instruction which happens after pushing false into stack
-    m_current_function->ChangeByteCode(endPlaceholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+    AndOrHelper(node, ByteCode::JUMP_IF_TRUE, false);
 
   }
 

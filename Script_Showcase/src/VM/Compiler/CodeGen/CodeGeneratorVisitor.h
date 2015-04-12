@@ -12,7 +12,7 @@ namespace Compiler {
   public:
 
     VMState AcquireState();
-
+    void AndOrHelper(ASTNode *node, ByteCode jumpInstructionAfterConditionEvaluation, bool returnValueIfAllPass);
     void Visit(AndNode *node) override;
     void Visit(ArithmeticNode *node) override;
     void Visit(ComparisonNode *node) override;
