@@ -13,7 +13,7 @@ void printer(VMValue value) {
   if (value.GetType() == ValueType::MANAGED_POINTER && MemMgrInstance().IsArray(value) && MemMgrInstance().GetArrayType(value) == ValueType::CHAR) {
     std::cout << ToNativeType<std::string>(value) << "\n";
   } else {
-    std::cout << "Topmost value in stack: " + value.ToString() << "\n";
+    std::cout << value.ToString() << "\n";
   }
 }
 
@@ -49,7 +49,7 @@ int main() {
       std::cout << "Example " << counter++ << "\n\n";
       state.AddNativeBinding("printer", CreateBinding(&printer));
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
-      VMInstance().InvokeFunction(state, "example", { VMValue(&exampleObject1), VMValue(&exampleObject2) });
+      VMInstance().InvokeFunction(state, "example", { VMValue(1234.567), VMValue(8775) }); 
       std::cout << "\n\n";
     }
 

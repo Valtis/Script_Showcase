@@ -14,15 +14,14 @@ VM::VM() {
   m_frames.reserve(frameSize);
 }
 
-// needs to be broken into smaller functions.
-VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> objects) {
+VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> arguments) {
   
   auto function = state.GetFunction(functionName);
   if (function == nullptr) {
     return{};
   }
 
-  InitializeVMForExecution(functionName, objects, function);
+  InitializeVMForExecution(functionName, arguments, function);
   
   try {
     Execute(state);
@@ -34,8 +33,13 @@ VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std:
 
 }
 
-void VM::InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> objects, const VMFunction *function)
+void VM::InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function)
 {
+  if (function->GetArgumentCount() != arguments.size()) {
+    throw std::runtime_error("Invalid argument count when invoking script function: " + std::to_string(arguments.size()) +
+      " arguments were provided but " + std::to_string(function->GetArgumentCount()) + " arguments were expected");
+  }
+
   m_stack.clear();
   m_frames.clear();
 
@@ -44,7 +48,7 @@ void VM::InitializeVMForExecution(const std::string & functionName, std::vector<
 
   m_frames.push_back(VMFrame{ function });
 
-  for (const auto &o : objects) {
+  for (const auto &o : arguments) {
     m_stack.push_back(o);
   }
 }

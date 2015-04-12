@@ -11,12 +11,13 @@ STATEMENT ::= EXPRESSION | IF_STATEMENT | WHILE_STATEMENT | ASSIGNMENT
 WHILE_STATEMENT ::= (while EXPRESSION (STATEMENTS))
 IF_STATEMENT = (if EXPRESSION (STATEMENTS) (STATEMENTS)|e)
 ASSIGNMENT ::= setvalue identifier EXPRESSION
-EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION
+EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION | AND_OR_EXPRESSION
 ARITHMETIC_EXPRESSION ::= (+|-|*|/ ARGUMENT_LIST)
 NATIVE_INVOKATION ::= (invokenative string|identifier ARGUMENT_LIST)
 FUNCTION_CALL ::= (identifier ARGUMENT_LIST)
 LITERAL_OR_IDENTIFIER ::= identifier|number|string
 COMPARISON_EXPRESSION ::= (>=|>|=|<=|< EXPRESSION EXPRESSION)
+AND_OR_EXPRESSION ::= (or|and EXPRESSION EXPRESSION EXPRESSION)
 ARGUMENT_LIST ::= EXPRESSION ARGUMENT_LIST | e
 
 
@@ -37,5 +38,5 @@ locals
 
 Notes:
 
-if and while statements expect boolean expression
+if and while statements and AND_OR_EXPRESSION expect boolean values as expression; expressions resulting to other types will cause type error at runtime
 native invokation might not return value if the registered function has void return type. 

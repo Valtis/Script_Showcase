@@ -141,7 +141,15 @@ namespace Compiler {
   }
 
   void CodeGeneratorVisitor::Visit(FunctionParameterListNode *node) {
+    auto children = node->GetChildren();
+    m_current_function->SetArgumentCount(children.size());
     LocalVariableHelper(node);
+
+    for (size_t i = 0; i < children.size(); ++i) {
+      m_current_function->AddByteCode(ByteCode::STORE_LOCAL);
+      m_current_function->AddByteCode(static_cast<ByteCode>(children.size() - 1 - i));
+    }
+
   }
 
 
