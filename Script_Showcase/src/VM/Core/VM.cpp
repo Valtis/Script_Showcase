@@ -138,6 +138,9 @@ void VM::Execute(VMState &state) {
     case ByteCode::DIV:
       Op::Div(m_stack);
       break;
+    case ByteCode::MOD:
+      Op::Mod(m_stack);
+      break;
     case ByteCode::ADD_INTEGER:
       Op::AddInteger(m_stack);
       break;

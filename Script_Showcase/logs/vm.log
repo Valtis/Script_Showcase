@@ -1,13 +1,13 @@
-[2015.4.12 19:55:30] Opening new log file
+[2015.4.12 20:41:21] Opening new log file
 
-[19:55:30]  Error: 
-An error has occurred during script execution: Stack underflow
+[20:41:21]  Error: 
+An error has occurred during script execution: TypeError: Expected Integer but was Float
 	When executing script function 'example'
-	When executing instruction 'INVOKE_NATIVE'
-	With program counter value 21
+	When executing instruction 'DIV'
+	With program counter value 38
 
 Script stack:
 
 
 
-[2015.4.12 19:55:33] Closing log file
+[2015.4.12 20:41:26] Closing log file

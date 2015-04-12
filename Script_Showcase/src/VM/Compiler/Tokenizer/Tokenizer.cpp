@@ -14,7 +14,7 @@ namespace Compiler {
     m_singleCharSymbols['<'] = TokenType::LESS_THAN;
 
 
-    m_keyWords["mod"] = TokenType::IF;
+    m_keyWords["mod"] = TokenType::MOD;
     m_keyWords["while"] = TokenType::WHILE;
     m_keyWords["if"] = TokenType::IF;
     m_keyWords["cond"] = TokenType::COND;

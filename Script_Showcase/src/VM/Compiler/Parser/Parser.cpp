@@ -197,6 +197,7 @@ namespace Compiler {
         case TokenType::MINUS:
         case TokenType::MULTIPLY:
         case TokenType::DIVIDE:
+        case TokenType::MOD:
           ParseArithmeticExpression(parent);
           break;
         case TokenType::GREATER_OR_EQUAL_THAN:
@@ -265,12 +266,12 @@ namespace Compiler {
     
     ParseArgumentList(invokeNativeNode);
     Expect(TokenType::RPAREN);
-
   }
 
   void Parser::ParseArithmeticExpression(std::shared_ptr<ASTNode> parent) {
     Expect(TokenType::LPAREN);
-    auto token = ExpectOneOf({ TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLY, TokenType::DIVIDE });
+    
+    auto token = ExpectOneOf({ TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLY, TokenType::DIVIDE, TokenType::MOD });
     auto arithmeticNode = std::make_shared<ArithmeticNode>();
     
     parent->AddChild(arithmeticNode);

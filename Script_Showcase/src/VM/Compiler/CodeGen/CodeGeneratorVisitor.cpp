@@ -89,6 +89,9 @@ namespace Compiler {
     case TokenType::DIVIDE:
       operation = ByteCode::DIV;
       break;
+    case TokenType::MOD:
+      operation = ByteCode::MOD;
+        break;
     default:
       throw std::logic_error("Internal compiler error: Invalid operation type with arithmetic node");
     }

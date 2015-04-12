@@ -55,7 +55,7 @@ namespace Op {
         return VMValue{ (int32_t)value.AsDouble() };
       }
       else if (value.GetType() == ValueType::FLOAT) {
-        return VMValue{ (float)value.AsFloat() };
+        return VMValue{ (int32_t )value.AsFloat() };
       }
       throw std::runtime_error("TypeError: Could not convert " + TypeToString(value.GetType()) + " to " + TypeToString(type));
 
@@ -214,6 +214,16 @@ namespace Op {
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Sub, -)
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Mul, *)
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Div, /)
+
+  void Mod(std::vector<VMValue>& stack) {
+    auto second = PopValue(stack);
+    auto first = PopValue(stack);
+
+    first = ConvertToType(ValueType::INT, first);
+    second = ConvertToType(ValueType::INT, second);
+    
+    PushValue(VMValue{ first.AsInt() % second.AsInt() }, stack);
+  }
 
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreater, >)
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreaterOrEq, >=)
