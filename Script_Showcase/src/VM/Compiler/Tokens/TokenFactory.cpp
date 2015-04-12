@@ -25,6 +25,9 @@ namespace Compiler {
       case TokenType::DIVIDE:
         token.reset(new DivideToken(type, line, column));
         break;
+      case TokenType::MOD:
+        token.reset(new ModToken(type, line, column));
+        break;
       case TokenType::GREATER_THAN:
         token.reset(new GreaterToken(type, line, column));
         break;
@@ -50,17 +53,26 @@ namespace Compiler {
         token.reset(new IntegerToken(type, line, column, optionalValue));
         break; 
       case TokenType::FLOAT_NUMBER:
-          token.reset(new FloatToken(type, line, column, optionalValue));
-          break; 
+        token.reset(new FloatToken(type, line, column, optionalValue));
+        break; 
       case TokenType::DOUBLE_NUMBER:
-            token.reset(new DoubleToken(type, line, column, optionalValue));
-            break;
+        token.reset(new DoubleToken(type, line, column, optionalValue));
+        break;
       case TokenType::IF:
         token.reset(new IfToken(type, line, column));
-        break;      
+        break;
+      case TokenType::COND:
+        token.reset(new CondToken(type, line, column));
+        break;
+      case TokenType::OR:
+        token.reset(new OrToken(type, line, column));
+        break;
+      case TokenType::AND:
+        token.reset(new AndToken(type, line, column));
+        break;
       case TokenType::WHILE:
-          token.reset(new WhileToken(type, line, column));
-          break;
+        token.reset(new WhileToken(type, line, column));
+        break;
       case TokenType::RETURN:
         token.reset(new ReturnToken(type, line, column));
         break;

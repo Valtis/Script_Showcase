@@ -23,6 +23,7 @@ namespace Compiler {
     void ParseInvokeNative(std::shared_ptr<ASTNode> parent);
     void ParseArithmeticExpression(std::shared_ptr<ASTNode> parent);
     void ParseComparisonExpression(std::shared_ptr<ASTNode> parent);
+    void ParseAndOrExpression(std::shared_ptr<ASTNode> parent);
     void ParseArgumentList(std::shared_ptr<ASTNode> parent);
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);

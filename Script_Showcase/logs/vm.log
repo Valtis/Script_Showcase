@@ -1,13 +1,13 @@
-[2015.4.11 23:44:29] Opening new log file
+[2015.4.12 19:55:30] Opening new log file
 
-[23:44:29]  Error: 
+[19:55:30]  Error: 
 An error has occurred during script execution: Stack underflow
 	When executing script function 'example'
-	When executing instruction 'STORE_LOCAL'
-	With program counter value 29
+	When executing instruction 'INVOKE_NATIVE'
+	With program counter value 21
 
 Script stack:
 
 
 
-[2015.4.11 23:46:50] Closing log file
+[2015.4.12 19:55:33] Closing log file

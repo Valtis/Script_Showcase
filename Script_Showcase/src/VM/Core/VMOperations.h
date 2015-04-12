@@ -18,7 +18,8 @@ namespace Op {
   void PushInteger(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushFloat(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushDouble(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  
+  void PushBoolean(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+
   void LoadStaticObject(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void StoreStaticObject(VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 

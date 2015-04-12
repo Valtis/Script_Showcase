@@ -1,5 +1,4 @@
 #include "VM/Compiler/Tokenizer/Tokenizer.h"
-#include "VM/Compiler/Tokens/Tokens.h"
 #include "VM/Compiler/Tokens/TokenFactory.h"
 namespace Compiler {
  
@@ -15,8 +14,12 @@ namespace Compiler {
     m_singleCharSymbols['<'] = TokenType::LESS_THAN;
 
 
+    m_keyWords["mod"] = TokenType::IF;
     m_keyWords["while"] = TokenType::WHILE;
     m_keyWords["if"] = TokenType::IF;
+    m_keyWords["cond"] = TokenType::COND;
+    m_keyWords["and"] = TokenType::AND;
+    m_keyWords["or"] = TokenType::OR;
     m_keyWords["invokenative"] = TokenType::INVOKE_NATIVE;
     m_keyWords["return"] = TokenType::RETURN;
     m_keyWords["setvalue"] = TokenType::SET_VALUE;

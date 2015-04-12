@@ -8,6 +8,7 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::PUSH_INTEGER: return "PUSH_INTEGER";
     case ByteCode::PUSH_FLOAT: return "PUSH_FLOAT";
     case ByteCode::PUSH_DOUBLE: return "PUSH_DOUBLE";
+    case ByteCode::PUSH_BOOLEAN: return "PUSH_BOOLEAN";
     case ByteCode::POP: return "POP";
     case ByteCode::STORE_STATIC_OBJECT:  return "STORE_STATIC_OBJECT";
     case ByteCode::LOAD_STATIC_OBJECT: return "LOAD_STATIC_OBJECT";

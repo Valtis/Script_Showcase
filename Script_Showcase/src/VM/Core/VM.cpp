@@ -72,6 +72,9 @@ void VM::Execute(VMState &state) {
     case ByteCode::PUSH_DOUBLE:
       Op::PushDouble(m_stack, m_frames);
       break;
+    case ByteCode::PUSH_BOOLEAN:
+      Op::PushBoolean(m_stack, m_frames);
+      break;
     case ByteCode::LOAD_LOCAL:
       Op::LoadLocal(state, m_stack, m_frames);
       break;

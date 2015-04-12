@@ -95,7 +95,7 @@ namespace Op {
     PushValue(VMValue{ static_cast<int32_t>(frames.back().GetNextInstruction()) }, stack);
   }
   void PushFloat(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    uint32_t val = static_cast<uint32_t>(frames.back().GetNextInstruction());
+    auto val = static_cast<uint32_t>(frames.back().GetNextInstruction());
     PushValue(VMValue{ *reinterpret_cast<float*>(&val) }, stack);
   }
 
@@ -123,6 +123,10 @@ namespace Op {
     PushValue(VMValue{ doubleVal }, stack);
   }
 
+  void PushBoolean(std::vector<VMValue>& stack, std::vector<VMFrame>& frames) {
+    auto boolean = static_cast<uint32_t>(frames.back().GetNextInstruction());
+    PushValue(VMValue{ boolean != 0}, stack);
+  }
 
   void LoadStaticObject(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());

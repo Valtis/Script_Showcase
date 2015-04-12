@@ -43,6 +43,7 @@
     <ClCompile Include="src\VM\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\VM\Compiler\AST\AndNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\OrNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />

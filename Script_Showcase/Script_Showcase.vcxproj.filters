@@ -323,5 +323,11 @@
     <ClInclude Include="src\VM\Compiler\AST\WhileNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\OrNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\AndNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

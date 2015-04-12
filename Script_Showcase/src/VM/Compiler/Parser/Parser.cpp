@@ -1,5 +1,6 @@
 #include "VM/Compiler/Parser/Parser.h"
 #include "VM/Compiler/Tokens/Tokens.h"
+#include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -11,6 +12,7 @@
 #include "VM/Compiler/AST/IntegerNode.h"
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
+#include "VM/Compiler/AST/OrNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -204,6 +206,10 @@ namespace Compiler {
         case TokenType::LESS_THAN:
           ParseComparisonExpression(parent);
           break;
+        case TokenType::AND:
+        case TokenType::OR:
+          ParseAndOrExpression(parent);
+          break;
         case TokenType::INVOKE_NATIVE:
           ParseInvokeNative(parent);
           break;
@@ -292,6 +298,35 @@ namespace Compiler {
     ParseExpression(comparisonNode);
     ParseExpression(comparisonNode);
     
+    Expect(TokenType::RPAREN);
+  }
+
+
+  void Parser::ParseAndOrExpression(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    std::shared_ptr<ASTNode> andOrNode;
+
+    auto token = ExpectOneOf({ TokenType::AND, TokenType::OR });
+    switch (token->GetType()) {
+      case TokenType::AND:
+        andOrNode = std::make_shared<AndNode>();
+        break;
+      case TokenType::OR:
+        andOrNode = std::make_shared<OrNode>();
+        break;
+      default:
+        throw std::logic_error("Default case reached in boolean expression parsing - this should not happen");
+    }
+
+    andOrNode->SetLine(token->GetLine());
+    andOrNode->SetColumn(token->GetColumn());
+    
+    parent->AddChild(andOrNode);
+    ParseExpression(andOrNode);
+    ParseExpression(andOrNode);
+    ParseArgumentList(andOrNode);
+    
+
     Expect(TokenType::RPAREN);
   }
 

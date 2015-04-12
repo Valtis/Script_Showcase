@@ -1,4 +1,5 @@
 #include "VM/Compiler/CodeGen/CodeGeneratorVisitor.h"
+#include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -10,6 +11,7 @@
 #include "VM/Compiler/AST/IntegerNode.h"
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
+#include "VM/Compiler/AST/OrNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -24,6 +26,10 @@ namespace Compiler {
 
   VMState CodeGeneratorVisitor::AcquireState() {
     return std::move(m_state);
+  }
+
+  void CodeGeneratorVisitor::Visit(AndNode *node) {
+     
   }
 
   void CodeGeneratorVisitor::Visit(ArithmeticNode *node)
@@ -235,6 +241,44 @@ namespace Compiler {
 
   void CodeGeneratorVisitor::Visit(LocalsNode *node) {
     LocalVariableHelper(node);
+  }  
+  
+  void CodeGeneratorVisitor::Visit(OrNode *node) {
+    auto children = node->GetChildren();
+    if (children.size() == 0) {
+      throw std::runtime_error("Invalid argument count for or at " + node->GetPositionInfo());
+    }
+    std::vector<std::size_t> shortCircuitPlaceHolders;
+    children[0]->Accept(*this);
+    m_current_function->AddByteCode(ByteCode::JUMP_IF_TRUE);
+    shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
+
+    for (size_t i = 1; i < children.size(); ++i) {
+      children[0]->Accept(*this);
+      m_current_function->AddByteCode(ByteCode::JUMP_IF_TRUE);
+      shortCircuitPlaceHolders.push_back(m_current_function->AddByteCode(ByteCode::NOP));
+    }
+
+    // if these instructions are reached, all branches have been false, and we must thus return false
+    m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
+    m_current_function->AddByteCode(static_cast<ByteCode>(0));
+    // jump over the true return branch
+    m_current_function->AddByteCode(ByteCode::JUMP);
+    auto endPlaceholder = m_current_function->AddByteCode(ByteCode::NOP);
+
+    m_current_function->AddByteCode(static_cast<ByteCode>(0));
+
+    // update short circuit placeholders to next instruction
+    for (auto index : shortCircuitPlaceHolders) {
+      m_current_function->ChangeByteCode(index, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+    }
+
+    m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
+    m_current_function->AddByteCode(static_cast<ByteCode>(1));
+
+    // and update the jump instruction after pushing false into stack
+    m_current_function->ChangeByteCode(endPlaceholder, static_cast<ByteCode>(m_current_function->GetByteCodeCount()));
+
   }
 
   void CodeGeneratorVisitor::Visit(RootNode *node) {

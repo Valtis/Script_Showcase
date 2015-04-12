@@ -6,6 +6,7 @@ enum class ByteCode : uint32_t {
   PUSH_INTEGER, 
   PUSH_FLOAT,
   PUSH_DOUBLE,
+  PUSH_BOOLEAN,
   POP,
   STORE_STATIC_OBJECT, 
   LOAD_STATIC_OBJECT,

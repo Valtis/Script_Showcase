@@ -2,6 +2,7 @@
 
 namespace Compiler {
 
+  class AndNode;
   class ArithmeticNode;
   class ComparisonNode;
   class DoubleNode;
@@ -13,6 +14,7 @@ namespace Compiler {
   class IntegerNode;
   class InvokeNativeNode;
   class LocalsNode;
+  class OrNode;
   class RootNode;
   class SetValueNode;
   class StaticsNode;
@@ -22,6 +24,8 @@ namespace Compiler {
   class ASTVisitor {
   public:
     virtual ~ASTVisitor();
+
+    virtual void Visit(AndNode *node) = 0;
     virtual void Visit(ArithmeticNode *node) = 0;
     virtual void Visit(ComparisonNode *node) = 0;
     virtual void Visit(DoubleNode *node) = 0;
@@ -33,6 +37,7 @@ namespace Compiler {
     virtual void Visit(InvokeNativeNode *node) = 0;
     virtual void Visit(IntegerNode *node) = 0;
     virtual void Visit(LocalsNode *node) = 0;
+    virtual void Visit(OrNode *node) = 0;
     virtual void Visit(RootNode *node) = 0;
     virtual void Visit(SetValueNode *node) = 0;
     virtual void Visit(StaticsNode *node) = 0;

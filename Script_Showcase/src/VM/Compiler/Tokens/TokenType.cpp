@@ -16,6 +16,8 @@ namespace Compiler {
       return "*";
     case TokenType::DIVIDE:
       return "/";
+    case TokenType::MOD:
+      return "mod";
     case TokenType::EQUAL:
       return "=";
     case TokenType::GREATER_THAN:
@@ -46,6 +48,12 @@ namespace Compiler {
       return "setvalue";
     case TokenType::IF:
       return "if";
+    case TokenType::COND:
+      return "cond";
+    case TokenType::AND:
+      return "and";
+    case TokenType::OR:
+      return "or";
     case TokenType::WHILE:
       return "while";
     case TokenType::RETURN:
