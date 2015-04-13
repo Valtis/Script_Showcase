@@ -17,6 +17,7 @@ namespace Compiler {
   class InvokeNativeNode;
   class LocalsNode;
   class OrNode;
+  class ReturnNode;
   class RootNode;
   class SetValueNode;
   class StaticsNode;
@@ -42,6 +43,7 @@ namespace Compiler {
     virtual void Visit(IntegerNode *node) = 0;
     virtual void Visit(LocalsNode *node) = 0;
     virtual void Visit(OrNode *node) = 0;
+    virtual void Visit(ReturnNode *node) = 0;
     virtual void Visit(RootNode *node) = 0;
     virtual void Visit(SetValueNode *node) = 0;
     virtual void Visit(StaticsNode *node) = 0;

@@ -15,6 +15,7 @@
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/OrNode.h"
+#include "VM/Compiler/AST/ReturnNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -117,7 +118,6 @@ namespace Compiler {
   }
   
   void Parser::ParseStatement(std::shared_ptr<ASTNode> parent) {
-
     auto token = Peek2();
     if (token) {
       if (token->GetType() == TokenType::SET_VALUE) {
@@ -128,10 +128,35 @@ namespace Compiler {
         ParseIf(parent);
       } else if (token->GetType() == TokenType::WHILE) {
         ParseWhile(parent);
+      } else if (token->GetType() == TokenType::RETURN) {
+        ParseReturn(parent);
       } else {
         ParseExpression(parent);
       }
     }
+  }
+
+
+  void Parser::ParseReturn(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::RETURN);
+    auto returnNode = std::make_shared<ReturnNode>();
+    returnNode->SetLine(token->GetLine());
+    returnNode->SetColumn(token->GetColumn());
+    parent->AddChild(returnNode);
+
+    auto next = Peek();
+    if (next == nullptr) {
+      throw std::runtime_error("Unexpected end-of-file when parsing return statement");
+    }
+
+    if (next->GetType() == TokenType::RPAREN) {
+      Advance();
+      return;
+    }
+
+    ParseStatement(returnNode);
+    Expect(TokenType::RPAREN);
   }
 
   void Parser::ParseCond(std::shared_ptr<ASTNode> parent) {
@@ -514,4 +539,5 @@ namespace Compiler {
     return std::string("line ") + std::to_string(token->GetLine())
       + " column " + std::to_string(token->GetColumn());
   }
+
 }

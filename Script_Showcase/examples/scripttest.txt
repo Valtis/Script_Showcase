@@ -1,16 +1,18 @@
-(statics foobar)
-
-(fn example (a b )
+(fn example (first_param second_param)
+  (locals counter)
   (
-    (invokenative "printer" "before")
-    (cond (= 1 9) ((invokenative "printer" "first"))
-          (= 2 9) ((invokenative "printer" "second"))
-          (= 3 9) ((invokenative "printer" "third"))
-          else ((invokenative "printer" "else"))
+    (setvalue counter 1)
+    (while (>= 20 counter) 
+      (
+        (cond (= (mod counter 15) 0) ((invokenative "printer" "fizzbuzz"))
+              (= (mod counter 3) 0) ((invokenative "printer" "fizz"))
+              (= (mod counter 5) 0) ((invokenative "printer" "buzz"))
+              else ((invokenative "printer" counter))
+        )
+        (setvalue counter (+ counter 1))
+      )
     )
-    
-    (invokenative "printer" 12345.67)
-    (invokenative "printer" "after")
-    
+    (return (* counter 2))
   )
 )
+

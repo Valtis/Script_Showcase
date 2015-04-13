@@ -14,6 +14,7 @@
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/OrNode.h"
+#include "VM/Compiler/AST/ReturnNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
@@ -343,6 +344,14 @@ namespace Compiler {
 
   }
 
+  void CodeGeneratorVisitor::Visit(ReturnNode* node) {
+    auto children = node->GetChildren();
+    for (auto child : children) {
+      child->Accept(*this);
+    }
+    m_current_function->AddByteCode(ByteCode::RETURN);
+  }
+
   void CodeGeneratorVisitor::Visit(RootNode *node) {
     
     auto children = node->GetChildren();
@@ -460,4 +469,5 @@ namespace Compiler {
   
   }
 
+  
 }

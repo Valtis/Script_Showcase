@@ -16,6 +16,7 @@ namespace Compiler {
     void ParseLocals(std::shared_ptr<ASTNode> parent);
     void ParseStatements(std::shared_ptr<ASTNode> parent);
     void ParseStatement(std::shared_ptr<ASTNode> parent);
+    void ParseReturn(std::shared_ptr<ASTNode> parent);
     void ParseIf(std::shared_ptr<ASTNode> parent);
     void ParseCond(std::shared_ptr<ASTNode> parent);
     void ParseWhile(std::shared_ptr<ASTNode> parent);
@@ -26,6 +27,7 @@ namespace Compiler {
     void ParseComparisonExpression(std::shared_ptr<ASTNode> parent);
     void ParseAndOrExpression(std::shared_ptr<ASTNode> parent);
     void ParseArgumentList(std::shared_ptr<ASTNode> parent);
+    
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);
     
