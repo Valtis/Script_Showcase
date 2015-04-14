@@ -3,7 +3,7 @@
 #include "VM/Memory/RootSetProvider.h"
 #include <memory>
 enum class CollectorType {
-  CHENEY_HEMPISPACE_COLLECTOR
+  CHENEY_COLLECTOR
 };
 
 namespace GCFactory {
