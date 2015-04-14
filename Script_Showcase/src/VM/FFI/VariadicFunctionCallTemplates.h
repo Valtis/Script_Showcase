@@ -14,24 +14,41 @@ struct gens < 0, S... > {
   typedef seq<S...> type;
 };
 
-template<typename Function, typename Pointer, typename Tuple, int ...S>
-void CallMemberFunctionImpl(Function f, Pointer p, Tuple params, seq<S...>) {
+// for void memberfunctions - just calls the function
+template<typename ReturnType, typename Function, typename Pointer, typename Tuple, int ...S,
+  typename std::enable_if<std::is_void<ReturnType>::value>::type* = nullptr>
+void CallMemberFunctionImpl(std::vector<VMValue> &stack, Function f, Pointer p, Tuple params, seq<S...>) {
   f(p, std::get<S>(params) ...);
 }
 
-template <typename Function, typename Pointer, typename Tuple, typename... Args>
-void CallMemberFunction(Function f, Pointer p, Tuple params) {
-  CallMemberFunctionImpl(f, p, params, typename gens<sizeof...(Args)>::type());
+// for non-void member functions - pushes the return value into stack
+template<typename ReturnType, typename Function, typename Pointer, typename Tuple, int ...S,
+  typename std::enable_if<!std::is_void<ReturnType>::value>::type* = nullptr>
+void CallMemberFunctionImpl(std::vector<VMValue> &stack, Function f, Pointer p, Tuple params, seq<S...>) {
+  stack.push_back(VMValue{ f(p, std::get<S>(params) ...) });
 }
-// would be nice if these could somehow merged to the above (or vice versa), as this is basically code duplication. 
-// Maybe figure out how to bind the object back to the member function
-template<typename Function, typename Tuple, int ...S>
-void CallFreeFunctionImpl(Function f, Tuple params, seq<S...>) {
+
+template <typename ReturnType, typename Function, typename Pointer, typename Tuple, typename... Args>
+void CallMemberFunction(std::vector<VMValue> &stack, Function f, Pointer p, Tuple params) {
+  CallMemberFunctionImpl<ReturnType>(stack, f, p, params, typename gens<sizeof...(Args)>::type());
+}
+
+// version for void free functions - just calls the function
+template<typename ReturnType, typename Function, typename Tuple, int ...S,
+  typename std::enable_if<std::is_void<ReturnType>::value>::type* = nullptr>
+void CallFreeFunctionImpl(std::vector<VMValue> &stack, Function f, Tuple params, seq<S...>) {
   f(std::get<S>(params) ...);
 }
 
-template <typename Function, typename Tuple, typename... Args>
-void CallFreeFunction(Function f, Tuple params) {
-  CallFreeFunctionImpl(f, params, typename gens<sizeof...(Args)>::type());
+// non-void version for free functions - pushes the return value into stack
+template<typename ReturnType, typename Function, typename Tuple, int ...S,
+  typename std::enable_if<!std::is_void<ReturnType>::value>::type* = nullptr>
+void CallFreeFunctionImpl(std::vector<VMValue> &stack, Function f, Tuple params, seq<S...>) {
+  stack.push_back(VMValue{ f(std::get<S>(params) ...) });
+}
+
+template <typename ReturnType, typename Function, typename Tuple, typename... Args>
+void CallFreeFunction(std::vector<VMValue> &stack, Function f, Tuple params) {
+  CallFreeFunctionImpl<ReturnType>(stack, f, params, typename gens<sizeof...(Args)>::type());
 }
 

@@ -1,4 +1,4 @@
-(fn example (first_param second_param)
+(fn example (float_param int_param native_object_param)
   (locals counter)
   (
     (setvalue counter 1)
@@ -12,7 +12,7 @@
         (setvalue counter (+ counter 1))
       )
     )
-    (return (* counter 2))
+    (return (invokenative "memberFunction2" native_object_param 40 40))
   )
 )
 

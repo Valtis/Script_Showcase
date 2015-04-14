@@ -18,6 +18,11 @@ void printer(VMValue value) {
   }
 }
 
+
+double multiply(int a, int b) {
+  return a*b;
+}
+
 class ExampleClass
 {
 public:
@@ -29,6 +34,10 @@ public:
     std::cout << "My number is: " << m_value << " and vm value is: " << fromVm << "\n";
   }
 
+  bool ExampleFunction2(int fromVm, int fromVm2) {
+    std::cout << "My number is: " << m_value << " and vm value is: " << fromVm << "\n";
+    return fromVm == fromVm2;
+  }
 private:
   int m_value;
 };
@@ -60,7 +69,9 @@ int main() {
       std::cout << "Example " << counter++ << "\n\n";
       state.AddNativeBinding("printer", CreateBinding(&printer));
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
-      auto value = VMInstance().InvokeFunction(state, "example", { VMValue(1234.567), VMValue(8775) });
+      state.AddNativeBinding("memberFunction2", CreateBinding(&ExampleClass::ExampleFunction2));
+      state.AddNativeBinding("multiply", CreateBinding(&multiply));
+      auto value = VMInstance().InvokeFunction(state, "example", { VMValue{ 1234.567 }, VMValue{ 8775 }, VMValue{&exampleObject1} });
       std::cout << "\nReturn value was: ";
       printer(value);
       std::cout << "\n\n";
