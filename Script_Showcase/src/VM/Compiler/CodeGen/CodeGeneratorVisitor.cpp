@@ -6,6 +6,7 @@
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/ElseNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
+#include "VM/Compiler/AST/FunctionCallNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
 #include "VM/Compiler/AST/FunctionParameterListNode.h"
 #include "VM/Compiler/AST/IdentifierNode.h"
@@ -214,6 +215,28 @@ namespace Compiler {
     float number = node->GetNumber();
     auto val = *reinterpret_cast<uint32_t *>(&number);
     m_current_function->AddByteCode(static_cast<ByteCode>(val));
+
+  }
+
+  void CodeGeneratorVisitor::Visit(FunctionCallNode *node) {
+    auto children = node->GetChildren();
+    auto function = m_state.GetFunction(node->GetName());
+    if (function == nullptr) {
+      throw std::runtime_error("Usage of undeclared function " + node->GetName() + " at " + node->GetPositionInfo());
+    }
+
+    if (function->GetArgumentCount() != children.size()) {
+      throw std::runtime_error("Invalid argument count for " + node->GetName() + ". Expected " +
+        std::to_string(function->GetArgumentCount()) + " parameters but " + std::to_string(children.size()) + " was given");
+    }
+    
+
+    for (auto child : children) {
+      child->Accept(*this);
+    }
+
+    m_current_function->AddByteCode(ByteCode::INVOKE_MANAGED);
+    m_current_function->AddByteCode(static_cast<ByteCode>(m_functionNameMap[node->GetName()]));
 
   }
 

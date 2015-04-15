@@ -20,6 +20,7 @@ namespace Compiler {
     void Visit(DoubleNode *node) override;
     void Visit(ElseNode *node) override;
     void Visit(FloatNode *node) override;
+    void Visit(FunctionCallNode *node) override;
     void Visit(FunctionNode *node) override;
     void Visit(FunctionParameterListNode *node) override;
     void Visit(IdentifierNode *node) override;

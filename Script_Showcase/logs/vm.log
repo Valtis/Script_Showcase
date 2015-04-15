@@ -1,14 +1,13 @@
-[2015.4.14 13:47:27] Opening new log file
+[2015.4.15 22:02:40] Opening new log file
 
-[13:47:27]  Error: 
-An error has occurred during script execution: TypeError: Expected Native pointer but was Integer
+[22:02:40]  Error: 
+An error has occurred during script execution: Stack underflow
 	When executing script function 'example'
 	When executing instruction 'INVOKE_NATIVE'
-	With program counter value 89
+	With program counter value 85
 
 Script stack:
 
-0: Native pointer: 0x0093F9A8
 
 
-[2015.4.14 13:47:31] Closing log file
+[2015.4.15 22:02:43] Closing log file

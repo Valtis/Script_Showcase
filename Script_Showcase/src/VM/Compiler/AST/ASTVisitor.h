@@ -9,6 +9,7 @@ namespace Compiler {
   class DoubleNode;
   class ElseNode;
   class FloatNode;
+  class FunctionCallNode;
   class FunctionNode;
   class FunctionParameterListNode;
   class IdentifierNode;
@@ -35,6 +36,7 @@ namespace Compiler {
     virtual void Visit(DoubleNode *node) = 0;
     virtual void Visit(ElseNode *node) = 0;
     virtual void Visit(FloatNode *node) = 0;
+    virtual void Visit(FunctionCallNode *node) = 0;
     virtual void Visit(FunctionNode *node) = 0;
     virtual void Visit(FunctionParameterListNode *node) = 0;
     virtual void Visit(IdentifierNode *node) = 0;
