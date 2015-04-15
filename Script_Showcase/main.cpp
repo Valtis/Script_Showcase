@@ -7,15 +7,27 @@
 #include "VM/Compiler/Compiler.h"
 #include "VM/Memory/MemoryManager.h"
 #include <vector>
+#include <cstdio>
 
 #include <windows.h>
 void printer(VMValue value) {
   // really stupid and hacky way of resolving this.
   if (value.GetType() == ValueType::MANAGED_POINTER && MemMgrInstance().IsArray(value) && MemMgrInstance().GetArrayType(value) == ValueType::CHAR) {
-    std::cout << ToNativeType<std::string>(value) << "\n";
+   printf("%s", ToNativeType<std::string>(value).c_str());
   } else {
-    std::cout << value.ToString() << "\n";
+    switch (value.GetType()) {
+    case ValueType::BOOL: printf("%d", value.AsBool()); break;
+    case ValueType::CHAR: printf("%c", value.AsChar()); break;
+    case ValueType::DOUBLE: printf("%f",value.AsDouble()); break;
+    case ValueType::FLOAT: printf("%f", value.AsFloat()); break;
+    case ValueType::INT: printf("%d", value.AsInt()); break;
+    case ValueType::MANAGED_POINTER:
+    case ValueType::NATIVE_POINTER:
+      std::cout << value.ToString();
+      break;
+    }
   }
+  std::cout << "\n";
 }
 
 
