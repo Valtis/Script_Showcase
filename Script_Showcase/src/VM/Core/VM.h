@@ -14,14 +14,14 @@ class VMState;
 class VM : public RootSetProvider {
 public:
   VM();
-  VMValue InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> objects);
+  VMValue InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> arguments);
  
   std::vector<VMValue *> GetRootSet() override;
   void RegisterVMState(VMState *state) { m_states.push_back(state);  }
   void UnregisterVMState(VMState *state) { m_states.erase(std::remove(std::begin(m_states), std::end(m_states), state), std::end(m_states)); }
 private:
 
-  void InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> objects, const VMFunction *function);
+  void InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function);
   void Execute(VMState &state);
   VMValue ReturnValue();
   void BuildStackTraceAndThrow(const std::exception &ex);

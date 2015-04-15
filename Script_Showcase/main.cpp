@@ -4,10 +4,23 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/VMValue.h"
 #include "VM/FFI/NativeBinding.h"
+#include "VM/Compiler/Compiler.h"
+#include "VM/Memory/MemoryManager.h"
 #include <vector>
 
+#include <windows.h>
 void printer(VMValue value) {
-  std::cout << "Topmost value in stack: " + value.ToString() << "\n";
+  // really stupid and hacky way of resolving this.
+  if (value.GetType() == ValueType::MANAGED_POINTER && MemMgrInstance().IsArray(value) && MemMgrInstance().GetArrayType(value) == ValueType::CHAR) {
+    std::cout << ToNativeType<std::string>(value) << "\n";
+  } else {
+    std::cout << value.ToString() << "\n";
+  }
+}
+
+
+double multiply(int a, int b) {
+  return a*b;
 }
 
 class ExampleClass
@@ -21,6 +34,10 @@ public:
     std::cout << "My number is: " << m_value << " and vm value is: " << fromVm << "\n";
   }
 
+  bool ExampleFunction2(int fromVm, int fromVm2) {
+    std::cout << "My number is: " << m_value << " and vm value is: " << fromVm << "\n";
+    return fromVm == fromVm2;
+  }
 private:
   int m_value;
 };
@@ -28,29 +45,50 @@ private:
 int main() {
 
   try {
-    LoggerManager::SetGlobalLogLevel(LogLevel::ALL);
-    LoggerManager::SetLogFolder("logs");
-    std::vector<VMState> states;
-    states.push_back(std::move(VMState{ "examples/example1.txt" }));
-    states.push_back(std::move(VMState{ "examples/example2.txt" }));
-    states.push_back(std::move(VMState{ "examples/example3.txt" }));
-
-
+ 
     ExampleClass exampleObject1(1234);
     ExampleClass exampleObject2(567);
 
+    LoggerManager::SetGlobalLogLevel(LogLevel::ALL);
+    LoggerManager::SetLogFolder("logs");
+    std::vector<VMState> states;
+    states.push_back(std::move(Compiler::Compile("examples/scripttest.txt")));
+    
+    LARGE_INTEGER StartingTime;
+    LARGE_INTEGER EndingTime;
+    LARGE_INTEGER ElapsedMicroseconds;
+    LARGE_INTEGER Frequency;
+
+    QueryPerformanceFrequency(&Frequency);
+    QueryPerformanceCounter(&StartingTime);
+
+ 
+   
     int counter = 1;
     for (auto &state : states) {
       std::cout << "Example " << counter++ << "\n\n";
       state.AddNativeBinding("printer", CreateBinding(&printer));
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
-      VMInstance().InvokeFunction(state, "example", { VMValue(&exampleObject1), VMValue(&exampleObject2) });
+      state.AddNativeBinding("memberFunction2", CreateBinding(&ExampleClass::ExampleFunction2));
+      state.AddNativeBinding("multiply", CreateBinding(&multiply));
+      auto value = VMInstance().InvokeFunction(state, "example", { VMValue{ 1234.567 }, VMValue{ 8775 }, VMValue{&exampleObject1} });
+      std::cout << "\nReturn value was: ";
+      printer(value);
       std::cout << "\n\n";
-    }
+    }  
+
+    QueryPerformanceCounter(&EndingTime);
+    ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
+    ElapsedMicroseconds.QuadPart *= 1000000;
+    ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
+
+    std::cout << "Time taken: " << ElapsedMicroseconds.QuadPart / 1000 << " milliseconds " << "\n";
 
   } catch (const std::exception &ex) {
     std::cout << "Exception: " << ex.what() << "\n";
   }
+
+
 
 
   std::cout << "Done executing\n";

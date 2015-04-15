@@ -1,9 +1,8 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/ByteCode.h"
 #include "VM/Core/VM.h"
-#include "VM/ScriptLoader/ScriptLoader.h"
-VMState::VMState(const std::string &path) {
-  LoadByteCodeFile(path);
+
+VMState::VMState() {
   VMInstance().RegisterVMState(this);
 }
 
@@ -32,13 +31,6 @@ void VMState::DoMove(VMState &rhs) {
 
 VMState::~VMState() {
   VMInstance().UnregisterVMState(this);
-}
-
-
-void VMState::LoadByteCodeFile(const std::string &path) {
-
-  ScriptLoader loader(*this, path);
-  loader.Load();
 }
 
 

@@ -1,0 +1,50 @@
+(statics foobar)
+
+(fn example ()
+  (locals function_name val)
+  (     
+    (setvalue val 25 )
+    (setvalue function_name "printer")
+    
+    # arithmetic, comparison testing
+    (invokenative function_name (* 2 (- 3.5 2 1))) 
+    (invokenative function_name (/ (+ val val) 4))
+    (invokenative function_name (= 5 (+ 4 1)))
+    
+    # testing statics
+    (setvalue foobar 123)
+    (invokenative function_name foobar)    
+    
+    # branching
+    (setvalue val 3)
+    (if (> 6 val) 
+      (
+        (invokenative function_name "\nThis is the true branch - it has several statements")
+        (invokenative function_name "6 is indeed greater than 3\n")
+      )
+      (
+        (invokenative function_name "\n6 appears to be less than 3...\n")
+      )
+    )  
+    
+    (if (= 4 5) 
+      ((invokenative function_name "This should not be printed\n"))
+      ((invokenative function_name "4 is not equal to 5, who knew\n"))
+    )  
+
+    (if (> 6 val) ((invokenative function_name "This is a if statement without false branch\n")))
+    
+    (if (< 6 val) ((invokenative function_name "This is another if statement without false branch - this should not be printed\n")))
+    
+    (invokenative function_name "End of the line")    
+    
+    (setvalue val 0)
+    (while (<= val 5) 
+      (
+        (invokenative function_name val)
+        (setvalue val (+ val 1))
+      )
+    )
+    
+  )
+)

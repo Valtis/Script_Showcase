@@ -96,7 +96,7 @@ public:
 
   std::string ToString() const;
 
-  ValueType GetType() {
+  ValueType GetType() const {
     return m_type;
   }
 

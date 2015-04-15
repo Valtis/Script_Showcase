@@ -1,0 +1,46 @@
+e = epsilon
+
+TOPLEVEL ::= STATICS FUNCTIONS
+STATICS ::= (statics IDENTIFIER_LIST) | e
+IDENTIFIER_LIST ::= identifier IDENTIFIER_LIST | e
+FUNCTIONS ::= FUNCTION FUNCTIONS | e
+FUNCTION ::= (fn identifier (IDENTIFIER_LIST) LOCALS (STATEMENTS))
+LOCALS ::= (locals IDENTIFIER_LIST) | e
+STATEMENTS ::= STATEMENT STATEMENTS | e  
+STATEMENT ::= EXPRESSION | IF_STATEMENT | COND_STATEMENT | WHILE_STATEMENT | ASSIGNMENT | RETURN
+RETURN ::= (return EXPRESSION|e)
+WHILE_STATEMENT ::= (while EXPRESSION (STATEMENTS))
+IF_STATEMENT = (if EXPRESSION (STATEMENTS) (STATEMENTS)|e)
+COND_STATEMENT(cond EXPRESSION_STATEMENT_PAIRS OPTIONAL_ELSE)
+EXPRESSION_STATEMENT_PAIRS ::= (EXPRESSION) STATEMENT EXPRESSION_STATEMENT_PAIRS | e
+OPTIONAL_ELSE ::= else expression | e
+ASSIGNMENT ::= setvalue identifier EXPRESSION
+EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION | AND_OR_EXPRESSION
+ARITHMETIC_EXPRESSION ::= (+|-|*|/|mod ARGUMENT_LIST) | MODULO_EXPRESSION
+NATIVE_INVOKATION ::= (invokenative string|identifier ARGUMENT_LIST)
+FUNCTION_CALL ::= (identifier ARGUMENT_LIST)
+LITERAL_OR_IDENTIFIER ::= identifier|number|string
+COMPARISON_EXPRESSION ::= (>=|>|=|<=|< EXPRESSION EXPRESSION)
+AND_OR_EXPRESSION ::= (or|and EXPRESSION EXPRESSION ARGUMENT_LIST)
+ARGUMENT_LIST ::= EXPRESSION ARGUMENT_LIST | e
+
+
+Identifier may start with lower or uppercase letter a - z or underscore. May contain the previous and numbers.
+String stars and ends with '"'-character. Escape sequences \n, \t, \\ and \" 
+
+
+Reserved words
+
+setvalue
+invokenative
+return
+if
+while
+statics
+locals
+
+
+Notes:
+
+if and while statements and AND_OR_EXPRESSION expect boolean values as expression; expressions resulting to other types will cause type error at runtime
+native invokation might not return value if the registered function has void return type. 

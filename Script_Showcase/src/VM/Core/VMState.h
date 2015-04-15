@@ -13,7 +13,7 @@ class VMFunction;
 class VMState {
 public:
 
-  VMState(const std::string &path);
+  VMState();
   VMState(const VMState &) = delete;
   VMState(VMState &&);
   VMState &operator=(const VMState &) = delete;

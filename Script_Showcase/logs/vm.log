@@ -1,13 +1,14 @@
-[2015.4.7 17:31:22] Opening new log file
+[2015.4.14 13:47:27] Opening new log file
 
-[17:31:22]  Error: 
-An error has occurred during script execution: Out of bounds array access: Array length: 10   Index: 4294967295   Access length: 1
+[13:47:27]  Error: 
+An error has occurred during script execution: TypeError: Expected Native pointer but was Integer
 	When executing script function 'example'
-	When executing instruction 'LOAD_ARRAY_INDEX'
-	With program counter value 19
+	When executing instruction 'INVOKE_NATIVE'
+	With program counter value 89
 
 Script stack:
 
+0: Native pointer: 0x0093F9A8
 
 
-[2015.4.7 17:31:25] Closing log file
+[2015.4.14 13:47:31] Closing log file

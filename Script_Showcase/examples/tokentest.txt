@@ -1,0 +1,21 @@
+
+
+>= <= + - * / < > = 
+abc/def-ghi ____ijk+lm0190n__
+if invokenative return setvalue foobar
+
+"this is a string"
+"this is a multiline
+
+string "
+
+"\tthis is a string\nwith \\escape \"sequences\"!"
+
+12345
+-12345
+
+9.234
+123d
+
+9.234f
+123f

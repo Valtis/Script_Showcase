@@ -9,22 +9,19 @@
 
 #include <map>
 
-const uint32_t stackSize = 4096;
-const uint32_t frameSize = 1024;
 VM::VM() {
   m_stack.reserve(stackSize);
   m_frames.reserve(frameSize);
 }
 
-// needs to be broken into smaller functions.
-VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> objects) {
+VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> arguments) {
   
   auto function = state.GetFunction(functionName);
   if (function == nullptr) {
     return{};
   }
 
-  InitializeVMForExecution(functionName, objects, function);
+  InitializeVMForExecution(functionName, arguments, function);
   
   try {
     Execute(state);
@@ -36,8 +33,13 @@ VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std:
 
 }
 
-void VM::InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> objects, const VMFunction *function)
+void VM::InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function)
 {
+  if (function->GetArgumentCount() != arguments.size()) {
+    throw std::runtime_error("Invalid argument count when invoking script function: " + std::to_string(arguments.size()) +
+      " arguments were provided but " + std::to_string(function->GetArgumentCount()) + " arguments were expected");
+  }
+
   m_stack.clear();
   m_frames.clear();
 
@@ -46,7 +48,7 @@ void VM::InitializeVMForExecution(const std::string & functionName, std::vector<
 
   m_frames.push_back(VMFrame{ function });
 
-  for (const auto &o : objects) {
+  for (const auto &o : arguments) {
     m_stack.push_back(o);
   }
 }
@@ -64,7 +66,15 @@ void VM::Execute(VMState &state) {
     case ByteCode::PUSH_INTEGER:
       Op::PushInteger(m_stack, m_frames);
       break;
-
+    case ByteCode::PUSH_FLOAT:
+      Op::PushFloat(m_stack, m_frames);
+      break;
+    case ByteCode::PUSH_DOUBLE:
+      Op::PushDouble(m_stack, m_frames);
+      break;
+    case ByteCode::PUSH_BOOLEAN:
+      Op::PushBoolean(m_stack, m_frames);
+      break;
     case ByteCode::LOAD_LOCAL:
       Op::LoadLocal(state, m_stack, m_frames);
       break;
@@ -83,6 +93,30 @@ void VM::Execute(VMState &state) {
     case ByteCode::STORE_ARRAY_INDEX:
       Op::StoreArrayIndex(m_stack);
       break;    
+    case ByteCode::IS_GREATER:   
+      Op::IsGreater(m_stack);
+      break;
+    case ByteCode::IS_GREATER_OR_EQ: 
+      Op::IsGreaterOrEq(m_stack);
+      break;
+    case ByteCode::IS_EQ: 
+      Op::IsEq(m_stack);
+      break;
+    case ByteCode::IS_LESS_OR_EQ: 
+      Op::IsLessOrEq(m_stack);
+      break;
+    case ByteCode::IS_LESS: 
+      Op::IsLess(m_stack);
+      break;
+    case ByteCode::JUMP:
+      Op::Jump(state, m_stack, m_frames);
+      break;
+    case ByteCode::JUMP_IF_TRUE: 
+      Op::JumpIfTrue(state, m_stack, m_frames);
+      break;
+    case ByteCode::JUMP_IF_FALSE: 
+      Op::JumpIfFalse(state, m_stack, m_frames);
+      break;
     case ByteCode::JUMP_IF_ZERO:
       Op::JumpIfZero(state, m_stack, m_frames);
       break;
@@ -92,10 +126,24 @@ void VM::Execute(VMState &state) {
     case ByteCode::JUMP_IF_POSITIVE:
       Op::JumpIfPositive(state, m_stack, m_frames);
       break;
+    case ByteCode::ADD:
+      Op::Add(m_stack);
+      break;
+    case ByteCode::SUB:
+      Op::Sub(m_stack);
+      break;
+    case ByteCode::MUL:
+      Op::Mul(m_stack);
+      break;
+    case ByteCode::DIV:
+      Op::Div(m_stack);
+      break;
+    case ByteCode::MOD:
+      Op::Mod(m_stack);
+      break;
     case ByteCode::ADD_INTEGER:
       Op::AddInteger(m_stack);
       break;
-    
     case ByteCode::SUB_INTEGER:
       Op::SubInteger(m_stack);
       break;    
@@ -105,14 +153,12 @@ void VM::Execute(VMState &state) {
     case ByteCode::DIV_INTEGER:
       Op::DivInteger(m_stack);
       break;
-
     case ByteCode::INVOKE_NATIVE:
       Op::InvokeNative(state, m_stack);
       break;
     case ByteCode::INVOKE_MANAGED:
       Op::InvokeManaged(state, m_stack, m_frames);
       break;
-
     case ByteCode::ALLOCATE_INTEGER_ARRAY:
       Op::AllocateIntegerArray(m_stack);
       break; 
@@ -127,7 +173,6 @@ void VM::Execute(VMState &state) {
         return;
       }
       break;
-    
     case ByteCode::NOP:
       break;
     default: 
