@@ -233,6 +233,6 @@ void MemoryManager::LogMemoryLayout() const {
 MemoryManager &MemMgrInstance() {
   // should probably read the values from ini or something; hard coded for now
   auto size = 1024 * 1024 * 32;
-  static MemoryManager manager(size, GCFactory::GetGC(CollectorType::CHENEY_HEMPISPACE_COLLECTOR, &VMInstance(), size));
+  static MemoryManager manager(size, GCFactory::GetGC(CollectorType::CHENEY_COLLECTOR, &VMInstance(), size));
   return manager;
 }

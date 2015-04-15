@@ -7,6 +7,7 @@
 #include "VM/Compiler/AST/DoubleNode.h"
 #include "VM/Compiler/AST/ElseNode.h"
 #include "VM/Compiler/AST/FloatNode.h"
+#include "VM/Compiler/AST/FunctionCallNode.h"
 #include "VM/Compiler/AST/FunctionNode.h"
 #include "VM/Compiler/AST/FunctionParameterListNode.h"
 #include "VM/Compiler/AST/IdentifierNode.h"
@@ -294,6 +295,9 @@ namespace Compiler {
         case TokenType::INVOKE_NATIVE:
           ParseInvokeNative(parent);
           break;
+        case TokenType::IDENTIFIER:
+          ParseFunctionCall(parent);
+          break;
         default:
           throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
             + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call, comparison or invokenative");
@@ -407,6 +411,21 @@ namespace Compiler {
     ParseExpression(andOrNode);
     ParseArgumentList(andOrNode);
     
+
+    Expect(TokenType::RPAREN);
+  }
+
+  void Parser::ParseFunctionCall(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::IDENTIFIER);
+    auto functionCallNode = std::make_shared<FunctionCallNode>();
+    functionCallNode->SetName((dynamic_cast<IdentifierToken *>(token))->GetValue());
+    functionCallNode->SetLine(token->GetLine());
+    functionCallNode->SetColumn(token->GetColumn());
+    parent->AddChild(functionCallNode);
+
+    ParseArgumentList(functionCallNode);
+
 
     Expect(TokenType::RPAREN);
   }
