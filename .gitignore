@@ -29,6 +29,7 @@
 
 # Visual studio files
 
+*.sdf
 Debug/
 Release/
 *.opensdf
