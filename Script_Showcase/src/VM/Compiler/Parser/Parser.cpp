@@ -4,6 +4,7 @@
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ArrayNode.h"
+#include "VM/Compiler/AST/ArrayLengthNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -311,9 +312,12 @@ namespace Compiler {
         case TokenType::READ_ARRAY:
           ParseReadArray(parent);
           break;
+        case TokenType::ARRAY_LENGTH:
+          ParseArrayLength(parent);
+          break;
         default:
           throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
-            + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call, comparison or invokenative");
+            + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call, comparison, array operation or invokenative");
       }
       return;
     } else {
@@ -562,7 +566,18 @@ namespace Compiler {
     Expect(TokenType::RPAREN);
   }
 
-  
+  void Parser::ParseArrayLength(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::ARRAY_LENGTH);
+    auto arrayLengthNode = std::make_shared<ArrayLengthNode>();
+    arrayLengthNode->SetLine(token->GetLine());
+    arrayLengthNode->SetColumn(token->GetColumn());
+    parent->AddChild(arrayLengthNode);
+    auto idtoken = Expect(TokenType::IDENTIFIER);
+    CreateIdentifierNode(arrayLengthNode, idtoken);
+    Expect(TokenType::RPAREN);
+  }
+
 
   Token *Parser::Peek() {
     if (m_position >= m_tokens.size()) {

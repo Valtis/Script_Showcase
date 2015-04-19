@@ -103,6 +103,9 @@ namespace Compiler {
       case TokenType::READ_ARRAY:
         token.reset(new ReadArrayToken(type, line, column));
         break;
+      case TokenType::ARRAY_LENGTH:
+        token.reset(new ArrayLengthToken(type, line, column));
+        break;
       default: 
         throw std::runtime_error("Unrecognized token type id " + std::to_string(static_cast<int>(type)));
       }

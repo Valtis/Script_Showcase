@@ -32,6 +32,7 @@ namespace Compiler {
     void ParseAllocateArray(std::shared_ptr<ASTNode> parent);
     void ParseWriteArray(std::shared_ptr<ASTNode> parent);
     void ParseReadArray(std::shared_ptr<ASTNode> parent);
+    void ParseArrayLength(std::shared_ptr<ASTNode> parent);
 
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);

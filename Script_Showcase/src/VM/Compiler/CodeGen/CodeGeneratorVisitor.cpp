@@ -2,6 +2,7 @@
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ArrayNode.h"
+#include "VM/Compiler/AST/ArrayLengthNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -131,6 +132,19 @@ namespace Compiler {
 
     children[0]->Accept(*this);
     m_current_function->AddByteCode(code);
+  }
+
+  void CodeGeneratorVisitor::Visit(ArrayLengthNode* node) {
+    auto children = node->GetChildren();
+    if (children.size() != 1) {
+      throw std::runtime_error("Invalid argument count for arraylength at" + node->GetPositionInfo());
+    }
+
+    for (auto child : children) {
+      child->Accept(*this);
+    }
+
+    m_current_function->AddByteCode(ByteCode::ARRAY_LENGTH);
   }
 
   void CodeGeneratorVisitor::Visit(ComparisonNode *node) {

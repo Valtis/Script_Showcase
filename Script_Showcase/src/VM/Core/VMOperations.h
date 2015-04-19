@@ -25,7 +25,8 @@ namespace Op {
 
   void LoadArrayIndex(std::vector<VMValue> &stack);
   void StoreArrayIndex(std::vector<VMValue> &stack);
-
+  void ArrayLength(std::vector<VMValue> &stack);
+  
   void AddInteger(std::vector<VMValue> &stack);
   void SubInteger(std::vector<VMValue> &stack);
   void MulInteger(std::vector<VMValue> &stack);

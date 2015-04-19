@@ -16,6 +16,7 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::LOAD_LOCAL:  return "LOAD_LOCAL";
     case ByteCode::STORE_ARRAY_INDEX: return "STORE_ARRAY_INDEX";
     case ByteCode::LOAD_ARRAY_INDEX: return "LOAD_ARRAY_INDEX";
+    case ByteCode::ARRAY_LENGTH: return "ARRAY_LENGTH";
     case ByteCode::INVOKE_NATIVE: return "INVOKE_NATIVE";
     case ByteCode::INVOKE_MANAGED: return "INVOKE_MANAGED";    
     case ByteCode::ADD: return "ADD";

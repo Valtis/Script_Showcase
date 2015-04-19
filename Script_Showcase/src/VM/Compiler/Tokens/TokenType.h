@@ -34,7 +34,8 @@ namespace Compiler {
     INVOKE_NATIVE,
     INTEGER_ARRAY,
     READ_ARRAY,
-    WRITE_ARRAY
+    WRITE_ARRAY,
+    ARRAY_LENGTH
   };
 
   std::string TokenName(TokenType type);

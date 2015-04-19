@@ -68,6 +68,8 @@ namespace Compiler {
       return "writearray";
     case TokenType::READ_ARRAY:
       return "readarray";
+    case TokenType::ARRAY_LENGTH:
+      return "arraylength";
     default:
       return "Token string representation not found";
     }

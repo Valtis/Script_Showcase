@@ -86,7 +86,10 @@ void VM::Execute(VMState &state) {
       break;
     case ByteCode::STORE_ARRAY_INDEX:
       Op::StoreArrayIndex(m_stack);
-      break;    
+      break;
+    case ByteCode::ARRAY_LENGTH:
+      Op::ArrayLength(m_stack);
+      break;
     case ByteCode::IS_GREATER:   
       Op::IsGreater(m_stack);
       break;

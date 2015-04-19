@@ -31,6 +31,7 @@ namespace Compiler {
     m_keyWords["integerarray"] = TokenType::INTEGER_ARRAY;
     m_keyWords["writearray"] = TokenType::WRITE_ARRAY;
     m_keyWords["readarray"] = TokenType::READ_ARRAY;
+    m_keyWords["arraylength"] = TokenType::ARRAY_LENGTH;
 
   }
 

@@ -347,5 +347,8 @@
     <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

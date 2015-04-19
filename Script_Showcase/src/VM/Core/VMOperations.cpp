@@ -5,6 +5,7 @@
 #include "VM/Core/VMFunction.h"
 #include "VM/FFI/ConversionFunctions.h"
 #include "VM/Memory/MemoryManager.h"
+#include <array>
 
 
 namespace Op {
@@ -160,6 +161,12 @@ namespace Op {
     }
 
     MemMgrInstance().WriteToArrayIndex(array, value.ValuePointer(), index.AsInt(), 1);
+  }
+
+  void ArrayLength(std::vector<VMValue>& stack) {
+    auto array = PopValue(stack);
+    PushValue(VMValue{ static_cast<int32_t>(MemMgrInstance().GetArrayLength(array)) }, stack);
+
   }
 
   void AddInteger(std::vector<VMValue> &stack) {
