@@ -1,5 +1,5 @@
 #include <iostream>
-#include "VM/Utility/LoggerManager.h"
+#include "Utility/LoggerManager.h"
 #include "VM/Core/VM.h"
 #include "VM/Core/VMState.h"
 #include "VM/Core/VMValue.h"

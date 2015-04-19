@@ -1,5 +1,6 @@
-#include "VM/Utility/Logger.h"
+
 #include <ctime>
+#include "Utility/Logger.h"
 
 
 Logger::Logger(std::string fileName, LogLevel loggingLevel) : m_loggingLevel(loggingLevel), m_addTimeStamps(false), m_logFile()

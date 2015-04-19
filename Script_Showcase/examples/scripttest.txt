@@ -9,6 +9,25 @@
   )
 )
 
+(fn factorialImpl(mul acc)
+  (
+    (if (<= mul 1) 
+      (
+        (return acc)
+      ) 
+      (
+        (return (factorialImpl (- mul 1) (* acc mul)))
+      )
+    )
+  )
+)
+
+(fn factorial (initial)
+  (
+    (return (factorialImpl initial 1))
+  )
+)
+
 (fn example (float_param int_param native_object_param)
   (locals counter)
   (
@@ -20,7 +39,7 @@
       )
     )
     
-    (return counter)
+    (return (factorial 5))
   )
 )
 

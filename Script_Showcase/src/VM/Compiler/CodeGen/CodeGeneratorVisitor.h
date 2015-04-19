@@ -43,6 +43,8 @@ namespace Compiler {
     
     std::unordered_map <std::string, size_t> m_staticsNameMap;
     std::unordered_map <std::string, size_t> m_functionNameMap;
+    std::unordered_map <std::string, size_t> m_functionNameArgCountMap;
+
     std::unordered_map<std::string, size_t> m_localsNameMap;
     std::shared_ptr<VMFunction> m_current_function;
   };

@@ -1,5 +1,5 @@
 #include "VM/Memory/CheneyCollector.h"
-#include "VM/Utility/LoggerManager.h"
+#include "Utility/LoggerManager.h"
 #include <cassert>
 
 CheneyCollector::CheneyCollector(uint32_t heapSize, RootSetProvider *provider) : m_provider(provider) {

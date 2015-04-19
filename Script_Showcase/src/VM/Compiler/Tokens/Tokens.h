@@ -75,6 +75,7 @@ namespace Compiler {
     TOKEN_WITH_NO_VALUE(FunctionToken)
     TOKEN_WITH_NO_VALUE(StaticsToken)
     TOKEN_WITH_NO_VALUE(LocalsToken)
+    TOKEN_WITH_NO_VALUE(IntegerArrayToken)
 
     TOKEN_WITH_STRING(IdentifierToken);
     TOKEN_WITH_STRING(StringToken);

@@ -62,6 +62,8 @@ namespace Compiler {
       return "return";
     case TokenType::INVOKE_NATIVE:
       return "invoke_native";
+    case TokenType::INTEGER_ARRAY:
+      return "integer_array";
     default:
       return "Token string representation not found";
     }

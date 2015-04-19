@@ -94,7 +94,9 @@ namespace Compiler {
       case TokenType::STATICS:
         token.reset(new StaticsToken(type, line, column));
         break; 
-
+      case TokenType::INTEGER_ARRAY:
+        token.reset(new IntegerArrayToken(type, line, column));
+        break;
       default: 
         throw std::runtime_error("Unrecognized token type id " + std::to_string(static_cast<int>(type)));
       }

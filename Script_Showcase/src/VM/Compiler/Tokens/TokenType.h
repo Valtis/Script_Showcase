@@ -32,6 +32,7 @@ namespace Compiler {
     WHILE,
     RETURN,
     INVOKE_NATIVE,
+    INTEGER_ARRAY
   };
 
   std::string TokenName(TokenType type);

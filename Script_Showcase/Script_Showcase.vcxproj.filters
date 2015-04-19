@@ -40,9 +40,6 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{d0f350f3-850b-4aaa-911f-feacbf33fd5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\VM\Utility">
-      <UniqueIdentifier>{13f2640d-1fc9-4e53-8454-981b788b2465}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\VM\Compiler">
       <UniqueIdentifier>{49e6c544-b42e-4f8e-8d15-fdfe0b58b6f2}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="Header Files\VM\Compiler\CodeGen">
       <UniqueIdentifier>{422ea60a-a4ee-4ad4-b630-3a18105e2f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{13f2640d-1fc9-4e53-8454-981b788b2465}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,15 +129,6 @@
     <ClCompile Include="src\VM\Core\VMValue.cpp">
       <Filter>Source Files\VM\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\VM\Utility\Logger.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VM\Utility\LoggerManager.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VM\Utility\StringUtility.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\VM\Compiler\Compiler.cpp">
       <Filter>Source Files\VM\Compiler</Filter>
     </ClCompile>
@@ -170,6 +161,15 @@
     </ClCompile>
     <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp">
       <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Logger.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\LoggerManager.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\StringUtility.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,18 +226,6 @@
     </ClInclude>
     <ClInclude Include="src\VM\Core\VMValue.h">
       <Filter>Header Files\VM\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\Utility\Logger.h">
-      <Filter>Header Files\VM\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\Utility\LoggerManager.h">
-      <Filter>Header Files\VM\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\Utility\Logs.h">
-      <Filter>Header Files\VM\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VM\Utility\StringUtility.h">
-      <Filter>Header Files\VM\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\Compiler.h">
       <Filter>Header Files\VM\Compiler</Filter>
@@ -340,6 +328,18 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\AST\FunctionCallNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Logger.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\LoggerManager.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Logs.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\StringUtility.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

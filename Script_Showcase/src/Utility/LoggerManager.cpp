@@ -1,4 +1,4 @@
-#include "VM/Utility/LoggerManager.h"
+#include "Utility/LoggerManager.h"
 
 std::string LoggerManager::m_logFolder = "";
 std::unordered_map<std::string, std::unique_ptr<Logger>> LoggerManager::m_logs;

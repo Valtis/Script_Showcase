@@ -1,7 +1,7 @@
 #include "VM/Core/VM.h"
 #include "VM/Memory/MemoryManager.h"
 #include "VM/Memory/GCFactory.h"
-#include "VM/Utility/LoggerManager.h"
+#include "Utility/LoggerManager.h"
 #include <string>
 #ifdef _MSC_VER
 // for performance counter

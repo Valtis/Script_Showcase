@@ -220,14 +220,17 @@ namespace Compiler {
 
   void CodeGeneratorVisitor::Visit(FunctionCallNode *node) {
     auto children = node->GetChildren();
-    auto function = m_state.GetFunction(node->GetName());
-    if (function == nullptr) {
+    if (m_functionNameMap.find(node->GetName()) == m_functionNameMap.end()) {
       throw std::runtime_error("Usage of undeclared function " + node->GetName() + " at " + node->GetPositionInfo());
     }
 
-    if (function->GetArgumentCount() != children.size()) {
+    if (m_functionNameArgCountMap.find(node->GetName()) == m_functionNameArgCountMap.end()) {
+      throw std::logic_error("Internal compiler error. No argument count recorded for function " + node->GetName());
+    }
+
+    if (m_functionNameArgCountMap[node->GetName()] != children.size()) {
       throw std::runtime_error("Invalid argument count for " + node->GetName() + ". Expected " +
-        std::to_string(function->GetArgumentCount()) + " parameters but " + std::to_string(children.size()) + " was given");
+        std::to_string(m_functionNameArgCountMap[node->GetName()]) + " parameters but " + std::to_string(children.size()) + " was given");
     }
     
 
@@ -266,6 +269,7 @@ namespace Compiler {
   void CodeGeneratorVisitor::Visit(FunctionParameterListNode *node) {
     auto children = node->GetChildren();
     m_current_function->SetArgumentCount(children.size());
+    m_functionNameArgCountMap[m_current_function->GetName()] = children.size();
     LocalVariableHelper(node);
 
     for (size_t i = 0; i < children.size(); ++i) {
@@ -391,6 +395,7 @@ namespace Compiler {
       }
       m_functionNameMap[name] = id++;
     }
+
     // and then actually handle the functions
     for (size_t i = 1; i < children.size(); ++i) {
       m_current_function = std::make_shared<VMFunction>();

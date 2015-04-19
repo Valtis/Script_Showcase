@@ -1,13 +1,7 @@
 #include "VM/Core/VMOperations.h"
 #include "VM/Core/VM.h"
 #include "VM/Core/VMState.h"
-#include "VM/Memory/MemoryManager.h"
-#include "VM/Utility/LoggerManager.h"
-
-#include "VM/FFI/ConversionFunctions.h"
-#include "VM/FFI/NativeBinding.h"
-
-#include <map>
+#include "Utility/LoggerManager.h"
 
 VM::VM() {
   m_stack.reserve(stackSize);

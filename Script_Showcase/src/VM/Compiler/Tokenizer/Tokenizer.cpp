@@ -28,6 +28,7 @@ namespace Compiler {
     m_keyWords["locals"] = TokenType::LOCALS;
     m_keyWords["fn"] = TokenType::FUNCTION;
 
+    m_keyWords["integerarray"] = TokenType::INTEGER_ARRAY;
 
   }
 

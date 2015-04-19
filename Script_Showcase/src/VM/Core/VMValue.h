@@ -11,7 +11,6 @@ uint32_t TypeSize(ValueType type);
 std::string TypeToString(ValueType t);
 
 
-// FIXME: Change naming convention to fit the rest of the project
 class VMValue {
 public:
 
