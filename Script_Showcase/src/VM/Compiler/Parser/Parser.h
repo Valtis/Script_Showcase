@@ -6,7 +6,7 @@ namespace Compiler {
   class ASTNode;
   class Parser {
   public:
-    Parser(std::vector<std::unique_ptr<Token>> tokens);
+    explicit Parser(std::vector<std::unique_ptr<Token>> tokens);
     std::shared_ptr<ASTNode> Parse();
 
   private: 
@@ -28,7 +28,11 @@ namespace Compiler {
     void ParseAndOrExpression(std::shared_ptr<ASTNode> parent);
     void ParseFunctionCall(std::shared_ptr<ASTNode> parent);
     void ParseArgumentList(std::shared_ptr<ASTNode> parent);
-    
+    void CreateIdentifierNode(std::shared_ptr<ASTNode> parent, Token* token);
+    void ParseAllocateArray(std::shared_ptr<ASTNode> parent);
+    void ParseWriteArray(std::shared_ptr<ASTNode> parent);
+    void ParseReadArray(std::shared_ptr<ASTNode> parent);
+
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);
     

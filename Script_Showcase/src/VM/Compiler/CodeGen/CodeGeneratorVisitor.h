@@ -15,6 +15,7 @@ namespace Compiler {
     void AndOrHelper(ASTNode *node, ByteCode jumpInstructionAfterConditionEvaluation, bool returnValueIfAllPass);
     void Visit(AndNode *node) override;
     void Visit(ArithmeticNode *node) override;
+    void Visit(ArrayNode *node) override;
     void Visit(ComparisonNode *node) override;
     void Visit(CondNode *node) override;
     void Visit(DoubleNode *node) override;
@@ -29,12 +30,14 @@ namespace Compiler {
     void Visit(InvokeNativeNode *node) override;
     void Visit(LocalsNode *node) override;
     void Visit(OrNode *node) override;
+    void Visit(ReadArrayNode *node) override;
     void Visit(ReturnNode *node) override;
     void Visit(RootNode *node) override;
     void Visit(SetValueNode *node) override;
     void Visit(StaticsNode *node) override;
     void Visit(StringNode *node) override;
     void Visit(WhileNode *node) override;
+    void Visit(WriteArrayNode * node) override;
 
   private:
     VMState m_state;

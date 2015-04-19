@@ -1,13 +1,19 @@
-[2015.4.15 22:02:40] Opening new log file
+[2015.4.20 00:34:52] Opening new log file
 
-[22:02:40]  Error: 
-An error has occurred during script execution: Stack underflow
-	When executing script function 'example'
-	When executing instruction 'INVOKE_NATIVE'
-	With program counter value 85
+[00:34:52]  Error: 
+An error has occurred during script execution: Out of bounds array access: Array length: 10   Index: 4294967295   Access length: 1
+	When executing script function 'printarray'
+	When executing instruction 'LOAD_ARRAY_INDEX'
+	With program counter value 22
+
+		Called from script function 'sorting'
+		With program counter value 13
+
+		Called from script function 'example'
+		With program counter value 8
 
 Script stack:
 
 
 
-[2015.4.15 22:02:43] Closing log file
+[2015.4.20 00:34:56] Closing log file

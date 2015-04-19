@@ -140,8 +140,8 @@ namespace Op {
   }
 
   void LoadArrayIndex(std::vector<VMValue> &stack) {
-    auto array = PopValue(stack);
     auto index = PopValue(stack);
+    auto array = PopValue(stack);
     auto type = MemMgrInstance().GetArrayType(array);
 
     VMValue value{ type };
@@ -150,9 +150,9 @@ namespace Op {
   }
 
   void StoreArrayIndex(std::vector<VMValue> &stack) {
-    auto array = PopValue(stack);
-    auto index = PopValue(stack);
     auto value = PopValue(stack);
+    auto index = PopValue(stack); 
+    auto array = PopValue(stack);
     auto type = MemMgrInstance().GetArrayType(array);
     if (type != value.GetType()) {
       throw std::runtime_error("Array type and value type mismatch: Array is of type " + TypeToString(type) + " and value is of type " +
@@ -241,6 +241,10 @@ namespace Op {
   void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto function = state.GetFunction(index);
+
+    if (frames.size() == frameSize) {
+      throw std::runtime_error("Maximum number of frames reached - stack overflow");
+    }
     frames.push_back(function);
   }
 

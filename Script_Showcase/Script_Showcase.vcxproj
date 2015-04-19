@@ -65,12 +65,14 @@
     <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\OrNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ReturnNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\WhileNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />

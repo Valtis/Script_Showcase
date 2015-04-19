@@ -1,6 +1,7 @@
 #include "VM/Compiler/CodeGen/CodeGeneratorVisitor.h"
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
+#include "VM/Compiler/AST/ArrayNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -15,12 +16,14 @@
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/OrNode.h"
+#include "VM/Compiler/AST/ReadArrayNode.h"
 #include "VM/Compiler/AST/ReturnNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
 #include "VM/Compiler/AST/StringNode.h"
 #include "VM/Compiler/AST/WhileNode.h"
+#include "VM/Compiler/AST/WriteArrayNode.h"
 
 #include "VM/Core/ByteCode.h"
 #include "VM/Core/VMValue.h"
@@ -109,6 +112,25 @@ namespace Compiler {
       m_current_function->AddByteCode(operation);
 
     }
+  }
+  
+  void CodeGeneratorVisitor::Visit(ArrayNode * node) {
+    auto children = node->GetChildren();
+    if (children.size() != 1) {
+      throw std::runtime_error("Invalid argument count for array allocation at " + node->GetPositionInfo());
+    }
+
+    ByteCode code;
+    switch (node->GetType()) {
+    case TokenType::INTEGER_ARRAY:
+      code = ByteCode::ALLOCATE_INTEGER_ARRAY;
+      break;
+    default:
+      throw std::logic_error("Internal compiler error: Invalid type with array node");
+    }
+
+    children[0]->Accept(*this);
+    m_current_function->AddByteCode(code);
   }
 
   void CodeGeneratorVisitor::Visit(ComparisonNode *node) {
@@ -371,6 +393,19 @@ namespace Compiler {
 
   }
 
+  void CodeGeneratorVisitor::Visit(ReadArrayNode* node) {
+    auto children = node->GetChildren();
+    if (children.size() != 2) {
+      throw std::runtime_error("Invalid argument count for arrayread at" + node->GetPositionInfo());
+    }
+
+    for (auto child : children) {
+      child->Accept(*this);
+    }
+
+    m_current_function->AddByteCode(ByteCode::LOAD_ARRAY_INDEX);
+  }
+
   void CodeGeneratorVisitor::Visit(ReturnNode* node) {
     auto children = node->GetChildren();
     for (auto child : children) {
@@ -497,5 +532,17 @@ namespace Compiler {
   
   }
 
-  
+  void CodeGeneratorVisitor::Visit(WriteArrayNode* node) {
+    auto children = node->GetChildren();
+    if (children.size() != 3) {
+      throw std::runtime_error("Invalid argument count for arraywrite at" + node->GetPositionInfo());
+    }
+
+    for (auto child : children) {
+      child->Accept(*this);
+    }
+
+    m_current_function->AddByteCode(ByteCode::STORE_ARRAY_INDEX);
+  }
+
 }

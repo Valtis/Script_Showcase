@@ -341,5 +341,11 @@
     <ClInclude Include="src\Utility\StringUtility.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

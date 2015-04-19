@@ -61,9 +61,13 @@ namespace Compiler {
     case TokenType::RETURN:
       return "return";
     case TokenType::INVOKE_NATIVE:
-      return "invoke_native";
+      return "invokenative";
     case TokenType::INTEGER_ARRAY:
-      return "integer_array";
+      return "integerarray";
+    case TokenType::WRITE_ARRAY:
+      return "writearray";
+    case TokenType::READ_ARRAY:
+      return "readarray";
     default:
       return "Token string representation not found";
     }

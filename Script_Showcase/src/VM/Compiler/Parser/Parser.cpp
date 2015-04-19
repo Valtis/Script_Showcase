@@ -1,7 +1,9 @@
 #include "VM/Compiler/Parser/Parser.h"
 #include "VM/Compiler/Tokens/Tokens.h"
+
 #include "VM/Compiler/AST/AndNode.h"
 #include "VM/Compiler/AST/ArithmeticNode.h"
+#include "VM/Compiler/AST/ArrayNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -16,12 +18,14 @@
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
 #include "VM/Compiler/AST/OrNode.h"
+#include "VM/Compiler/AST/ReadArrayNode.h"
 #include "VM/Compiler/AST/ReturnNode.h"
 #include "VM/Compiler/AST/RootNode.h"
 #include "VM/Compiler/AST/SetValueNode.h"
 #include "VM/Compiler/AST/StaticsNode.h"
 #include "VM/Compiler/AST/StringNode.h"
 #include "VM/Compiler/AST/WhileNode.h"
+#include "VM/Compiler/AST/WriteArrayNode.h"
 
 
 namespace Compiler {
@@ -298,6 +302,15 @@ namespace Compiler {
         case TokenType::IDENTIFIER:
           ParseFunctionCall(parent);
           break;
+        case TokenType::INTEGER_ARRAY:
+          ParseAllocateArray(parent);
+          break;
+        case TokenType::WRITE_ARRAY:
+          ParseWriteArray(parent);
+          break;
+        case TokenType::READ_ARRAY:
+          ParseReadArray(parent);
+          break;
         default:
           throw std::runtime_error("Unexpected token " + innerToken->ToString() + " at "
             + GetTokenPositionInfo(innerToken) + ". Expected arithmetic expression, function call, comparison or invokenative");
@@ -445,17 +458,21 @@ namespace Compiler {
     }
   }
 
+  void Parser::CreateIdentifierNode(std::shared_ptr<ASTNode> parent, Token* token) {
+    auto identifier = std::make_shared<IdentifierNode>();
+    identifier->SetLine(token->GetLine());
+    identifier->SetColumn(token->GetColumn());
+    identifier->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());
+    parent->AddChild(identifier);
+  }
+
   void Parser::ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent) {
     auto token = ExpectOneOf({TokenType::IDENTIFIER, TokenType::STRING, TokenType::INTEGER_NUMBER,
       TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER });
     switch (token->GetType()) {
       case TokenType::IDENTIFIER:
       {
-        auto identifier = std::make_shared<IdentifierNode>();
-        identifier->SetLine(token->GetLine());
-        identifier->SetColumn(token->GetColumn());
-        identifier->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());
-        parent->AddChild(identifier);
+        CreateIdentifierNode(parent, token);
       }
       break;
 
@@ -501,6 +518,51 @@ namespace Compiler {
           ". Expected literal or identifier");
     }
   }
+
+
+  void Parser::ParseAllocateArray(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = ExpectOneOf({TokenType::INTEGER_ARRAY});
+    
+    auto arrayNode = std::make_shared<ArrayNode>();
+    arrayNode->SetLine(token->GetLine());
+    arrayNode->SetColumn(token->GetColumn());
+    arrayNode->SetType(token->GetType());
+
+    parent->AddChild(arrayNode);
+    ParseExpression(arrayNode);
+    Expect(TokenType::RPAREN);
+  }
+
+  void Parser::ParseWriteArray(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::WRITE_ARRAY);
+    auto writeNode = std::make_shared<WriteArrayNode>();
+    writeNode->SetLine(token->GetLine());
+    writeNode->SetColumn(token->GetColumn());
+    parent->AddChild(writeNode);
+    auto idtoken = Expect(TokenType::IDENTIFIER);
+    CreateIdentifierNode(writeNode, idtoken);
+    ParseExpression(writeNode);
+    ParseExpression(writeNode);
+
+    Expect(TokenType::RPAREN);
+  }
+
+  void Parser::ParseReadArray(std::shared_ptr<ASTNode> parent) {
+    Expect(TokenType::LPAREN);
+    auto token = Expect(TokenType::READ_ARRAY);
+    auto readNode = std::make_shared<ReadArrayNode>();
+    readNode->SetLine(token->GetLine());
+    readNode->SetColumn(token->GetColumn());
+    parent->AddChild(readNode);
+    auto idtoken = Expect(TokenType::IDENTIFIER);
+    CreateIdentifierNode(readNode, idtoken);
+    ParseExpression(readNode);
+    Expect(TokenType::RPAREN);
+  }
+
+  
 
   Token *Parser::Peek() {
     if (m_position >= m_tokens.size()) {

@@ -21,6 +21,7 @@ void printer(VMValue value) {
     case ValueType::DOUBLE: printf("%f",value.AsDouble()); break;
     case ValueType::FLOAT: printf("%f", value.AsFloat()); break;
     case ValueType::INT: printf("%d", value.AsInt()); break;
+    case ValueType::UNINITIALIZED:
     case ValueType::MANAGED_POINTER:
     case ValueType::NATIVE_POINTER:
       std::cout << value.ToString();
