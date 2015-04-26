@@ -23,7 +23,7 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::SUB: return "SUB";
     case ByteCode::MUL:return "MUL";
     case ByteCode::DIV: return "DIV";
-    case ByteCode::MOD: return "DIV";
+    case ByteCode::MOD: return "MOD";
     case ByteCode::ADD_INTEGER: return "ADD_INTEGER";
     case ByteCode::SUB_INTEGER: return "SUB_INTEGER";
     case ByteCode::MUL_INTEGER: return "MUL_INTEGER";
