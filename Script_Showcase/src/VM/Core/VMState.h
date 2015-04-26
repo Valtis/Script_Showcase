@@ -19,11 +19,12 @@ public:
   VMState &operator=(const VMState &) = delete;
   VMState &operator=(VMState &&);
   ~VMState();
-  void LoadByteCodeFile(const std::string &path);
 
   size_t AddFunction(VMFunction function);
   const VMFunction *GetFunction(uint32_t index) const; 
+  uint32_t GetFunctionID(const std::string &name) const;
   const VMFunction *GetFunction(const std::string &name) const;
+  const std::vector<VMFunction> &GetFunctions() const;
 
   void SetStaticObject(uint32_t index, VMValue value);
   VMValue GetStaticObject(uint32_t index) const;
@@ -34,7 +35,6 @@ public:
   void AddNativeBinding(const std::string &name, NativeBinding binding);
 
   size_t GetStaticObjectCount() const;
-
 private:
   std::unordered_map<std::string, size_t> m_functioNameToIndexMapping;
   std::vector<VMFunction> m_functions;

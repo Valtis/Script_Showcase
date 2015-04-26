@@ -79,6 +79,12 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{13f2640d-1fc9-4e53-8454-981b788b2465}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VM\Compiler\ByteCodePrinter">
+      <UniqueIdentifier>{97ec85df-a667-41a1-a892-e95b076870b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\ByteCodePrinter">
+      <UniqueIdentifier>{f3995ee4-09f3-4c8a-acdf-07fa99c03932}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="src\Utility\StringUtility.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp">
+      <Filter>Source Files\VM\Compiler\ByteCodePrinter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h">
+      <Filter>Header Files\VM\Compiler\ByteCodePrinter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

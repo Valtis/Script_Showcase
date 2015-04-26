@@ -2,7 +2,7 @@
 #include "VM/Compiler/Tokenizer/Tokenizer.h"
 #include "VM/Compiler/Parser/Parser.h"
 #include "VM/Compiler/CodeGen/CodeGenerator.h"
-
+#include "VM/Compiler/ByteCodePrinter/ByteCodePrinter.h"
 namespace Compiler {
   VMState Compile(const std::string &path) {
     Tokenizer tokenizer;
@@ -11,7 +11,10 @@ namespace Compiler {
     Parser parser(std::move(tokens));
     auto node = parser.Parse();
 
-    return GenerateCode(node);
+    auto state = GenerateCode(node);
 
+    ByteCodePrinter printer;
+    printer.PrintByteCode(state, path);
+    return state;
   }
 }

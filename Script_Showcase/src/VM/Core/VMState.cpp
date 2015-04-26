@@ -52,6 +52,16 @@ const VMFunction *VMState::GetFunction(uint32_t index) const
   }
 }
 
+uint32_t VMState::GetFunctionID(const std::string& name) const {
+  if (m_functioNameToIndexMapping.find(name) == m_functioNameToIndexMapping.end()) {
+    throw std::runtime_error("Unable to find function name to id mapping for function " + name);
+  }
+
+  return std::distance(m_functioNameToIndexMapping.begin(), m_functioNameToIndexMapping.find(name));
+}
+
+
+
 const VMFunction *VMState::GetFunction(const std::string &name) const
 {
   auto it = m_functioNameToIndexMapping.find(name);
@@ -61,6 +71,9 @@ const VMFunction *VMState::GetFunction(const std::string &name) const
   return GetFunction(it->second);
 }
 
+const std::vector<VMFunction> &VMState::GetFunctions() const {
+  return m_functions;
+}
 void VMState::SetStaticObject(uint32_t index, VMValue value) {
   m_static_objects.at(index) = value;
 }
@@ -93,3 +106,4 @@ void VMState::AddNativeBinding(const std::string &name, NativeBinding binding) {
 size_t VMState::GetStaticObjectCount() const {
   return m_static_objects.size();
 }
+

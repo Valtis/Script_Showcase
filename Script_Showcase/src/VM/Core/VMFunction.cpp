@@ -26,7 +26,7 @@ std::string VMFunction::GetName() const {
   return m_name;
 }
 
-size_t VMFunction::GetByteCodeCount() {
+size_t VMFunction::GetByteCodeCount() const {
   return m_bytecode.size();
 }
 void VMFunction::SetLocalCount(size_t locals) {

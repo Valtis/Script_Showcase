@@ -13,7 +13,7 @@ public:
   ByteCode GetByteCode(uint32_t pos) const;
 
   void ChangeByteCode(size_t index, ByteCode code);
-  size_t GetByteCodeCount();
+  size_t GetByteCodeCount() const;
   
   void SetLocalCount(size_t locals);
   size_t GetLocalCount() const;

@@ -453,7 +453,9 @@ namespace Compiler {
 
       children[i]->Accept(*this);
 
-      m_current_function->AddByteCode(ByteCode::RETURN);
+      if (m_current_function->GetByteCode(m_current_function->GetByteCodeCount() - 1) != ByteCode::RETURN) {
+        m_current_function->AddByteCode(ByteCode::RETURN);
+      }
       // check that compiler generated id actually matches the id that VMState chose. Should only fail if
       // implementation is changed. (TODO: Let the compiler decide the id?)
       if (m_state.AddFunction(*m_current_function) != m_functionNameMap[m_current_function->GetName()]) {

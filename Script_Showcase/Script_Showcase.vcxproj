@@ -17,6 +17,7 @@
     <ClCompile Include="src\Utility\StringUtility.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
     <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
+    <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
     <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\WhileNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h" />
+    <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />

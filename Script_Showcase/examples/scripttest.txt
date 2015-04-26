@@ -76,15 +76,10 @@
   (
     (setvalue temp (readarray array a))
     (writearray array a (readarray array b))
-    (writearray array b temp)
-  )
-)
+    (writearray array b temp)))
 
 (fn getpivotindex (array left right) 
-  (
-    (return left)
-  )
-)
+  ((return left)))
 
 (fn partition (array left right)
   (locals pivot pivotindex storeindex)
@@ -105,9 +100,8 @@
       )
     )
     (swap array storeindex right)
-    (return storeindex)
-  )
-)
+    (return storeindex)))
+    
 (fn quicksort (array left right) 
   (locals p)
   (
@@ -115,17 +109,11 @@
       (
         (setvalue p (partition array left right))
         (quicksort array left p)
-        (quicksort array (+ p 1) right)
-      )
-    )
-  )
-)
+        (quicksort array (+ p 1) right)))))
 
 (fn sortarray (array) 
   (
-    (quicksort array 0 (- (arraylength array ) 1))
-  )
-)
+    (quicksort array 0 (- (arraylength array ) 1))))
 
 (fn sorting ()
   (locals array)
@@ -136,14 +124,13 @@
     (printarray array)
     (sortarray array)
     (invokenative "printer" "\nAfter sorting\n")
-    (printarray array)  
-  )
-)
+    (printarray array)))
 
 (fn example (float_param int_param native_object_param)
   (locals counter)
   (
     #(fizzbuzz)
     (sorting)
+    (return (+ 123.4 1234.5f))
   )
 )
