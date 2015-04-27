@@ -453,7 +453,7 @@ namespace Compiler {
 
       children[i]->Accept(*this);
 
-      if (m_current_function->GetByteCode(m_current_function->GetByteCodeCount() - 1) != ByteCode::RETURN) {
+      if (children.size() > 0 && dynamic_cast<ReturnNode *>(children.back()) == nullptr) {
         m_current_function->AddByteCode(ByteCode::RETURN);
       }
       // check that compiler generated id actually matches the id that VMState chose. Should only fail if

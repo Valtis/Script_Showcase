@@ -1,136 +1,22 @@
 
-(fn print_fizz_buzz (counter) 
+
+
+(fn argumentFunc (a b) 
   (
-    (cond (= (mod counter 15) 0) ((invokenative "printer" "fizzbuzz"))
-              (= (mod counter 3) 0) ((invokenative "printer" "fizz"))
-              (= (mod counter 5) 0) ((invokenative "printer" "buzz"))
-              else ((invokenative "printer" counter))
-        )
+    (invokenative "printer" "my arguments:")
+    (invokenative "printer" a)
+    (invokenative "printer" b)
   )
 )
 
-(fn fizzbuzz ()
-  (locals counter) 
+(fn caller (func)
   (
-    (setvalue counter 1)
-    (while (>= 20 counter) 
-      (
-        (print_fizz_buzz counter)
-        (setvalue counter (+ counter 1))
-      )
-    )
+    (func "first arg" "second arg")
   )
 )
 
-(fn factorialImpl(mul acc)
+(fn main (a b c)
   (
-    (if (<= mul 1) 
-      (
-        (return acc)
-      ) 
-      (
-        (return (factorialImpl (- mul 1) (* acc mul)))
-      )
-    )
-  )
-)
-
-(fn factorial (initial)
-  (
-    (return (factorialImpl initial 1))
-  )
-)
-
-(fn initializearray (array)
-  (locals )
-  ( 
-    (writearray array 0 39)
-    (writearray array 1 10)
-    (writearray array 2 35)
-    (writearray array 3 20)
-    (writearray array 4 50)
-    (writearray array 5 70)
-    (writearray array 6 31)
-    (writearray array 7 71)
-    (writearray array 8 20)
-    (writearray array 9 1)
-  )
-)
-
-(fn printarray (array) 
-  (locals length index)
-  (
-    (setvalue length (arraylength array))
-    (setvalue index 0)
-    (while (< index length)
-      (
-        (invokenative "printer" (readarray array index))
-        (setvalue index (+ index 1))
-      )
-    )
-  )
-)
-
-(fn swap (array a b) 
-  (locals temp)
-  (
-    (setvalue temp (readarray array a))
-    (writearray array a (readarray array b))
-    (writearray array b temp)))
-
-(fn getpivotindex (array left right) 
-  ((return left)))
-
-(fn partition (array left right)
-  (locals pivot pivotindex storeindex)
-  (
-    (setvalue pivotindex (getpivotindex array left right))
-    (setvalue pivot (readarray array pivotindex))
-    (swap array pivotindex right)
-    (setvalue storeindex left)
-    (while (< left right)
-      (
-        (if (< (readarray array left) pivot) 
-          (
-            (swap array left storeindex)
-            (setvalue storeindex (+ 1 storeindex))            
-          )
-        )
-        (setvalue left (+ left 1))
-      )
-    )
-    (swap array storeindex right)
-    (return storeindex)))
-    
-(fn quicksort (array left right) 
-  (locals p)
-  (
-    (if (< left right)
-      (
-        (setvalue p (partition array left right))
-        (quicksort array left p)
-        (quicksort array (+ p 1) right)))))
-
-(fn sortarray (array) 
-  (
-    (quicksort array 0 (- (arraylength array ) 1))))
-
-(fn sorting ()
-  (locals array)
-  (
-    (setvalue array (integerarray 10))
-    (initializearray array)
-    (invokenative "printer" "Before sorting\n")
-    (printarray array)
-    (sortarray array)
-    (invokenative "printer" "\nAfter sorting\n")
-    (printarray array)))
-
-(fn example (float_param int_param native_object_param)
-  (locals counter)
-  (
-    #(fizzbuzz)
-    (sorting)
-    (return (+ 123.4 1234.5f))
+    (caller argumentFunc)
   )
 )

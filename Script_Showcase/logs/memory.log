@@ -1,8 +1,0 @@
-[2015.4.7 17:59:41] Opening new log file
-
-[17:59:41]  Info: Allocation failure due to low memory, initiating GC
-[17:59:41]  Info: Initiating GC with 33530212 bytes in use
-[17:59:41]  Info: Root set size: 5 objects
-[17:59:41]  Info: GC finished. 156 bytes in use. Time spent (microseconds) : 55
-
-[2015.4.7 18:00:57] Closing log file

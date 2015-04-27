@@ -33,6 +33,6 @@
 *.sdf
 Debug/
 Release/
-logs/
+*.log
 *.bytecode
 *.opensdf

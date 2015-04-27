@@ -1,0 +1,29 @@
+
+(fn print_fizz_buzz (counter) 
+  (
+    (cond (= (mod counter 15) 0) ((invokenative "printer" "fizzbuzz"))
+              (= (mod counter 3) 0) ((invokenative "printer" "fizz"))
+              (= (mod counter 5) 0) ((invokenative "printer" "buzz"))
+              else ((invokenative "printer" counter))
+        )
+  )
+)
+
+(fn fizzbuzz ()
+  (locals counter) 
+  (
+    (setvalue counter 1)
+    (while (>= 20 counter) 
+      (
+        (print_fizz_buzz counter)
+        (setvalue counter (+ counter 1))
+      )
+    )
+  )
+)
+
+(fn main (a b c) 
+  (
+    (fizzbuzz)
+  )
+)

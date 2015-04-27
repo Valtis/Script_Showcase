@@ -1,0 +1,24 @@
+(fn factorialImpl(mul acc)
+  (
+    (if (<= mul 1) 
+      (
+        (return acc)
+      ) 
+      (
+        (return (factorialImpl (- mul 1) (* acc mul)))
+      )
+    )
+  )
+)
+
+(fn factorial (initial)
+  (
+    (return (factorialImpl initial 1))
+  )
+)
+
+(fn main (a b c) 
+  (
+    (factorial 10)
+  )
+)

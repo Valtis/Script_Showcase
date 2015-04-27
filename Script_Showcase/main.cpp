@@ -66,7 +66,10 @@ int main() {
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
     states.push_back(std::move(Compiler::Compile("examples/scripttest.txt")));
-    
+    //states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
+    //states.push_back(std::move(Compiler::Compile("examples/fizzbuzz.txt")));
+   // states.push_back(std::move(Compiler::Compile("examples/quicksort.txt")));
+
     LARGE_INTEGER StartingTime;
     LARGE_INTEGER EndingTime;
     LARGE_INTEGER ElapsedMicroseconds;
@@ -84,7 +87,7 @@ int main() {
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
       state.AddNativeBinding("memberFunction2", CreateBinding(&ExampleClass::ExampleFunction2));
       state.AddNativeBinding("multiply", CreateBinding(&multiply));
-      auto value = VMInstance().InvokeFunction(state, "example", { VMValue{ 1234.567 }, VMValue{ 8775 }, VMValue{&exampleObject1} });
+      auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1234.567 }, VMValue{ 8775 }, VMValue{&exampleObject1} });
       std::cout << "\nReturn value was: ";
       printer(value);
       std::cout << "\n\n";
