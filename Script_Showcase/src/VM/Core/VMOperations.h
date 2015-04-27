@@ -17,6 +17,7 @@ namespace Op {
   VMValue PopValue(std::vector<VMValue> &stack);
   void PushInteger(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushFloat(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void PushFunction(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushDouble(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushBoolean(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
@@ -42,6 +43,7 @@ namespace Op {
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
   void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
 
   // these functions will do type conversions automatically

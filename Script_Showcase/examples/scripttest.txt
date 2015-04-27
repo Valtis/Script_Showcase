@@ -1,22 +1,33 @@
-
-
-
-(fn argumentFunc (a b) 
+(fn println (arg) 
   (
-    (invokenative "printer" "my arguments:")
-    (invokenative "printer" a)
-    (invokenative "printer" b)
+    (invokenative "printer" arg)
+  )
+)
+
+(fn aFunc (a b) 
+  (
+    (println "my arguments")
+    (println a)
+    (println b)
+  )
+)
+
+(fn anotherFunc (a b) 
+  (
+    (println (+ a b))
   )
 )
 
 (fn caller (func)
   (
-    (func "first arg" "second arg")
+    (func 5 6)
+    (println " ")
   )
 )
 
 (fn main (a b c)
   (
-    (caller argumentFunc)
+    (caller aFunc)
+    (caller anotherFunc)
   )
 )

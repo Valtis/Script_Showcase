@@ -17,6 +17,8 @@ uint32_t TypeSize(ValueType type) {
     return sizeof(void *);
   case ValueType::MANAGED_POINTER:
     return sizeof(uint32_t);
+  case ValueType::FUNCTION:
+    return sizeof(uint32_t);
   default:
     throw std::runtime_error("Invalid type specified in TypeSize");
   }
@@ -52,6 +54,7 @@ std::string VMValue::ToString() const {
    }
 
    break;
+   case ValueType::FUNCTION:
    case ValueType::MANAGED_POINTER:
      str += std::to_string(m_value.managed_pointer_value);
      break;
@@ -82,6 +85,8 @@ std::string TypeToString(ValueType t) {
     break;
   case ValueType::MANAGED_POINTER:
     return "Managed pointer";
+  case ValueType::FUNCTION:
+      return "Function";
   case ValueType::UNINITIALIZED:
     return "Uninitialized";
   default:

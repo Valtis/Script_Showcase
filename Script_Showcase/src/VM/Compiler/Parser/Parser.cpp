@@ -68,7 +68,7 @@ namespace Compiler {
       auto identifierNode = std::make_shared<IdentifierNode>();
       auto token = Advance();
       identifierNode->SetLine(token->GetLine());
-      identifierNode->SetLine(token->GetColumn());
+      identifierNode->SetColumn(token->GetColumn());
       identifierNode->SetName(dynamic_cast<IdentifierToken *>(token)->GetValue());      
       parent->AddChild(identifierNode);
     }
@@ -76,12 +76,16 @@ namespace Compiler {
 
   void Parser::ParseFunction(std::shared_ptr<ASTNode> parent) {
     auto functionNode = std::make_shared<FunctionNode>();
+
     parent->AddChild(functionNode);
     
     Expect(TokenType::LPAREN);
     Expect(TokenType::FUNCTION);
     auto identifier = Expect(TokenType::IDENTIFIER);
     functionNode->SetName(dynamic_cast<IdentifierToken *>(identifier)->GetValue());
+    functionNode->SetLine(identifier->GetLine());
+    functionNode->SetColumn(identifier->GetColumn());
+
     Expect(TokenType::LPAREN);
 
 

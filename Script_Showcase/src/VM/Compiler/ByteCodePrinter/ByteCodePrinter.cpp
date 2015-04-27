@@ -82,6 +82,7 @@ void ByteCodePrinter::HandleArguments(const VMFunction &function) {
   case ByteCode::JUMP_IF_NEGATIVE:
   case ByteCode::JUMP_IF_POSITIVE:
   case ByteCode::JUMP_IF_ZERO:  
+  case ByteCode::PUSH_FUNCTION:
     m_output << " " << static_cast<uint32_t>(function.GetByteCode(++m_pos));
     break;
   default:

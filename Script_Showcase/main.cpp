@@ -24,6 +24,7 @@ void printer(VMValue value) {
     case ValueType::UNINITIALIZED:
     case ValueType::MANAGED_POINTER:
     case ValueType::NATIVE_POINTER:
+    case ValueType::FUNCTION:
       std::cout << value.ToString();
       break;
     }
@@ -66,7 +67,7 @@ int main() {
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
     states.push_back(std::move(Compiler::Compile("examples/scripttest.txt")));
-    //states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
+   // states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
     //states.push_back(std::move(Compiler::Compile("examples/fizzbuzz.txt")));
    // states.push_back(std::move(Compiler::Compile("examples/quicksort.txt")));
 

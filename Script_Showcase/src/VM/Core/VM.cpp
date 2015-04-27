@@ -69,6 +69,9 @@ void VM::Execute(VMState &state) {
     case ByteCode::PUSH_BOOLEAN:
       Op::PushBoolean(m_stack, m_frames);
       break;
+    case ByteCode::PUSH_FUNCTION:
+      Op::PushFunction(m_stack, m_frames);
+      break;
     case ByteCode::LOAD_LOCAL:
       Op::LoadLocal(state, m_stack, m_frames);
       break;
@@ -155,6 +158,9 @@ void VM::Execute(VMState &state) {
       break;
     case ByteCode::INVOKE_MANAGED:
       Op::InvokeManaged(state, m_stack, m_frames);
+      break;
+    case ByteCode::INVOKE_MANAGED_INDIRECT:
+      Op::InvokeManagedIndirect(state, m_stack, m_frames);
       break;
     case ByteCode::ALLOCATE_INTEGER_ARRAY:
       Op::AllocateIntegerArray(m_stack);

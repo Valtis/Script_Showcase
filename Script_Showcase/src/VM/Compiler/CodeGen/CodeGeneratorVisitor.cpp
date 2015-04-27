@@ -248,16 +248,46 @@ namespace Compiler {
   void CodeGeneratorVisitor::Visit(FloatNode *node) {
     m_current_function->AddByteCode(ByteCode::PUSH_FLOAT);
     static_assert(sizeof(float) == sizeof(uint32_t), "Invalid assumption in casting");
-    float number = node->GetNumber();
+    auto number = node->GetNumber();
     auto val = *reinterpret_cast<uint32_t *>(&number);
     m_current_function->AddByteCode(static_cast<ByteCode>(val));
 
   }
 
   void CodeGeneratorVisitor::Visit(FunctionCallNode *node) {
+    auto instruction = ByteCode::INVOKE_MANAGED;
     auto children = node->GetChildren();
     if (m_functionNameMap.find(node->GetName()) == m_functionNameMap.end()) {
-      throw std::runtime_error("Usage of undeclared function " + node->GetName() + " at " + node->GetPositionInfo());
+      if (m_localsNameMap.find(node->GetName()) == m_localsNameMap.end() && m_staticsNameMap.find(node->GetName()) == m_staticsNameMap.end()) {
+        // no function or variable with this name - error
+        throw std::runtime_error("Usage of undeclared function " + node->GetName() + " at " + node->GetPositionInfo());
+      } else {
+        uint32_t id = 0;
+        
+        // push arguments
+        for (auto child : children) {
+          child->Accept(*this);
+        }
+
+        // push argument count so that this can be verified at runtime
+        m_current_function->AddByteCode(ByteCode::PUSH_INTEGER);
+        m_current_function->AddByteCode(static_cast<ByteCode>(children.size()));
+
+        if (m_localsNameMap.find(node->GetName()) != m_localsNameMap.end()) {
+          id = m_localsNameMap[node->GetName()];
+          m_current_function->AddByteCode(ByteCode::LOAD_LOCAL);
+          m_current_function->AddByteCode(static_cast<ByteCode>(id));
+
+        }
+        else if (m_staticsNameMap.find(node->GetName()) != m_staticsNameMap.end()) {
+          id = m_staticsNameMap[node->GetName()];
+          m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
+          m_current_function->AddByteCode(static_cast<ByteCode>(id));
+
+        }
+        m_current_function->AddByteCode(ByteCode::INVOKE_MANAGED_INDIRECT);
+        return;
+      }
     }
 
     if (m_functionNameArgCountMap.find(node->GetName()) == m_functionNameArgCountMap.end()) {
@@ -269,14 +299,14 @@ namespace Compiler {
         std::to_string(m_functionNameArgCountMap[node->GetName()]) + " parameters but " + std::to_string(children.size()) + " was given");
     }
     
-
     for (auto child : children) {
       child->Accept(*this);
     }
 
     m_current_function->AddByteCode(ByteCode::INVOKE_MANAGED);
+   
     m_current_function->AddByteCode(static_cast<ByteCode>(m_functionNameMap[node->GetName()]));
-
+      
   }
 
   void CodeGeneratorVisitor::Visit(FunctionNode *node) {
@@ -296,9 +326,16 @@ namespace Compiler {
       auto name = dynamic_cast<IdentifierNode *>(arguments[i])->GetName();
       if (m_localsNameMap.find(name) != m_localsNameMap.end()) {
         throw std::runtime_error("Redeclaration of variable " + name + " at " + arguments[i]->GetPositionInfo());
+      } 
+
+      if (m_functionNameMap.find(name) != m_functionNameMap.end()) {
+        throw std::runtime_error("Variable " + name + " shadows function with same name at " + arguments[i]->GetPositionInfo());
+      }
+
+      if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
+        throw std::runtime_error("Variable " + name + " shadows static variable with same name at " + arguments[i]->GetPositionInfo());
       }
       m_localsNameMap[name] = variableID;
-
     }
   }
 
@@ -332,6 +369,11 @@ namespace Compiler {
       m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
       m_current_function->AddByteCode(static_cast<ByteCode>(id));
 
+    }
+    else if (m_functionNameMap.find(name) != m_functionNameMap.end()) {
+      id = m_functionNameMap[name];
+      m_current_function->AddByteCode(ByteCode::PUSH_FUNCTION);
+      m_current_function->AddByteCode(static_cast<ByteCode>(id));
     }
     else {
       throw std::runtime_error("Usage of undeclared identifier " + name + " at " + node->GetPositionInfo());
@@ -441,6 +483,10 @@ namespace Compiler {
       auto name = dynamic_cast<FunctionNode *>(children[i])->GetName();
       if (m_functionNameMap.find(name) != m_functionNameMap.end()) {
         throw std::runtime_error("Redeclaration of function " + name + " at " + children[i]->GetPositionInfo());
+      } 
+      
+      if (m_staticsNameMap.find(name) != m_staticsNameMap.end()) {
+        throw std::runtime_error("Function " + name + " shadows static variable with same name at " + children[i]->GetPositionInfo());
       }
       m_functionNameMap[name] = id++;
     }

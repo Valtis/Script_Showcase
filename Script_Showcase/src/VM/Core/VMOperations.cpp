@@ -95,6 +95,13 @@ namespace Op {
   void PushInteger(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     PushValue(VMValue{ static_cast<int32_t>(frames.back().GetNextInstruction()) }, stack);
   }
+
+  void PushFunction(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+    VMValue value;
+    value.SetFunction(static_cast<uint32_t>(frames.back().GetNextInstruction()));
+    PushValue(value, stack);
+  }
+
   void PushFloat(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto val = static_cast<uint32_t>(frames.back().GetNextInstruction());
     PushValue(VMValue{ *reinterpret_cast<float*>(&val) }, stack);
@@ -255,6 +262,22 @@ namespace Op {
     frames.push_back(function);
   }
 
+  void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+    if (frames.size() == frameSize) {
+      throw std::runtime_error("Maximum number of frames reached - stack overflow");
+    }
+    
+    auto index = PopValue(stack).AsFunction();
+    auto function = state.GetFunction(index);
+
+    auto paramCount = PopValue(stack).AsInt();
+    if (function->GetArgumentCount() != paramCount) {
+      throw std::runtime_error("Invalid argument count for function " + function->GetName() + ". " 
+        + std::to_string(paramCount) + " were provided when " + std::to_string(function->GetArgumentCount()) + " were expected.");
+    }
+
+    frames.push_back(function);
+  }
 
   bool Return(std::vector<VMFrame> &frames) {
     frames.pop_back();

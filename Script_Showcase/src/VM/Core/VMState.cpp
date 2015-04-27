@@ -57,7 +57,7 @@ uint32_t VMState::GetFunctionID(const std::string& name) const {
     throw std::runtime_error("Unable to find function name to id mapping for function " + name);
   }
 
-  return std::distance(m_functioNameToIndexMapping.begin(), m_functioNameToIndexMapping.find(name));
+  return m_functioNameToIndexMapping.at(name);
 }
 
 

@@ -9,6 +9,7 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::PUSH_FLOAT: return "PUSH_FLOAT";
     case ByteCode::PUSH_DOUBLE: return "PUSH_DOUBLE";
     case ByteCode::PUSH_BOOLEAN: return "PUSH_BOOLEAN";
+    case ByteCode::PUSH_FUNCTION: return "PUSH_FUNCTION";
     case ByteCode::POP: return "POP";
     case ByteCode::STORE_STATIC_OBJECT:  return "STORE_STATIC_OBJECT";
     case ByteCode::LOAD_STATIC_OBJECT: return "LOAD_STATIC_OBJECT";
@@ -19,6 +20,7 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::ARRAY_LENGTH: return "ARRAY_LENGTH";
     case ByteCode::INVOKE_NATIVE: return "INVOKE_NATIVE";
     case ByteCode::INVOKE_MANAGED: return "INVOKE_MANAGED";    
+    case ByteCode::INVOKE_MANAGED_INDIRECT: return "INVOKE_MANAGED_INDIRECT";
     case ByteCode::ADD: return "ADD";
     case ByteCode::SUB: return "SUB";
     case ByteCode::MUL:return "MUL";
