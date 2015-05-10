@@ -1,11 +1,17 @@
+(fn println (arg)
+  (
+    (invokenative "printer" arg)
+  )
+)
 
 (fn print_fizz_buzz (counter) 
   (
-    (cond (= (mod counter 15) 0) ((invokenative "printer" "fizzbuzz"))
-              (= (mod counter 3) 0) ((invokenative "printer" "fizz"))
-              (= (mod counter 5) 0) ((invokenative "printer" "buzz"))
-              else ((invokenative "printer" counter))
-        )
+    (cond 
+      (= (mod counter 15) 0) ((println "fizzbuzz"))
+      (= (mod counter  3) 0) ((println "fizz"))
+      (= (mod counter  5) 0) ((println "buzz"))
+      else ((println counter))
+    )
   )
 )
 

@@ -475,8 +475,12 @@ namespace Compiler {
   }
 
   void Parser::ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent) {
+    int sign = 1;
+    handle_minus:
     auto token = ExpectOneOf({TokenType::IDENTIFIER, TokenType::STRING, TokenType::INTEGER_NUMBER,
-      TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER });
+      TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER, TokenType::MINUS });
+
+  
     switch (token->GetType()) {
       case TokenType::IDENTIFIER:
       {
@@ -493,12 +497,16 @@ namespace Compiler {
         parent->AddChild(string);
       }
       break;
+      case TokenType::MINUS:
+        sign = -1;
+        // yaay goto
+        goto handle_minus;
       case TokenType::INTEGER_NUMBER:
       {
         auto number = std::make_shared<IntegerNode>();
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
-        number->SetNumber(dynamic_cast<IntegerToken *>(token)->GetValue());
+        number->SetNumber(sign*dynamic_cast<IntegerToken *>(token)->GetValue());
         parent->AddChild(number);
       }
       break;
@@ -508,7 +516,7 @@ namespace Compiler {
         auto number = std::make_shared<DoubleNode>();
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
-        number->SetNumber(dynamic_cast<DoubleToken *>(token)->GetValue());
+        number->SetNumber(sign*dynamic_cast<DoubleToken *>(token)->GetValue());
         parent->AddChild(number);
       }
       break;
@@ -517,7 +525,7 @@ namespace Compiler {
         auto number = std::make_shared<FloatNode>();
         number->SetLine(token->GetLine());
         number->SetColumn(token->GetColumn());
-        number->SetNumber(dynamic_cast<FloatToken *>(token)->GetValue());
+        number->SetNumber(sign*dynamic_cast<FloatToken *>(token)->GetValue());
         parent->AddChild(number);
       }
       break;
