@@ -47,7 +47,7 @@ MemoryManager::~MemoryManager() {
 // |array mark bit | array type | forward pointer | array length | array data |
 // so 12 byte header containing bookkeeping information and length * sizeof(array type) bytes for array itself
 VMValue MemoryManager::AllocateArray(const ValueType objectType, const uint32_t length) {
-
+  
   auto requiredSpace = length*TypeSize(objectType) + VMObjectFunction::ArrayMetaDataSize();
 
   requiredSpace = VMObjectFunction::AlignSize(requiredSpace);
@@ -85,18 +85,23 @@ void MemoryManager::EnsureFreeMemory(uint32_t requiredSpace) {
 
 void MemoryManager::WriteToArrayIndex(const VMValue object, const void *value, 
     const uint32_t index, const uint32_t length) {
+  if (length == 0) {
+    return;
+  }
   auto arrayData = ArrayReadWriteCommon(object, index, length);
   memcpy(arrayData.data + index * TypeSize(arrayData.type), value, TypeSize(arrayData.type)*length);
 }
 
 void MemoryManager::ReadFromArrayIndex(const VMValue object, void *value, 
     const uint32_t index, const uint32_t length) const {
+  if (length == 0) {
+    return;
+  }
   auto arrayData = ArrayReadWriteCommon(object, index, length);
   memcpy(value, arrayData.data + index * TypeSize(arrayData.type), TypeSize(arrayData.type)*length);
 }
 
 bool MemoryManager::IsArray(const VMValue object) {
-  
   if (object.GetType() != ValueType::MANAGED_POINTER) {
     return false;
   }

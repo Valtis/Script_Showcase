@@ -21,7 +21,7 @@
 (fn caller (func)
   (
     (func 5 6)
-    (println " ")
+    (println "")
   )
 )
 

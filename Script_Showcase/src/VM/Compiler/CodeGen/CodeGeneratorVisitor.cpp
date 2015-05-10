@@ -559,11 +559,13 @@ namespace Compiler {
   void CodeGeneratorVisitor::Visit(StringNode *node) {
     // if the compiler wasn't this closely coupled with the VM, the string would be stored in a 
     // compiled data file read-only section and loaded at runtime. However, as this isn't the case
-    // and the compiler is always run just before interpretation, the value is actually allocated and pointer 
+    // and the compiler is always run just before interpretation, the value is actually allocated here and pointer 
     // stored in VMstate. 
 
     auto ptr = MemMgrInstance().AllocateArray(ValueType::CHAR, node->GetValue().length());
+    
     MemMgrInstance().WriteToArrayIndex(ptr, &node->GetValue()[0], 0, node->GetValue().length());
+    
     int id = m_state.AddStaticObject(ptr); 
 
     m_current_function->AddByteCode(ByteCode::LOAD_STATIC_OBJECT);
