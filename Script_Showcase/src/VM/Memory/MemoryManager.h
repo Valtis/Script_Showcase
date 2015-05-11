@@ -1,14 +1,25 @@
 #pragma once
 
 #include "VM/Core/VMValue.h"
-#include "VM/Memory/RootSetProvider.h"
 #include "VM/Memory/GarbageCollector.h"
 #include "VM/Memory/VMObjectFunctions.h"
-#include <vector>
 #include <memory>
 
 
+/*
+  Memory manager class. Handles allocations and memory reads\writes. Currently only arrays are implemented.
+  
+  Performs necessary checks when accessing memory, such as
+    * pointer is not null
+    * pointer does not point into freespace
+    * pointer points to array when trying to access array
+    * array reads\writes are not out of bound
 
+  Allocations are zero initialized. Uses bump-the-pointer allocation, thus no explicit free list is required.
+
+  When allocation fails due to low memory, manager invokes the provided GC class.
+
+*/
 
 
 // visual studio 2013 and earlier do not support alignas
@@ -35,18 +46,20 @@ public:
   void RunGc();
   uint32_t GetArrayLength(VMValue object) const;
 
-  //
+  // used by the GC to reset free space pointer; this probably should not be public as GC is the only class that should access this.
   void SetFreeSpacePointer(uint32_t value) { m_freeSpacePointer = value;  }
 private:
 
   void EnsureFreeMemory(uint32_t requiredSpace);
 
+  // helper struct; used when performing operations that are shared between array reads and writes
   struct ArrayReadWriteData {
     uint8_t *data;
     ValueType type;
   };
 
-  ArrayReadWriteData ArrayReadWriteCommon(const VMValue object, const uint32_t index, const uint32_t length) const;
+  // shared operations between array reading and writing (such as bound checks)
+  ArrayReadWriteData ArrayReadWriteShared(const VMValue object, const uint32_t index, const uint32_t length) const;
 
 
   void EnsureNotNull(VMValue object) const;
@@ -61,4 +74,5 @@ private:
 };
 
 
+// memory manager singleton. Allows global access to allocation & array reads and writes.
 MemoryManager &MemMgrInstance();

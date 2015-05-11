@@ -19,7 +19,7 @@ MemoryManager::MemoryManager(uint32_t heap_size, std::unique_ptr<GarbageCollecto
 }
 
 MemoryManager::MemoryManager(MemoryManager &&other) 
-  : m_heapSize(other.m_heapSize), m_memory(other.m_memory), 
+  : m_memory(other.m_memory), m_heapSize(other.m_heapSize), 
   m_freeSpacePointer(other.m_freeSpacePointer), m_collector(std::move(other.m_collector)) {
   other.m_memory = nullptr;
 }
@@ -48,8 +48,10 @@ MemoryManager::~MemoryManager() {
 // so 12 byte header containing bookkeeping information and length * sizeof(array type) bytes for array itself
 VMValue MemoryManager::AllocateArray(const ValueType objectType, const uint32_t length) {
   
-  auto requiredSpace = length*TypeSize(objectType) + VMObjectFunction::ArrayMetaDataSize();
+  auto requiredSpace = length*TypeSize(objectType) + VMObjectFunction::ArrayHeaderSize();
 
+  // align the memory (for example, if aligning to 4 bytes, 14 bytes becomes 16 bytes). Reduces unaligned memory accesses
+  // which can potentially be slow (or cause 
   requiredSpace = VMObjectFunction::AlignSize(requiredSpace);
   
   EnsureFreeMemory(requiredSpace);
@@ -59,17 +61,24 @@ VMValue MemoryManager::AllocateArray(const ValueType objectType, const uint32_t 
 
   VMValue object;
   object.SetManagedPointer(m_freeSpacePointer);
-  uint32_t *typeField = (uint32_t *)(m_memory + m_freeSpacePointer);
-  *typeField = (1 << 31) | static_cast<uint32_t>(objectType);
 
-  uint32_t *lengthField = (uint32_t *)(m_memory + m_freeSpacePointer + TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE);
+  // get the address to the typefield, and interpret it as uint32_t pointer, thus allowing us to write 32 bit values to the address 
+  // when dereferencing the pointer
+  auto typeField = reinterpret_cast<uint32_t *>(m_memory + m_freeSpacePointer);
+  *typeField = (1 << 31) | static_cast<uint32_t>(objectType); // write array mark bit & type into first 4 bytes of header
+
+  // same operation as above, but now writing to array length field.
+  auto lengthField = reinterpret_cast<uint32_t *>(m_memory + m_freeSpacePointer + TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE);
   *lengthField = length;
 
-
+  // bump the free space pointer
   m_freeSpacePointer += requiredSpace; 
   return object;
 }
 
+/*
+  Checks if there is enough free memory to satisfy the allocation. If not, invokes GC. If there is no enough free memory after gc, throws an exception.
+*/
 void MemoryManager::EnsureFreeMemory(uint32_t requiredSpace) {
   if (m_heapSize - m_freeSpacePointer < requiredSpace) {
     LoggerManager::GetLog(MEMORY_LOG).AddLine(LogLevel::INFO, "Allocation failure due to low memory, initiating GC");
@@ -88,7 +97,7 @@ void MemoryManager::WriteToArrayIndex(const VMValue object, const void *value,
   if (length == 0) {
     return;
   }
-  auto arrayData = ArrayReadWriteCommon(object, index, length);
+  auto arrayData = ArrayReadWriteShared(object, index, length);
   memcpy(arrayData.data + index * TypeSize(arrayData.type), value, TypeSize(arrayData.type)*length);
 }
 
@@ -97,7 +106,7 @@ void MemoryManager::ReadFromArrayIndex(const VMValue object, void *value,
   if (length == 0) {
     return;
   }
-  auto arrayData = ArrayReadWriteCommon(object, index, length);
+  auto arrayData = ArrayReadWriteShared(object, index, length);
   memcpy(value, arrayData.data + index * TypeSize(arrayData.type), TypeSize(arrayData.type)*length);
 }
 
@@ -117,7 +126,8 @@ ValueType MemoryManager::GetArrayType(const VMValue object) {
   return VMObjectFunction::GetArrayValueType(typeField);
 }
 
-MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteCommon(const VMValue object, 
+// checks that pointer is not null, points to array, pointer is within allocated memory area and that index & access length are within the array
+MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteShared(const VMValue object, 
     const uint32_t index, const uint32_t readWriteLength) const {
   EnsureNotNull(object);
 
@@ -130,12 +140,15 @@ MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteCommon(const VMVa
 
   auto arrayLength = VMObjectFunction::GetArrayLengthUnchecked(object, m_memory);
 
+
+  // bound check. As we use unsigned integers, negative values become large positive values. Thus we need only check for overflows
   if (index > arrayLength - readWriteLength || arrayLength == 0) {
     std::string err = "Out of bounds array access: Array length: " + std::to_string(arrayLength) + "   Index: "
       + std::to_string(index) + "   Access length: " + std::to_string(readWriteLength);
     throw std::runtime_error(err);
   }
 
+  // pointer to the beginning of data segment. Skips the header
   uint8_t *data = m_memory + address + TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE + ARRAY_LENGTH_FIELD_SIZE;
   return { data, type };
 }
@@ -170,11 +183,12 @@ uint32_t MemoryManager::GetArrayLength(VMValue object) const {
 }
 
 
-
+// invokes GC
 void MemoryManager::RunGc() {
   LoggerManager::GetLog(MEMORY_LOG).AddLine(LogLevel::INFO,
     "Initiating GC with " + std::to_string(m_freeSpacePointer) + " bytes in use");
 
+  // Windows specific performance counters.
 #ifdef _MSC_VER
   LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
   LARGE_INTEGER Frequency;
@@ -186,7 +200,7 @@ void MemoryManager::RunGc() {
   if (m_collector != nullptr) {
     m_collector->Scavenge(&m_memory, *this);
   }  else {
-    LoggerManager::GetLog(MEMORY_LOG).AddLine(LogLevel::WARNING, "No garbage collector set - skipping collection");
+    LoggerManager::GetLog(MEMORY_LOG).AddLine(LogLevel::ERROR, "No garbage collector set - skipping collection");
   }
 
 
@@ -207,7 +221,7 @@ void MemoryManager::RunGc() {
 }
 
 
-
+// debug function. Writes the memory layout into log file. 
 void MemoryManager::LogMemoryLayout() const {
   std::string msg = "Memory layout dump:\n";
   for (size_t i = HEAP_BEGIN_ADDRESS; i < m_freeSpacePointer;) {
@@ -234,7 +248,7 @@ void MemoryManager::LogMemoryLayout() const {
 }
 
 
-
+// memory manager singleton. Currently hardcoded to provide 32 megabyte heap (thus total memory required is 64 megabytes due to usage of hemispace collector)
 MemoryManager &MemMgrInstance() {
   // should probably read the values from ini or something; hard coded for now
   auto size = 1024 * 1024 * 32;

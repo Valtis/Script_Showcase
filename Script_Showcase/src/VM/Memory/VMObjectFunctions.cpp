@@ -1,7 +1,7 @@
 #include "VM/Memory/VMObjectFunctions.h"
 
 namespace VMObjectFunction {
-  uint32_t ArrayMetaDataSize() {
+  uint32_t ArrayHeaderSize() {
     return TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE + ARRAY_LENGTH_FIELD_SIZE;
   }
 
@@ -28,7 +28,7 @@ namespace VMObjectFunction {
     auto typeField = GetTypeField(object, memoryArea);
 
     if (IsArray(typeField)) {
-      return AlignSize(GetArrayLengthUnchecked(object, memoryArea)*TypeSize(GetArrayValueType(typeField)) + ArrayMetaDataSize());
+      return AlignSize(GetArrayLengthUnchecked(object, memoryArea)*TypeSize(GetArrayValueType(typeField)) + ArrayHeaderSize());
     }
     else {
       throw std::logic_error("Size calculation not implemented for non-arrays");

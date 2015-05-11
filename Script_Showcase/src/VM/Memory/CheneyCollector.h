@@ -4,6 +4,13 @@
 #include "VM/Memory/MemoryManager.h"
 #include "VM/Memory/VMObjectFunctions.h"
 
+/*
+  A garbage collector based on Cheney's algorithm: http://en.wikipedia.org/wiki/Cheney%27s_algorithm
+  A copying hemispace collector. Copies live objects from one hemispace (fromspace) to another hemispace (tospace) and updates references.
+  After collection, fromspace and tospace are swapped.
+  Dead objects are not considered, making this algorithm efficient if there is a lot of garbage
+*/
+
 class CheneyCollector : public GarbageCollector {
 public:
 
@@ -12,7 +19,7 @@ public:
   CheneyCollector &operator=(const CheneyCollector &) = delete;
   ~CheneyCollector();  
   
-  void Scavenge(uint8_t **memory, MemoryManager &manager);
+  void Scavenge(uint8_t **memory, MemoryManager &manager) override;
   
 private:
   void EvacuateRootSet(std::vector<VMValue *> rootSet, uint8_t *fromSpace);

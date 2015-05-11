@@ -37,7 +37,6 @@
     <ClCompile Include="src\VM\Core\VMState.cpp" />
     <ClCompile Include="src\VM\Core\VMValue.cpp" />
     <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp" />
-    <ClCompile Include="src\VM\FFI\NativeBinding.cpp" />
     <ClCompile Include="src\VM\Memory\CheneyCollector.cpp" />
     <ClCompile Include="src\VM\Memory\GarbageCollector.cpp" />
     <ClCompile Include="src\VM\Memory\GCFactory.cpp" />

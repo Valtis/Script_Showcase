@@ -114,9 +114,6 @@
     <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp">
       <Filter>Source Files\VM\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="src\VM\FFI\NativeBinding.cpp">
-      <Filter>Source Files\VM\FFI</Filter>
-    </ClCompile>
     <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp">
       <Filter>Source Files\VM\FFI</Filter>
     </ClCompile>
