@@ -10,6 +10,10 @@ uint32_t TypeSize(ValueType type);
 
 std::string TypeToString(ValueType t);
 
+/*
+  Represents a value. Contains type field and a union with all the possible types. Performs type checks when attempting to access the values.
+  AsX-functions throw if there is type mismatch.
+*/
 
 class VMValue {
 public:

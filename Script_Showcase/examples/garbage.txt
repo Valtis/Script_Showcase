@@ -1,0 +1,16 @@
+
+
+
+
+(fn main (a b c) 
+  (locals counter temp)
+  (
+    (setvalue counter 0)
+    (while (> 10000 counter)
+      (
+        (setvalue temp (integerarray 40000))
+        (setvalue counter (+ counter 1))
+      )
+    )
+  )
+)

@@ -10,7 +10,7 @@ class VMValue;
 const uint32_t stackSize = 4096;
 const uint32_t frameSize = 1024;
 /*
-  Functions that actually perform the work required by the VM opcodes.
+  Functions that actually perform the work required by the VM opcodes. 
 */
 namespace Op {
   void PushValue(const VMValue &value, std::vector<VMValue> &stack);

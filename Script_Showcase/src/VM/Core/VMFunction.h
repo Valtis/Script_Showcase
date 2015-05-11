@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <string>
 
+/*
+  Contains function name, function local count, function argument count and bytecode.  
+*/
 class VMFunction {
 public:
   VMFunction();

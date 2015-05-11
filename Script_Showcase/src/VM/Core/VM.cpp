@@ -192,12 +192,10 @@ void VM::Execute(VMState &state) {
 
 VMValue VM::ReturnValue() {
   // return topmost stack item, if any
-  if (!m_stack.empty()) {
-    return m_stack.back();
-  }
-  else {
+  if (m_stack.empty()) {
     return{};
   }
+  return m_stack.back();
 }
 
 void VM::BuildStackTraceAndThrow(const std::exception &ex) {

@@ -2,6 +2,13 @@
 #include "VM/Core/VMFunction.h"
 #include "VM/Core/VMValue.h"
 #include <cstdint>
+
+
+/*
+  Function frame. A frame is created whenever a function is called. It contains local variables, pointer to function being executed
+  and function instruction counter
+*/
+
 class VMFrame {
 
 public:

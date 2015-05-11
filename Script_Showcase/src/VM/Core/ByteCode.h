@@ -1,5 +1,11 @@
 #pragma once
 #include <cstdint>
+/*
+  Bytecodes
+*/
+
+// size of the enum should not be changed, as many instructions have parameters encoded into the instruction stream
+// and these make assumptions about the size of the ByteCode enum.
 enum class ByteCode : uint32_t { 
   NOP,
   RETURN,

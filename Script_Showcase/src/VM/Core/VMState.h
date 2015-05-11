@@ -10,6 +10,20 @@
 
 class VMFunction;
 
+/*
+  Script file is compiled into VMState file; VMState thus represents single file. This allows multiple different 
+  files to have functions with same names (update, initialize). Contains all the functions.
+
+  This class also stores static variables whose values survive between function calls; VM stacks are reset whenever InvokeFunction is called, thus
+  any values in local variables are lost. 
+
+  This class also stores native bindings, which allow script functions to call C++ functions.
+
+  As any instance of this class is registered with VM as a potential source of pointers for GC, this class is not copyable to prevent any accidental 
+  pointer invalidations. Move constructor\assignment operator will update registrations if needed
+
+*/
+
 class VMState {
 public:
 

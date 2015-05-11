@@ -3,13 +3,19 @@
 #include "VM/Memory/RootsetProvider.h"
 #include "VM/Core/VMValue.h"
 #include "VM/Core/VMFrame.h"
-#include <array>
 #include <vector>
-#include <cstdint>
-#include <string>
 #include <algorithm>
 
 class VMState;
+
+/*
+  Main VM class. Handles fetch/encode/execute cycle together with functions in VMOperations.h/cpp. Contains operand and function 
+  frame stacks.
+  
+  Also implements RootSetProvider interface and thus this class is responsible for scanning stacks and VMStates for potential root objects
+
+  TODO: Too many responsibilities, should be split into smaller classes
+*/
 
 class VM : public RootSetProvider {
 public:
@@ -17,6 +23,8 @@ public:
   VMValue InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> arguments);
  
   std::vector<VMValue *> GetRootSet() override;
+  
+  // (un)registers VMState as potential source of pointers for garbage collection. 
   void RegisterVMState(VMState *state) { m_states.push_back(state);  }
   void UnregisterVMState(VMState *state) { m_states.erase(std::remove(std::begin(m_states), std::end(m_states), state), std::end(m_states)); }
 private:
@@ -41,4 +49,6 @@ private:
 };
 
 
+
+// VM singleton. Allows code to invoke VM where needed
 VM &VMInstance();

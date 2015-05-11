@@ -70,6 +70,8 @@ int main() {
     states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
     states.push_back(std::move(Compiler::Compile("examples/fizzbuzz.txt")));
     states.push_back(std::move(Compiler::Compile("examples/quicksort.txt")));
+    states.push_back(std::move(Compiler::Compile("examples/garbage.txt")));
+
 
     LARGE_INTEGER StartingTime;
     LARGE_INTEGER EndingTime;
