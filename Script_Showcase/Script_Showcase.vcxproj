@@ -22,6 +22,7 @@
     <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
     <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
     <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp" />
+    <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp" />
     <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
     <ClInclude Include="src\VM\Compiler\Compiler.h" />
     <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h" />
+    <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h" />
     <ClInclude Include="src\VM\Compiler\Parser\Parser.h" />
     <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h" />
     <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h" />

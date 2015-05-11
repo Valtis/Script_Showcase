@@ -189,6 +189,9 @@
     <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp">
       <Filter>Source Files\VM\Compiler\Optimizer</Filter>
     </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp">
+      <Filter>Source Files\VM\Compiler\Optimizer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VM\FFI\ConversionFunctions.h">
@@ -372,6 +375,9 @@
       <Filter>Header Files\VM\Compiler\ByteCodePrinter</Filter>
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h">
+      <Filter>Header Files\VM\Compiler\Optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h">
       <Filter>Header Files\VM\Compiler\Optimizer</Filter>
     </ClInclude>
   </ItemGroup>

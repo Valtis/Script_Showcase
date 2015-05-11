@@ -10,17 +10,31 @@
       (
         (return sum)
       )
-      (      
-        (return (tailrecursion (- iterations 1) (+ sum iterations)))
-      )
     )
     
+    (return (tailrecursion (- iterations 1) (+ sum iterations)))
   )
 )
 
 
+(fn recursiveFunction (num) 
+  (
+    (println num)
+    (if (< num 4) 
+      (
+        (recursiveFunction (+ num 1))
+      )
+     # (
+    #    (println "end of the road")
+    #  )
+    )
+  )
+)
+
+
+
 (fn main (a b c) 
   (
-    (println (tailrecursion 3000 0))
+    (recursiveFunction 0)
   )
 )
