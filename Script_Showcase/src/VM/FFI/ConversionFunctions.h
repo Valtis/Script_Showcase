@@ -1,5 +1,12 @@
 #pragma once
 #include "VM/Core/VMValue.h"
+
+/*
+  Conversions from VMValue into native types. Invalid conversion will throw (for example, when there is type mismatch)
+
+  These are primarily used by the native bindings when parameters need to be passed between VM and native code.
+*/
+
 template<typename T>
 T ToNativeType(VMValue obj) {
   static_assert ( std::is_pointer<T>::value, "This type of conversion is not implemented");

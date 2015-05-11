@@ -3,7 +3,8 @@
 #include <vector>
 #include <tuple>
 
-// template that creates and fills tuple with type of ParameterTypes parameter pack (eg. ConstructParameterTuple<int, int, float> returns tuple<int, int, float>).
+// This file contains the templates that create and fill a tuple with type of ParameterTypes parameter pack 
+// (eg. ConstructParameterTuple<int, int, float> returns tuple<int, int, float>).
 // Parameters are popped from stack and stored in the tuple
 
 

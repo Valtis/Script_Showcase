@@ -7,9 +7,15 @@
 #include "VM/FFI/NativeBindingTypedef.h"
 
 #include <functional>
-#include <type_traits>
+/*
+  Wraps the given function pointer into lambda function that handles the argument passing and invokation.
+  
+  First pops parameters from VM stack and stores them in a tuple. Tuple values are then passed as arguments for the function pointer.
+  If native function has a return value, the value is pushed into VM stack.
 
-// binding for void free functions
+*/
+
+// binding for free functions
 template <typename ReturnType, typename... Args>
 NativeBinding CreateBinding(ReturnType(*ptr)(Args...)) {
   return [=](std::vector<VMValue> &stack) {
@@ -20,7 +26,7 @@ NativeBinding CreateBinding(ReturnType(*ptr)(Args...)) {
 }
 
 
-// binding for void member functions
+// binding for member functions
 template <typename Class, typename ReturnType, typename... Args>
 NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
 

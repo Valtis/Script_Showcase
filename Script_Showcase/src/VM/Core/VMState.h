@@ -19,7 +19,7 @@ class VMFunction;
 
   This class also stores native bindings, which allow script functions to call C++ functions.
 
-  As any instance of this class is registered with VM as a potential source of pointers for GC, this class is not copyable to prevent any accidental 
+  As any instance of this class is registered with VM as a potential source of pointers for GC, this class is not copyable in order to prevent any accidental 
   pointer invalidations. Move constructor\assignment operator will update registrations if needed
 
 */
