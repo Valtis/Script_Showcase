@@ -25,6 +25,7 @@ public:
   uint32_t GetFunctionID(const std::string &name) const;
   const VMFunction *GetFunction(const std::string &name) const;
   const std::vector<VMFunction> &GetFunctions() const;
+  std::vector<VMFunction> &GetMutableFunctions();
 
   void SetStaticObject(uint32_t index, VMValue value);
   VMValue GetStaticObject(uint32_t index) const;

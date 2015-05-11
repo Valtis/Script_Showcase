@@ -85,6 +85,12 @@
     <Filter Include="Header Files\VM\Compiler\ByteCodePrinter">
       <UniqueIdentifier>{f3995ee4-09f3-4c8a-acdf-07fa99c03932}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\VM\Compiler\Optimizer">
+      <UniqueIdentifier>{a4140d4f-2ee9-40d0-8deb-09a3fffcbb14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\Optimizer">
+      <UniqueIdentifier>{cdded06f-f221-4611-9099-0c24c0cf2ebc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -179,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp">
       <Filter>Source Files\VM\Compiler\ByteCodePrinter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp">
+      <Filter>Source Files\VM\Compiler\Optimizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h">
       <Filter>Header Files\VM\Compiler\ByteCodePrinter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h">
+      <Filter>Header Files\VM\Compiler\Optimizer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

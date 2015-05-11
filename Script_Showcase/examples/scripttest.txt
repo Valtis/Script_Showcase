@@ -4,30 +4,23 @@
   )
 )
 
-(fn aFunc (a b) 
+(fn tailrecursion (iterations sum)
   (
-    (println "my arguments")
-    (println a)
-    (println b)
+    (if (= iterations 0)
+      (
+        (return sum)
+      )
+      (      
+        (return (tailrecursion (- iterations 1) (+ sum iterations)))
+      )
+    )
+    
   )
 )
 
-(fn anotherFunc (a b) 
-  (
-    (println (+ a b))
-  )
-)
 
-(fn caller (func)
+(fn main (a b c) 
   (
-    (func 5 6)
-    (println "")
-  )
-)
-
-(fn main (a b c)
-  (
-    (caller aFunc)
-    (caller anotherFunc)
+    (println (tailrecursion 3000 0))
   )
 )

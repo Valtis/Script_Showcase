@@ -499,9 +499,11 @@ namespace Compiler {
 
       children[i]->Accept(*this);
 
-      if (children.size() > 0 && dynamic_cast<ReturnNode *>(children.back()) == nullptr) {
+      // if last instruction of the function is not return, insert return instruction.
+      if (children.size() > 0 && (children[i]->GetChildren().size() == 0 || dynamic_cast<ReturnNode *>(children[i]->GetChildren().back()) == nullptr)) {
         m_current_function->AddByteCode(ByteCode::RETURN);
       }
+
       // check that compiler generated id actually matches the id that VMState chose. Should only fail if
       // implementation is changed. (TODO: Let the compiler decide the id?)
       if (m_state.AddFunction(*m_current_function) != m_functionNameMap[m_current_function->GetName()]) {

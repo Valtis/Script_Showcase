@@ -74,6 +74,11 @@ const VMFunction *VMState::GetFunction(const std::string &name) const
 const std::vector<VMFunction> &VMState::GetFunctions() const {
   return m_functions;
 }
+
+std::vector<VMFunction>& VMState::GetMutableFunctions() {
+  return m_functions;
+}
+
 void VMState::SetStaticObject(uint32_t index, VMValue value) {
   m_static_objects.at(index) = value;
 }
