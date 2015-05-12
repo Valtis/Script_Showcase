@@ -1,13 +1,9 @@
 # Script_Showcase
 A showcase for the script engine I am building for Helsinki University game project course. Allows script functions to be called from C++ and registered C++ member functions to be called from scripts.
 
-There are three different examples.
+The language syntax has been influenced by Lisp.  
 
-First example calculates (1 + 2) * 3 as well as 6 / (1 + 2) and invokes native C++ function to print the results.  
-
-Second example allocates an integer array and stores a value in this array. Then the example forces garbage collection by allocationg lots of arrays and immediately losing the references to these arrays. Then it prints the stored value in the original array to ensure the array is still accessible after garbage collection.
-
-Third example invokes a class member function on two different instances of the class.
+Various examples exists in examples folder. These include implementations of factorial, fizzbuzz, quicksort, function passing and tail recursion.
 
 ## Structure
 
@@ -48,6 +44,10 @@ An interface for garbage collector. Memory manager uses this when garbage collec
 
 ### CheneyCollector
 Implementation of GarbageCollector interface. Currently this is the only implementation. The collector uses Cheney's algorithm: http://en.wikipedia.org/wiki/Cheney%27s_algorithm 
+
+### Compiler
+
+Compiler uses recursive descent parser to produce AST, which is then passed to code generator which uses visitor pattern to traverse the tree. Currently a single optimization is implemented; recursive tail calls are change into jump instructions. 
 
 ## Compilation
 
