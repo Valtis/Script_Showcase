@@ -1,7 +1,9 @@
 #pragma once 
 #include <string>
 namespace Compiler {
-
+  /*
+    Token type enum.
+  */
   enum class TokenType {
     LPAREN,
     RPAREN,

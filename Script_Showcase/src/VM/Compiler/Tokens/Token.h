@@ -4,7 +4,9 @@
 #include <cstdint>
 
 namespace Compiler {
-
+  /*
+    A base class that represents a token.
+  */
   class Token {
   public:
     Token(TokenType type, int32_t line, int32_t column);

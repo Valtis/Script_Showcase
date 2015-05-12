@@ -6,6 +6,11 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+
+/*
+  Tokenizes a file.
+*/
+
 namespace Compiler {
   class Tokenizer {
   public:

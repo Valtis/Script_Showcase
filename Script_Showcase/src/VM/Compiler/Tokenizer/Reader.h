@@ -2,6 +2,10 @@
 
 #include <fstream>
 #include <string>
+
+/*
+  Reader class which is used by the tokenizer. Abstracts Peek/Get-operations and tracks current line and column numbers
+*/
 class Reader {
 public:
   Reader();

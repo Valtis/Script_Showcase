@@ -2,6 +2,11 @@
 #include "VM/Compiler/Tokens/Token.h"
 
 namespace Compiler {
+
+  
+  /*
+    helper macros for tokens
+  */
 #define TOKEN_WITH_NO_VALUE(CLASS_NAME) \
   class CLASS_NAME : public Token { \
     public: \

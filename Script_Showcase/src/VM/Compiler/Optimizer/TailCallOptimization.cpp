@@ -3,8 +3,8 @@
 #include "VM/Core/ByteCode.h"
 #include <unordered_map>
 /*
-Optimizes tail calls when function call is statically binded at compile time. Functions that are called indirectly
-cannot be optimized at this stage.
+  Optimizes tail calls when function call is statically binded at compile time. Functions that are called indirectly
+  cannot be optimized at this stage.
 */
 
 namespace ByteCodeOptimizer {
@@ -14,7 +14,7 @@ namespace ByteCodeOptimizer {
   void OptimizeTailCalls(VMState &state) {
     auto &functions = state.GetMutableFunctions();
     std::unordered_map<ByteCode, int> byteCodeArgCount;
-    // arg counts for byte code; some bytecode instrucions have their arguments encoded in the bytecode stream
+    // arg counts for bytecode; some bytecode instrucions have their arguments encoded in the bytecode stream
     // and we need to skip these when iterating the bytecode
     byteCodeArgCount[ByteCode::PUSH_INTEGER] = 1;
     byteCodeArgCount[ByteCode::PUSH_FLOAT] = 1;
@@ -32,8 +32,6 @@ namespace ByteCodeOptimizer {
     byteCodeArgCount[ByteCode::JUMP_IF_POSITIVE] = 1;
     byteCodeArgCount[ByteCode::JUMP_IF_ZERO] = 1;
     byteCodeArgCount[ByteCode::PUSH_FUNCTION] = 1;
-
-
 
     for (auto &function : functions) {
       for (uint32_t i = 0; i < function.GetByteCodeCount(); ++i) {

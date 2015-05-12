@@ -66,7 +66,7 @@ namespace Compiler {
         ParseNumber();
       }
       else {
-        throw std::runtime_error("Unrecognized token '" + std::string(1, (char)next_ch) + "' at line " 
+        throw std::runtime_error("Unrecognized token '" + std::string(1, static_cast<char>(next_ch)) + "' at line " 
           + std::to_string(m_reader.GetLine()) + ", column " + std::to_string(m_reader.GetColumn()));
       }
     }
@@ -176,10 +176,8 @@ namespace Compiler {
     switch (ch) {
     case 'n':
       return '\n';
-      break;
     case 't':
       return '\t';
-      break;
     case '\\':
       return '\\';
     case '"':
@@ -187,7 +185,7 @@ namespace Compiler {
     case EOF:
       throw std::runtime_error("Unexpected end-of-file when parsing string");
     default:
-      throw std::runtime_error("Invalid control character " + std::string(1, (char)ch) + " at line " +
+      throw std::runtime_error("Invalid control character " + std::string(1, static_cast<char>(ch)) + " at line " +
         std::to_string(line) + " column " + std::to_string(column));
     }
   }
