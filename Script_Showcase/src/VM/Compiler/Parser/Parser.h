@@ -1,5 +1,6 @@
 #pragma once
 #include "VM/Compiler/Tokens/Token.h"
+#include "VM/Compiler/Parser/TokenReader.h"
 #include <vector>
 #include <memory>
 namespace Compiler {
@@ -36,17 +37,8 @@ namespace Compiler {
 
 
     void ParseLiteralOrIdentifier(std::shared_ptr<ASTNode> parent);
-    
-    std::vector<std::unique_ptr<Token>> m_tokens;
-    size_t m_position;
 
-    Token *Peek(); // peeks next token
-    Token *Peek2(); // peeks token following the next one
-    Token *Advance();
-    Token *Expect(TokenType type);
-    Token *ExpectOneOf(std::vector<TokenType> tokenTypes);
 
-    std::string GetTokenPositionInfo(const Token *token);
-    
+    TokenReader m_reader;
   };
 }

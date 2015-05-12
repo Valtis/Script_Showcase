@@ -14,7 +14,9 @@ namespace Compiler {
     TokenType GetType() const { return m_type; }
     virtual std::string ToString() const = 0;
     int GetLine() const { return m_line; }
-    int GetColumn() const { return m_column;  }
+    int GetColumn() const { return m_column; } 
+    
+    std::string GetTokenPositionInfo();
   private:
     TokenType m_type;
     int32_t m_line;

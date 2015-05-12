@@ -8,4 +8,9 @@ namespace Compiler {
   }
 
   Token::~Token() { }
+
+  std::string Token::GetTokenPositionInfo() {
+    return std::string("line ") + std::to_string(m_line)
+      + " column " + std::to_string(m_column);
+  }
 }

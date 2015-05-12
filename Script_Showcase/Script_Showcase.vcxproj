@@ -24,6 +24,7 @@
     <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp" />
     <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp" />
     <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp" />
+    <ClCompile Include="src\VM\Compiler\Parser\TokenReader.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
     <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h" />
     <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h" />
     <ClInclude Include="src\VM\Compiler\Parser\Parser.h" />
+    <ClInclude Include="src\VM\Compiler\Parser\TokenReader.h" />
     <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h" />
     <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h" />
     <ClInclude Include="src\VM\Compiler\Tokens\Token.h" />
