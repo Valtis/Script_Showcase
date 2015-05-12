@@ -2,10 +2,7 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/ByteCode.h"
 #include <unordered_map>
-/*
-  Optimizes tail calls when function call is statically binded at compile time. Functions that are called indirectly
-  cannot be optimized at this stage.
-*/
+
 
 namespace ByteCodeOptimizer {
   

@@ -5,6 +5,11 @@
 #include <memory>
 namespace Compiler {
   class ASTNode;
+
+  /*
+    Goes through the list of tokens, using TokenReader. If there are syntax errors, throws. Otherwise creates and returns abstract syntax tree
+    Grammar is available in separate file
+  */
   class Parser {
   public:
     explicit Parser(std::vector<std::unique_ptr<Token>> tokens);

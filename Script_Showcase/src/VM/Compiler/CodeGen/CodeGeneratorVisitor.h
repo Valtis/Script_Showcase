@@ -5,6 +5,10 @@
 
 #include <memory>
 
+/*
+  A class that implements ASTVisitor. Uses the visitor pattern to go through the AST and generate code.
+  This class also handles the semantic checks. This should arguably be in a separate class, but for now this works.
+*/
 namespace Compiler {
 
   class ASTNode;

@@ -3,8 +3,6 @@ namespace Compiler {
   TokenReader::TokenReader(std::vector<std::unique_ptr<Token>> tokens) : m_tokens(std::move(tokens)) {
   }
 
-
-
   Token *TokenReader::Peek() {
     if (m_position >= m_tokens.size()) {
       return nullptr;

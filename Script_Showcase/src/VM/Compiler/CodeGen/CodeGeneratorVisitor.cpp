@@ -254,6 +254,8 @@ namespace Compiler {
 
   }
 
+
+  // TODO: Cleanup. 
   void CodeGeneratorVisitor::Visit(FunctionCallNode *node) {
     auto instruction = ByteCode::INVOKE_MANAGED;
     auto children = node->GetChildren();
@@ -262,6 +264,7 @@ namespace Compiler {
         // no function or variable with this name - error
         throw std::runtime_error("Usage of undeclared function " + node->GetName() + " at " + node->GetPositionInfo());
       } else {
+        // there is a variable with this name - generate indirect call using this variable
         uint32_t id = 0;
         
         // push arguments
@@ -289,6 +292,8 @@ namespace Compiler {
         return;
       }
     }
+
+    // if this stage is reached, a function with this name exists, so generate direct call
 
     if (m_functionNameArgCountMap.find(node->GetName()) == m_functionNameArgCountMap.end()) {
       throw std::logic_error("Internal compiler error. No argument count recorded for function " + node->GetName());
