@@ -239,6 +239,13 @@ namespace Op {
     PushValue(VMValue{ first.AsInt() % second.AsInt() }, stack);
   }
 
+  void Not(std::vector<VMValue>& stack) {
+
+    auto first = PopValue(stack);
+
+    PushValue(VMValue{ !first.AsBool() }, stack);
+  }
+
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreater, >)
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreaterOrEq, >=)
   CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsEq, ==)

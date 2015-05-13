@@ -40,6 +40,7 @@ namespace Op {
   void Mul(std::vector<VMValue> &stack);
   void Div(std::vector<VMValue> &stack);
   void Mod(std::vector<VMValue> &stack);
+  void Not(std::vector<VMValue> &stack);
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
   void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);

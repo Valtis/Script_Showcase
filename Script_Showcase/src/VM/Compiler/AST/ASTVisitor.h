@@ -20,6 +20,7 @@ namespace Compiler {
   class IntegerNode;
   class InvokeNativeNode;
   class LocalsNode;
+  class NotNode;
   class OrNode;
   class ReadArrayNode;
   class ReturnNode;
@@ -52,6 +53,7 @@ namespace Compiler {
     virtual void Visit(InvokeNativeNode *node) = 0;
     virtual void Visit(IntegerNode *node) = 0;
     virtual void Visit(LocalsNode *node) = 0;
+    virtual void Visit(NotNode *node) = 0;
     virtual void Visit(OrNode *node) = 0;
     virtual void Visit(ReadArrayNode *node) = 0;
     virtual void Visit(ReturnNode *node) = 0;

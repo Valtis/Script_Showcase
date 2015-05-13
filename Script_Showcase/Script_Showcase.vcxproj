@@ -69,6 +69,7 @@
     <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\NotNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\OrNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ReturnNode.h" />

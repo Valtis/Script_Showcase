@@ -79,6 +79,9 @@ namespace Compiler {
       case TokenType::AND:
         token.reset(new AndToken(type, line, column));
         break;
+      case TokenType::NOT:
+          token.reset(new NotToken(type, line, column));
+          break;
       case TokenType::WHILE:
         token.reset(new WhileToken(type, line, column));
         break;

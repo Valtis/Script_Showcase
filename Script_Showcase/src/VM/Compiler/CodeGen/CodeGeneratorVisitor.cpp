@@ -17,6 +17,7 @@
 #include "VM/Compiler/AST/IntegerNode.h"
 #include "VM/Compiler/AST/InvokeNativeNode.h"
 #include "VM/Compiler/AST/LocalsNode.h"
+#include "VM/Compiler/AST/NotNode.h"
 #include "VM/Compiler/AST/OrNode.h"
 #include "VM/Compiler/AST/ReadArrayNode.h"
 #include "VM/Compiler/AST/ReturnNode.h"
@@ -454,6 +455,15 @@ namespace Compiler {
     LocalVariableHelper(node);
   }
 
+  void CodeGeneratorVisitor::Visit(NotNode* node) {
+    auto children = node->GetChildren();
+    if (children.size() != 1) {
+      throw std::runtime_error("Invalid argument count for not at " + node->GetPositionInfo());
+    }
+
+    children[0]->Accept(*this);
+    m_current_function->AddByteCode(ByteCode::NOT);
+  }
 
   void CodeGeneratorVisitor::Visit(OrNode *node) {
     AndOrHelper(node, ByteCode::JUMP_IF_TRUE, false);

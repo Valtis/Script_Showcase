@@ -35,6 +35,7 @@ namespace Compiler {
     void Visit(IntegerNode *node) override;
     void Visit(InvokeNativeNode *node) override;
     void Visit(LocalsNode *node) override;
+    void Visit(NotNode *node) override;
     void Visit(OrNode *node) override;
     void Visit(ReadArrayNode *node) override;
     void Visit(ReturnNode *node) override;

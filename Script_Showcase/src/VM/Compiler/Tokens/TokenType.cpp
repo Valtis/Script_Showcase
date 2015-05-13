@@ -60,6 +60,8 @@ namespace Compiler {
       return "and";
     case TokenType::OR:
       return "or";
+    case TokenType::NOT:
+      return "not";
     case TokenType::WHILE:
       return "while";
     case TokenType::RETURN:

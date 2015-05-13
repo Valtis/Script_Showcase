@@ -2,10 +2,17 @@
 #include <cstdint>
 /*
   Bytecodes
-*/
 
-// size of the enum should not be changed, as many instructions have parameters encoded into the instruction stream
-// and these make assumptions about the size of the ByteCode enum.
+  size of the enum should not be changed, as many instructions have parameters encoded into the instruction stream
+  and these make assumptions about the size of the ByteCode enum. 
+
+  When adding new bytecodes, update GetByteCodeName() to include the new code so that new code has a printable name.
+  Also make sure VM\VMOperations are updated.
+
+  If bytecode has arguments, both ByteCodePrinter and optimizer needs to be updated, as these need to be able to handle\skip the arguments
+  (TODO: Handle this more gracefully. Too many places require changes when adding bytecodes, will cause bugs at some point)
+
+*/
 enum class ByteCode : uint32_t { 
   NOP,
   RETURN,
@@ -30,6 +37,7 @@ enum class ByteCode : uint32_t {
   MUL,
   DIV,
   MOD,
+  NOT,
   ADD_INTEGER, 
   SUB_INTEGER, 
   MUL_INTEGER, 

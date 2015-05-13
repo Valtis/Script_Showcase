@@ -73,6 +73,7 @@ namespace Compiler {
     TOKEN_WITH_NO_VALUE(CondToken)
     TOKEN_WITH_NO_VALUE(AndToken)
     TOKEN_WITH_NO_VALUE(OrToken)
+    TOKEN_WITH_NO_VALUE(NotToken)
     TOKEN_WITH_NO_VALUE(WhileToken)
     TOKEN_WITH_NO_VALUE(SetValueToken)
     TOKEN_WITH_NO_VALUE(ReturnToken)

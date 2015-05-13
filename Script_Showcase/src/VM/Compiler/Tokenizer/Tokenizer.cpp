@@ -23,6 +23,7 @@ namespace Compiler {
     m_keyWords["cond"] = TokenType::COND;
     m_keyWords["and"] = TokenType::AND;
     m_keyWords["or"] = TokenType::OR;
+    m_keyWords["not"] = TokenType::NOT;
     m_keyWords["invokenative"] = TokenType::INVOKE_NATIVE;
     m_keyWords["return"] = TokenType::RETURN;
     m_keyWords["setvalue"] = TokenType::SET_VALUE;
