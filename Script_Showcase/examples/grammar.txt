@@ -15,13 +15,14 @@ COND_STATEMENT(cond EXPRESSION_STATEMENT_PAIRS OPTIONAL_ELSE)
 EXPRESSION_STATEMENT_PAIRS ::= (EXPRESSION) STATEMENT EXPRESSION_STATEMENT_PAIRS | e
 OPTIONAL_ELSE ::= else expression | e
 ASSIGNMENT ::= setvalue identifier EXPRESSION
-EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION | AND_OR_EXPRESSION
+EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION | AND_OR_EXPRESSION | NOT_EXPRESSION
 ARITHMETIC_EXPRESSION ::= (+|-|*|/|mod ARGUMENT_LIST) | MODULO_EXPRESSION
 NATIVE_INVOKATION ::= (invokenative string|identifier ARGUMENT_LIST)
 FUNCTION_CALL ::= (identifier ARGUMENT_LIST)
-LITERAL_OR_IDENTIFIER ::= identifier|number|string
+LITERAL_OR_IDENTIFIER ::= identifier|number|string|true|false
 COMPARISON_EXPRESSION ::= (>=|>|=|<=|< EXPRESSION EXPRESSION)
 AND_OR_EXPRESSION ::= (or|and EXPRESSION EXPRESSION ARGUMENT_LIST)
+NOT_EXPRESSION ::= (not EXPRESSION)
 ARGUMENT_LIST ::= EXPRESSION ARGUMENT_LIST | e
 
 
@@ -42,5 +43,5 @@ locals
 
 Notes:
 
-if and while statements and AND_OR_EXPRESSION expect boolean values as expression; expressions resulting to other types will cause type error at runtime
+if and while statements, NOT_EXPRESSION and AND_OR_EXPRESSION expect boolean values as expression; expressions resulting to other types will cause type error at runtime
 native invokation might not return value if the registered function has void return type. 

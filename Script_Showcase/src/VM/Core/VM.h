@@ -4,6 +4,7 @@
 #include "VM/Core/VMValue.h"
 #include "VM/Core/VMFrame.h"
 #include <vector>
+#include <unordered_set>
 #include <algorithm>
 
 class VMState;
@@ -25,8 +26,8 @@ public:
   std::vector<VMValue *> GetRootSet() override;
   
   // (un)registers VMState as potential source of pointers for garbage collection. 
-  void RegisterVMState(VMState *state) { m_states.push_back(state);  }
-  void UnregisterVMState(VMState *state) { m_states.erase(std::remove(std::begin(m_states), std::end(m_states), state), std::end(m_states)); }
+  void RegisterVMState(VMState *state) { m_states.insert(state);  }
+  void UnregisterVMState(VMState *state) { m_states.erase(state); }
 private:
 
   void InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function);
@@ -44,7 +45,7 @@ private:
 
   std::vector<VMValue> m_stack;
   std::vector<VMFrame> m_frames;
-  std::vector<VMState *> m_states;
+  std::unordered_set<VMState *> m_states;
 
 };
 

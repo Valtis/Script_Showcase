@@ -38,6 +38,10 @@ namespace Compiler {
       return "float number";
     case TokenType::DOUBLE_NUMBER:
       return "double number";
+    case TokenType::TRUE:
+      return "true";
+    case TokenType::FALSE:
+      return "false";
     case TokenType::STATICS:
       return "statics";
     case TokenType::FUNCTION:

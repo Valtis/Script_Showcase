@@ -383,5 +383,8 @@
     <ClInclude Include="src\VM\Compiler\Parser\TokenReader.h">
       <Filter>Header Files\VM\Compiler\Parser</Filter>
     </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\BooleanNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ void printer(VMValue value) {
    printf("%s", ToNativeType<std::string>(value).c_str());
   } else {
     switch (value.GetType()) {
-    case ValueType::BOOL: printf("%d", value.AsBool()); break;
+    case ValueType::BOOL: printf("%s", value.AsBool() ? "true" : "false"); break;
     case ValueType::CHAR: printf("%c", value.AsChar()); break;
     case ValueType::DOUBLE: printf("%f",value.AsDouble()); break;
     case ValueType::FLOAT: printf("%f", value.AsFloat()); break;
@@ -67,10 +67,10 @@ int main() {
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
     states.push_back(std::move(Compiler::Compile("examples/scripttest.txt")));
-    states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
+   /* states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
     states.push_back(std::move(Compiler::Compile("examples/fizzbuzz.txt")));
     states.push_back(std::move(Compiler::Compile("examples/quicksort.txt")));
-    states.push_back(std::move(Compiler::Compile("examples/garbage.txt")));
+    states.push_back(std::move(Compiler::Compile("examples/garbage.txt")));*/
 
 
     LARGE_INTEGER StartingTime;

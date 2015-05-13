@@ -5,6 +5,7 @@
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ArrayNode.h"
 #include "VM/Compiler/AST/ArrayLengthNode.h"
+#include "VM/Compiler/AST/BooleanNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -474,7 +475,7 @@ namespace Compiler {
     int sign = 1;
     handle_minus:
     auto token = m_reader.ExpectOneOf({TokenType::IDENTIFIER, TokenType::STRING, TokenType::INTEGER_NUMBER,
-      TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER, TokenType::MINUS });
+      TokenType::DOUBLE_NUMBER, TokenType::FLOAT_NUMBER, TokenType::MINUS, TokenType::TRUE, TokenType::FALSE });
 
   
     switch (token->GetType()) {
@@ -494,7 +495,7 @@ namespace Compiler {
       }
       break;
       case TokenType::MINUS:
-        sign = -1;
+        sign = -1*sign;
         // yaay goto
         goto handle_minus;
       case TokenType::INTEGER_NUMBER:
@@ -525,6 +526,16 @@ namespace Compiler {
         parent->AddChild(number);
       }
       break;
+      case TokenType::TRUE:
+      case TokenType::FALSE:
+      {
+        auto booleanNode = std::make_shared<BooleanNode>();
+        booleanNode->SetLine(token->GetLine());
+        booleanNode->SetColumn(token->GetColumn());
+        booleanNode->SetBoolean(token->GetType() == TokenType::TRUE);
+        parent->AddChild(booleanNode);
+      }
+        break;
       default:
         throw std::runtime_error("Unexpected token " + token->ToString() + " at " + token->GetTokenPositionInfo() +
           ". Expected literal or identifier");

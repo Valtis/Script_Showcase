@@ -22,6 +22,8 @@ namespace Compiler {
     INTEGER_NUMBER,
     FLOAT_NUMBER,
     DOUBLE_NUMBER,
+    TRUE,
+    FALSE,
     STATICS,
     FUNCTION,
     LOCALS,

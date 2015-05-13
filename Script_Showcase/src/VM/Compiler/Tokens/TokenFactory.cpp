@@ -57,7 +57,13 @@ namespace Compiler {
         break; 
       case TokenType::DOUBLE_NUMBER:
         token.reset(new DoubleToken(type, line, column, optionalValue));
-        break;
+        break; 
+      case TokenType::TRUE:
+          token.reset(new TrueToken(type, line, column));
+          break; 
+      case TokenType::FALSE:
+          token.reset(new FalseToken(type, line, column));
+          break;
       case TokenType::IF:
         token.reset(new IfToken(type, line, column));
         break; 

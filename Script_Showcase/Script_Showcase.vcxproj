@@ -55,6 +55,7 @@
     <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
+    <ClInclude Include="src\VM\Compiler\AST\BooleanNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\CondNode.h" />
     <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />

@@ -3,6 +3,7 @@
 #include "VM/Compiler/AST/ArithmeticNode.h"
 #include "VM/Compiler/AST/ArrayNode.h"
 #include "VM/Compiler/AST/ArrayLengthNode.h"
+#include "VM/Compiler/AST/BooleanNode.h"
 #include "VM/Compiler/AST/ComparisonNode.h"
 #include "VM/Compiler/AST/CondNode.h"
 #include "VM/Compiler/AST/DoubleNode.h"
@@ -145,6 +146,11 @@ namespace Compiler {
     }
 
     m_current_function->AddByteCode(ByteCode::ARRAY_LENGTH);
+  }
+
+  void CodeGeneratorVisitor::Visit(BooleanNode *node) {
+    m_current_function->AddByteCode(ByteCode::PUSH_BOOLEAN);
+    m_current_function->AddByteCode(static_cast<ByteCode>(node->GetBoolean()));
   }
 
   void CodeGeneratorVisitor::Visit(ComparisonNode *node) {

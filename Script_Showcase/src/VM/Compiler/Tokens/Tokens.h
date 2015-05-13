@@ -84,9 +84,12 @@ namespace Compiler {
     TOKEN_WITH_NO_VALUE(WriteArrayToken)
     TOKEN_WITH_NO_VALUE(ReadArrayToken)
     TOKEN_WITH_NO_VALUE(ArrayLengthToken)
+    TOKEN_WITH_NO_VALUE(TrueToken)
+    TOKEN_WITH_NO_VALUE(FalseToken)
 
     TOKEN_WITH_STRING(IdentifierToken);
     TOKEN_WITH_STRING(StringToken);
+    
 
     TOKEN_WITH_INTEGER(IntegerToken);
     TOKEN_WITH_FLOAT(FloatToken);

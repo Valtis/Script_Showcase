@@ -31,10 +31,12 @@
   )
 )
 
-
-
 (fn main (a b c) 
   (
-    (recursiveFunction 0)
+   # (recursiveFunction 0)
+    (println true)
+    (println false)
+  #  (println (not true))
+   # (println (not false))
   )
 )
