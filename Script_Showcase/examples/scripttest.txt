@@ -31,19 +31,39 @@
   )
 )
 
-(fn main (a b c) 
+(fn main (a b container) 
+  (locals array length i)
   (
+
    # (recursiveFunction 0)
-    (println true)
-    (println false)
-    (println (not true))
-    (println (not false))
-    (println (+ 5 0))
-    (println (- 5 0))
-    (println (* 5 0))
-    (println (/ 5.23f 0f))
-    (println (* 5.23f 0f))
-    (println (/ 5.23 0))
+  (println (invokenative "random"))
+  (println (invokenative "getintegers" container))
+  
+  (setvalue i 0)
+  (setvalue array (invokenative "getintegers" container)) 
+  (setvalue length (arraylength array))   
+
+  (while (> length i) 
+    (
+      (println (readarray array i))
+      (setvalue i (+ i 1))
+    )
+  )
+
+
+  (setvalue i 0)
+  (setvalue array (invokenative "getpointers" container)) 
+  (setvalue length (arraylength array))   
+
+  (while (> length i) 
+    (
+      (invokenative "memberFunction" (readarray array i) i)
+      (setvalue i (+ i 1))
+    )
+  )
+   
+   
+
     
   )
 )

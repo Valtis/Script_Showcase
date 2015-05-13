@@ -12,7 +12,7 @@ public:
   VMFunction();
   void SetName(const std::string &name);
   std::string GetName() const;
-  size_t VMFunction::AddByteCode(ByteCode code);
+  size_t AddByteCode(ByteCode code);
   ByteCode GetByteCode(uint32_t pos) const;
 
   void ChangeByteCode(size_t index, ByteCode code);

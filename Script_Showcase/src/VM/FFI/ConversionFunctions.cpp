@@ -39,3 +39,33 @@ template<>
 VMValue ToNativeType<VMValue>(VMValue obj) {
   return obj;
 }
+
+
+template<>
+ValueType GetType<int32_t>() {
+  return ValueType::INT;
+}
+
+
+template<>
+ValueType GetType<float>() {
+  return ValueType::FLOAT;
+}
+
+
+
+template<>
+ValueType GetType<double>() {
+  return ValueType::DOUBLE;
+}
+
+template<>
+ValueType GetType<bool>() {
+  return ValueType::BOOL;
+}
+
+template<>
+ValueType GetType<char>() {
+  return ValueType::CHAR;
+}
+

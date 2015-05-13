@@ -7,6 +7,7 @@
 #include "VM/Compiler/Compiler.h"
 #include "VM/Memory/MemoryManager.h"
 #include <vector>
+#include <list>
 #include <cstdio>
 
 #include <windows.h>
@@ -32,11 +33,6 @@ void printer(VMValue value) {
   std::cout << "\n";
 }
 
-
-double multiply(int a, int b) {
-  return a*b;
-}
-
 class ExampleClass
 {
 public:
@@ -56,13 +52,45 @@ private:
   int m_value;
 };
 
+class Container {
+public:
+  Container() {
+    for (int i = 0; i < 10; ++i) {
+      m_pointers.push_back(new ExampleClass{i});
+      m_integers.push_back(i * 2);
+    }
+  }
+
+  ~Container() {
+    for (auto p : m_pointers) {
+      delete p;
+    }
+  }
+
+  std::vector<ExampleClass *> GetPointers() {
+    return m_pointers;
+  }
+  
+
+  std::list<int> GetIntegers() {
+    return m_integers;
+  }
+
+private:
+  std::list<int> m_integers;
+  std::vector<ExampleClass *> m_pointers;
+};
+
+
+float Random() {
+  return 4.23f;
+}
+
+
 int main() {
 
-  try {
- 
-    ExampleClass exampleObject1(1234);
-    ExampleClass exampleObject2(567);
 
+  try {
     LoggerManager::SetGlobalLogLevel(LogLevel::ALL);
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
@@ -84,13 +112,18 @@ int main() {
  
    
     int counter = 1;
+
+    Container container;
     for (auto &state : states) {
       std::cout << "Example " << counter++ << "\n\n";
       state.AddNativeBinding("printer", CreateBinding(&printer));
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
-      state.AddNativeBinding("memberFunction2", CreateBinding(&ExampleClass::ExampleFunction2));
-      state.AddNativeBinding("multiply", CreateBinding(&multiply));
-      auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1234.567 }, VMValue{ 8775 }, VMValue{&exampleObject1} });
+      state.AddNativeBinding("getpointers", CreateBinding(&Container::GetPointers));
+      state.AddNativeBinding("getintegers", CreateBinding(&Container::GetIntegers));
+      state.AddNativeBinding("random", CreateBinding(&Random));
+
+
+      auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1 }, VMValue{ 2 }, VMValue{ &container } });
       std::cout << "\nReturn value was: ";
       printer(value);
       std::cout << "\n\n";

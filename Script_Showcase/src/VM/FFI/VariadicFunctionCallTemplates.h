@@ -1,5 +1,5 @@
 #pragma once
-
+#include "VM/FFI/ConversionFunctions.h"
 // Following templates call given function where parameters are stored in a tuple
 // Thanks to user 'Johannes Schaub - litb' from Stack Overflow. Slightly modified to fit the existing code and naming scheme
 // http://stackoverflow.com/questions/7858817/unpacking-a-tuple-to-call-a-matching-function-pointer
@@ -26,7 +26,7 @@ void CallMemberFunctionImpl(std::vector<VMValue> &stack, Function f, Pointer p, 
 template<typename ReturnType, typename Function, typename Pointer, typename Tuple, int ...S,
   typename std::enable_if<!std::is_void<ReturnType>::value>::type* = nullptr>
 void CallMemberFunctionImpl(std::vector<VMValue> &stack, Function f, Pointer p, Tuple params, seq<S...>) {
-  stack.push_back(VMValue{ f(p, std::get<S>(params) ...) });
+  stack.push_back(ToManagedType(f(p, std::get<S>(params) ...)));
 }
 
 template <typename ReturnType, typename Function, typename Pointer, typename Tuple, typename... Args>
@@ -47,7 +47,7 @@ void CallFreeFunctionImpl(std::vector<VMValue> &stack, Function f, Tuple params,
 template<typename ReturnType, typename Function, typename Tuple, int ...S,
   typename std::enable_if<!std::is_void<ReturnType>::value>::type* = nullptr>
 void CallFreeFunctionImpl(std::vector<VMValue> &stack, Function f, Tuple params, seq<S...>) {
-  stack.push_back(VMValue{ f(std::get<S>(params) ...) });
+  stack.push_back(ToManagedType(f(std::get<S>(params) ...)));
 }
 
 template <typename ReturnType, typename Function, typename Tuple, typename... Args>
