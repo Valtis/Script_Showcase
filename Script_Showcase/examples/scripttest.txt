@@ -38,5 +38,12 @@
     (println false)
     (println (not true))
     (println (not false))
+    (println (+ 5 0))
+    (println (- 5 0))
+    (println (* 5 0))
+    (println (/ 5.23f 0f))
+    (println (* 5.23f 0f))
+    (println (/ 5.23 0))
+    
   )
 )

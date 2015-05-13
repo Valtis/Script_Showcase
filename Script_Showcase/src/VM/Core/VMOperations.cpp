@@ -196,13 +196,17 @@ namespace Op {
 
   void DivInteger(std::vector<VMValue> &stack) {
     auto second = PopValue(stack).AsInt();
+    if (second == 0) {
+      throw std::runtime_error("Division by zero");
+    }
+
     auto first = PopValue(stack).AsInt();
     PushValue(VMValue{ first / second }, stack);
   }
 
 
   // Not entirely happy with this.
-  #define CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(NAME__, OPERAND__) \
+  #define CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(NAME__, OPERAND__, CHECK_FOR_SECOND_OPERAND) \
   void NAME__(std::vector<VMValue> &stack) { \
     ValueType type; \
     VMValue firstConverted; \
@@ -216,7 +220,11 @@ namespace Op {
       PushValue(VMValue{ firstConverted.AsFloat() OPERAND__ secondConverted.AsFloat() }, stack); \
     } \
     else if (type == ValueType::INT) { \
-    \
+      if ((CHECK_FOR_SECOND_OPERAND)) {\
+        if (secondConverted.AsInt() == 0) {\
+            throw std::runtime_error("Division by zero"); \
+        } \
+      }\
       PushValue(VMValue{ firstConverted.AsInt() OPERAND__ secondConverted.AsInt() }, stack); \
     } \
     else { \
@@ -224,10 +232,12 @@ namespace Op {
     } \
   } 
 
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Add, +)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Sub, -)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Mul, *)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Div, /)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Add, +, false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Sub, -, false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Mul, *, false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(Div, / , true)
+  
+
 
   void Mod(std::vector<VMValue>& stack) {
     auto second = PopValue(stack);
@@ -235,7 +245,9 @@ namespace Op {
 
     first = ConvertToType(ValueType::INT, first);
     second = ConvertToType(ValueType::INT, second);
-    
+    if (second.AsInt() == 0) {
+      throw std::runtime_error("Division by zero");
+    }
     PushValue(VMValue{ first.AsInt() % second.AsInt() }, stack);
   }
 
@@ -246,11 +258,11 @@ namespace Op {
     PushValue(VMValue{ !first.AsBool() }, stack);
   }
 
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreater, >)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreaterOrEq, >=)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsEq, ==)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsLessOrEq, <=)
-  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsLess, < )
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreater, >, false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsGreaterOrEq, >= , false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsEq, == , false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsLessOrEq, <= , false)
+  CREATE_BINARY_FUNCTION_WITH_TYPE_CONVERSION(IsLess, <, false)
 
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack) {
