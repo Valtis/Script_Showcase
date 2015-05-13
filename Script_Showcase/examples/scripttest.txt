@@ -31,39 +31,15 @@
   )
 )
 
-(fn main (a b container) 
-  (locals array length i)
+(fn foo (a)
   (
-
-   # (recursiveFunction 0)
-  (println (invokenative "random"))
-  (println (invokenative "getintegers" container))
-  
-  (setvalue i 0)
-  (setvalue array (invokenative "getintegers" container)) 
-  (setvalue length (arraylength array))   
-
-  (while (> length i) 
-    (
-      (println (readarray array i))
-      (setvalue i (+ i 1))
-    )
+    (println a)
   )
+)
 
-
-  (setvalue i 0)
-  (setvalue array (invokenative "getpointers" container)) 
-  (setvalue length (arraylength array))   
-
-  (while (> length i) 
-    (
-      (invokenative "memberFunction" (readarray array i) i)
-      (setvalue i (+ i 1))
-    )
-  )
-   
-   
-
-    
+(fn main (a b container) 
+  (
+    (invokenative "reentrant" 25)
+    (println "After reentrancy")
   )
 )

@@ -86,6 +86,11 @@ float Random() {
   return 4.23f;
 }
 
+VMState *reentrancyhelper;
+void ReentrancyTest(int value) {
+  VMInstance().InvokeFunction(*reentrancyhelper, "foo", { VMValue{ value } });
+}
+
 
 int main() {
 
@@ -115,13 +120,16 @@ int main() {
 
     Container container;
     for (auto &state : states) {
+
+
+      reentrancyhelper = &state;
       std::cout << "Example " << counter++ << "\n\n";
       state.AddNativeBinding("printer", CreateBinding(&printer));
       state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
       state.AddNativeBinding("getpointers", CreateBinding(&Container::GetPointers));
       state.AddNativeBinding("getintegers", CreateBinding(&Container::GetIntegers));
       state.AddNativeBinding("random", CreateBinding(&Random));
-
+      state.AddNativeBinding("reentrant", CreateBinding(&ReentrancyTest));
 
       auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1 }, VMValue{ 2 }, VMValue{ &container } });
       std::cout << "\nReturn value was: ";

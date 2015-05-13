@@ -30,6 +30,9 @@ public:
   void UnregisterVMState(VMState *state) { m_states.erase(state); }
 private:
 
+  void SaveState();
+  void RestoreOldContext();
+
   void InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function);
   void Execute(VMState &state);
   VMValue ReturnValue();
@@ -46,6 +49,10 @@ private:
   std::vector<VMValue> m_stack;
   std::vector<VMFrame> m_frames;
   std::unordered_set<VMState *> m_states;
+
+  // used to store previous execution context in case we are re-entering the vm
+  std::vector<std::vector<VMValue>> m_previousStacks;
+  std::vector<std::vector<VMFrame>> m_previousFrames;
 
 };
 
