@@ -238,7 +238,6 @@ namespace Op {
     AritmeticOperationWithTypeConversion<std::divides>(stack);
   }
 
-  // need to special case as non-integer types make no sense
   void Mod(std::vector<VMValue>& stack) {
     AritmeticOperationWithTypeConversion<std::modulus>(stack);
   }

@@ -100,10 +100,10 @@ int main() {
     LoggerManager::SetLogFolder("logs");
     std::vector<VMState> states;
     states.push_back(std::move(Compiler::Compile("examples/scripttest.txt")));
-   /* states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
+    states.push_back(std::move(Compiler::Compile("examples/factorial.txt")));
     states.push_back(std::move(Compiler::Compile("examples/fizzbuzz.txt")));
     states.push_back(std::move(Compiler::Compile("examples/quicksort.txt")));
-    states.push_back(std::move(Compiler::Compile("examples/garbage.txt")));*/
+    states.push_back(std::move(Compiler::Compile("examples/garbage.txt")));
 
 
     LARGE_INTEGER StartingTime;

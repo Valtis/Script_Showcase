@@ -49,30 +49,29 @@ VMValue CommonNumberOperation(const VMValue &lhs, const VMValue &rhs) {
   }  
   return VMValue{};
 }
+// const char param in order to eliminate unnecessary allocation if operation succeeds
+void CheckOperationSuccess(const VMValue &value, const char *operationName) {
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error(std::string(operationName) + "is not implemented for " + TypeToString(value.GetType()));
+  }  
+}
 
-// large amount of code duplication. TODO: Refactor this and reduce it
 VMValue VMValue::operator+(const VMValue& rhs)  const {
   auto value = CommonNumberOperation<std::plus>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Addition is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Addition");
   return value;
 }
 
 VMValue VMValue::operator-(const VMValue& rhs) const {
-  auto value = CommonNumberOperation<std::minus>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Substraction is not implemented for " + TypeToString(m_type));
-  }
+  auto value = CommonNumberOperation<std::minus>(*this, rhs); 
+  CheckOperationSuccess(value, "Substraction");
   return value;
 }
 
 
 VMValue VMValue::operator*(const VMValue& rhs) const {
   auto value = CommonNumberOperation<std::multiplies>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Multiplication is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Multiplication");
   return value;
 }
 
@@ -82,10 +81,7 @@ VMValue VMValue::operator/(const VMValue& rhs) const {
   }
 
   auto value = CommonNumberOperation<std::divides>(*this, rhs);
-
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Division is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Division");
   return value;
 }
 
@@ -105,17 +101,13 @@ VMValue VMValue::operator%(const VMValue &rhs) const {
 
 bool VMValue::operator>=(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::greater_equal>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Comparison 'Greater or equal than' is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Greater or equal than");
   return value.m_value.bool_value;
 }
 
 bool VMValue::operator>(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::greater>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Comparison 'Greater than' is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Greater than");
   return value.m_value.bool_value;
 }
 
@@ -126,16 +118,12 @@ bool VMValue::operator==(const VMValue &rhs) const {
 
 bool VMValue::operator<=(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::less_equal>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Comparison 'Less or equal than' is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Less or equal than");
   return value.m_value.bool_value;
 }
 bool VMValue::operator<(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::less>(*this, rhs);
-  if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error("Comparison 'Less than' is not implemented for " + TypeToString(m_type));
-  }
+  CheckOperationSuccess(value, "Less than");
   return value.m_value.bool_value;
 }
 
