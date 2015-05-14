@@ -1,7 +1,8 @@
 Arithmetic and comparison operations will convert types if needed. If operands have different types, following rules are checked until a match is found. If no match is found, a type error is raised.
 
 	If one argument is double and other is either float or integer, the float\integer is promoted to double.
-	If one argument is float and another is integer, the integer operand is promoted to float.	Otherwise a TypeError is raised.
+	If one argument is float and another is integer, the integer operand is promoted to float.	
+	Otherwise a TypeError is raised.
 
 
 	

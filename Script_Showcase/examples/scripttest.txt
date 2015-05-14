@@ -39,8 +39,7 @@
 )
 
 (fn main (a b container) 
-  (
-    
+  (    
     (invokenative "reentrant" 25)
     
     (println (+ 1 2))

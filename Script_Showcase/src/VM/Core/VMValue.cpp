@@ -50,28 +50,28 @@ VMValue CommonNumberOperation(const VMValue &lhs, const VMValue &rhs) {
   return VMValue{};
 }
 // const char param in order to eliminate unnecessary allocation if operation succeeds
-void CheckOperationSuccess(const VMValue &value, const char *operationName) {
+void CheckOperationSuccess(const ValueType originaltType, const VMValue &value, const char *operationName) {
   if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error(std::string(operationName) + "is not implemented for " + TypeToString(value.GetType()));
+    throw std::runtime_error(std::string(operationName) + " is not implemented for " + TypeToString(originaltType));
   }  
 }
 
 VMValue VMValue::operator+(const VMValue& rhs)  const {
   auto value = CommonNumberOperation<std::plus>(*this, rhs);
-  CheckOperationSuccess(value, "Addition");
+  CheckOperationSuccess(m_type, value, "Addition");
   return value;
 }
 
 VMValue VMValue::operator-(const VMValue& rhs) const {
   auto value = CommonNumberOperation<std::minus>(*this, rhs); 
-  CheckOperationSuccess(value, "Substraction");
+  CheckOperationSuccess(m_type, value, "Substraction");
   return value;
 }
 
 
 VMValue VMValue::operator*(const VMValue& rhs) const {
   auto value = CommonNumberOperation<std::multiplies>(*this, rhs);
-  CheckOperationSuccess(value, "Multiplication");
+  CheckOperationSuccess(m_type, value, "Multiplication");
   return value;
 }
 
@@ -81,7 +81,7 @@ VMValue VMValue::operator/(const VMValue& rhs) const {
   }
 
   auto value = CommonNumberOperation<std::divides>(*this, rhs);
-  CheckOperationSuccess(value, "Division");
+  CheckOperationSuccess(m_type, value, "Division");
   return value;
 }
 
@@ -101,13 +101,13 @@ VMValue VMValue::operator%(const VMValue &rhs) const {
 
 bool VMValue::operator>=(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::greater_equal>(*this, rhs);
-  CheckOperationSuccess(value, "Greater or equal than");
+  CheckOperationSuccess(m_type, value, "Greater or equal than");
   return value.m_value.bool_value;
 }
 
 bool VMValue::operator>(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::greater>(*this, rhs);
-  CheckOperationSuccess(value, "Greater than");
+  CheckOperationSuccess(m_type, value, "Greater than");
   return value.m_value.bool_value;
 }
 
@@ -118,12 +118,12 @@ bool VMValue::operator==(const VMValue &rhs) const {
 
 bool VMValue::operator<=(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::less_equal>(*this, rhs);
-  CheckOperationSuccess(value, "Less or equal than");
+  CheckOperationSuccess(m_type, value, "Less or equal than");
   return value.m_value.bool_value;
 }
 bool VMValue::operator<(const VMValue &rhs) const {
   auto value = CommonNumberOperation<std::less>(*this, rhs);
-  CheckOperationSuccess(value, "Less than");
+  CheckOperationSuccess(m_type, value, "Less than");
   return value.m_value.bool_value;
 }
 

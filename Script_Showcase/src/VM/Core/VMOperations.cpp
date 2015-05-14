@@ -23,7 +23,8 @@ namespace Op {
     if (first == ValueType::FLOAT || second == ValueType::FLOAT) {
       return ValueType::FLOAT;
     }
-    return ValueType::INT;
+
+    throw std::runtime_error("No conversion exists between " + TypeToString(second) + " and " + TypeToString(first));
   }
 
   VMValue ConvertToType(ValueType type, VMValue value) {
