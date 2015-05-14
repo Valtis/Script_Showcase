@@ -23,10 +23,9 @@ VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std:
     BuildStackTraceAndThrow(ex);
   }
 
-  RestoreOldContext();
-
-  return ReturnValue();
-
+  auto retVal = ReturnValue();
+  RestoreOldContext(); 
+  return retVal;
 }
 
 void VM::InitializeVMForExecution(const std::string & functionName, std::vector<VMValue> arguments, const VMFunction *function)

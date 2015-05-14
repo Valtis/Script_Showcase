@@ -1,4 +1,5 @@
 #include "VM/Core/VMValue.h"
+#include <functional>
 uint32_t TypeSize(ValueType type) {
   switch (type) {
   case ValueType::UNINITIALIZED:
@@ -24,6 +25,119 @@ uint32_t TypeSize(ValueType type) {
   }
 }
 
+
+void AssertSameType(const VMValue &lhs, const VMValue& rhs) {
+  if (lhs.GetType() != rhs.GetType()) {
+    throw std::runtime_error("TypeError: Expected types to be same but were " + TypeToString(lhs.GetType()) + " and " + TypeToString(rhs.GetType()));
+  }
+}
+
+template <template<typename> class Operand>
+VMValue CommonNumberOperation(const VMValue &lhs, const VMValue &rhs) {
+  AssertSameType(lhs, rhs);
+
+  switch (lhs.GetType()) {
+  case ValueType::INT:
+    return VMValue{ Operand<int>()(lhs.AsInt(), rhs.AsInt()) };
+  case ValueType::FLOAT:
+    return VMValue{ Operand<float>()(lhs.AsFloat(), rhs.AsFloat()) };
+  case ValueType::DOUBLE:
+    return VMValue{ Operand<double>()(lhs.AsDouble(), rhs.AsDouble()) };
+  default:
+    // do nothing
+    break;
+  }  
+  return VMValue{};
+}
+
+// large amount of code duplication. TODO: Refactor this and reduce it
+VMValue VMValue::operator+(const VMValue& rhs)  const {
+  auto value = CommonNumberOperation<std::plus>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Addition is not implemented for " + TypeToString(m_type));
+  }
+  return value;
+}
+
+VMValue VMValue::operator-(const VMValue& rhs) const {
+  auto value = CommonNumberOperation<std::minus>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Substraction is not implemented for " + TypeToString(m_type));
+  }
+  return value;
+}
+
+
+VMValue VMValue::operator*(const VMValue& rhs) const {
+  auto value = CommonNumberOperation<std::multiplies>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Multiplication is not implemented for " + TypeToString(m_type));
+  }
+  return value;
+}
+
+VMValue VMValue::operator/(const VMValue& rhs) const {
+  if (m_type == ValueType::INT && rhs.m_value.int_value == 0) {
+    throw std::runtime_error("Division by zero");
+  }
+
+  auto value = CommonNumberOperation<std::divides>(*this, rhs);
+
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Division is not implemented for " + TypeToString(m_type));
+  }
+  return value;
+}
+
+
+VMValue VMValue::operator%(const VMValue &rhs) const {
+  AssertSameType(*this, rhs);
+  if (m_type != ValueType::INT) {
+    throw std::runtime_error("Modulo is only implemented for integer types");
+  }
+
+  if (rhs.m_value.int_value == 0) {
+    throw std::runtime_error("Division by zero");
+  }
+
+  return VMValue{ m_value.int_value % rhs.m_value.int_value };
+}
+
+bool VMValue::operator>=(const VMValue &rhs) const {
+  auto value = CommonNumberOperation<std::greater_equal>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Comparison 'Greater or equal than' is not implemented for " + TypeToString(m_type));
+  }
+  return value.m_value.bool_value;
+}
+
+bool VMValue::operator>(const VMValue &rhs) const {
+  auto value = CommonNumberOperation<std::greater>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Comparison 'Greater than' is not implemented for " + TypeToString(m_type));
+  }
+  return value.m_value.bool_value;
+}
+
+bool VMValue::operator==(const VMValue &rhs) const {
+  AssertSameType(*this, rhs);
+  return !std::memcmp(&m_value, &rhs.m_value, sizeof(m_value));
+}
+
+bool VMValue::operator<=(const VMValue &rhs) const {
+  auto value = CommonNumberOperation<std::less_equal>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Comparison 'Less or equal than' is not implemented for " + TypeToString(m_type));
+  }
+  return value.m_value.bool_value;
+}
+bool VMValue::operator<(const VMValue &rhs) const {
+  auto value = CommonNumberOperation<std::less>(*this, rhs);
+  if (value.GetType() == ValueType::UNINITIALIZED) {
+    throw std::runtime_error("Comparison 'Less than' is not implemented for " + TypeToString(m_type));
+  }
+  return value.m_value.bool_value;
+}
 
 std::string VMValue::ToString() const {
   std::string str = TypeToString(m_type) + ": ";

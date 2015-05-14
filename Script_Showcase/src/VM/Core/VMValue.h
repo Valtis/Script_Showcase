@@ -18,7 +18,8 @@ std::string TypeToString(ValueType t);
 class VMValue {
 public:
 
-  VMValue() { m_type = ValueType::UNINITIALIZED; m_value.double_value = 0; } 
+  VMValue() { m_type = ValueType::UNINITIALIZED; m_value.double_value = 0; }
+  VMValue(const VMValue &v) : m_type(v.m_type), m_value(v.m_value) { }
   explicit VMValue(const int32_t v) { SetInt(v); }
   explicit VMValue(const float v) { SetFloat(v); }
   explicit VMValue(const double v) { SetDouble(v); }
@@ -26,6 +27,18 @@ public:
   explicit VMValue(const char v) { SetChar(v); }
   explicit VMValue(void * const v) { SetNativePointer(v); }
   explicit VMValue(ValueType type) { m_type = type; memset(&m_value, 0, sizeof(m_value)); }
+
+  VMValue operator+(const VMValue &rhs) const;
+  VMValue operator-(const VMValue &rhs) const;
+  VMValue operator*(const VMValue &rhs) const;
+  VMValue operator/(const VMValue &rhs) const;
+  VMValue operator%(const VMValue &rhs) const;
+
+  bool operator>=(const VMValue &rhs) const;
+  bool operator>(const VMValue &rhs) const;
+  bool operator==(const VMValue &rhs) const;
+  bool operator<=(const VMValue &rhs) const;
+  bool operator<(const VMValue &rhs) const;
 
   void SetInt(const int32_t v) {
     m_type = ValueType::INT;

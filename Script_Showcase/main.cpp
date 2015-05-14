@@ -88,7 +88,7 @@ float Random() {
 
 VMState *reentrancyhelper;
 void ReentrancyTest(int value) {
-  VMInstance().InvokeFunction(*reentrancyhelper, "foo", { VMValue{ value } });
+  std::cout << "Return value from reentrancy: " << VMInstance().InvokeFunction(*reentrancyhelper, "foo", { VMValue{ value } }).ToString() << "\n";
 }
 
 

@@ -34,12 +34,57 @@
 (fn foo (a)
   (
     (println a)
+    (return 1)
   )
 )
 
 (fn main (a b container) 
   (
+    
     (invokenative "reentrant" 25)
+    
+    (println (+ 1 2))
+    (println (+ 1 2f))
+    (println (+ 1 2.0))
+    
+    (println (- 1 2))
+    (println (- 1 2f))
+    (println (- 1 2.0))
+    
+    (println (* 1 2))
+    (println (* 1 2f))
+    (println (* 1 2.0))
+    
+    (println (/ 1 2))
+    (println (/ 1 2f))
+    (println (/ 1 2.0))
+    
+    (println (= 1 2))
+    (println (= 1 2f))
+    (println (= 1 2.0))
+    
+    (println (>= 1 2))
+    (println (>= 1 2f))
+    (println (>= 1 2.0))
+    
+    (println (<= 1 2))
+    (println (<= 1 2f))
+    (println (<= 1 2.0))
+    
+    (println (< 1 2))
+    (println (< 1 2f))
+    (println (< 1 2.0))
+    
+    (println (> 1 2))
+    (println (> 1 2f))
+    (println (> 1 2.0))
+    
+    # (println (mod 1 2))
+    # (println (mod 1 2f))
+    # (println (mod 1 2.0))
+    
+    (println (= true false))
+    
     (println "After reentrancy")
   )
 )
