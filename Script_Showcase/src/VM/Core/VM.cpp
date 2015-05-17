@@ -51,8 +51,8 @@ void VM::InitializeVMForExecution(const std::string & functionName, std::vector<
 }
 
 void VM::SaveState() {
-  m_previousStacks.push_back(m_stack);
-  m_previousFrames.push_back(m_frames);
+  m_previousStacks.push_back(std::move(m_stack));
+  m_previousFrames.push_back(std::move(m_frames));
 }
 
 
@@ -204,12 +204,12 @@ void VM::Execute(VMState &state) {
 
 void VM::RestoreOldContext() {
   if (m_previousStacks.size() != 0) {
-    m_stack = m_previousStacks.back();
+    m_stack = std::move(m_previousStacks.back());
     m_previousStacks.pop_back();
   }
   
   if (m_previousFrames.size() != 0) {
-    m_frames = m_previousFrames.back();
+    m_frames = std::move(m_previousFrames.back());
     m_previousFrames.pop_back();
   }
 }
@@ -220,7 +220,9 @@ VMValue VM::ReturnValue() {
   if (m_stack.empty()) {
     return{};
   }
-  return m_stack.back();
+  auto value = m_stack.back();
+  m_stack.pop_back();
+  return value;
 }
 
 void VM::BuildStackTraceAndThrow(const std::exception &ex) {
