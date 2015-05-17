@@ -62,7 +62,7 @@ std::string Logger::CreateStamp(bool extendedTimeStamp)
 	return stamp.str();
 }
 
-void Logger::AddLine( LogLevel level, std::string text )
+void Logger::AddLine( LogLevel level, const std::string &text )
 {
   if (!m_logFile.is_open())
   {

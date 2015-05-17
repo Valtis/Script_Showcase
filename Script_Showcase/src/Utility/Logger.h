@@ -16,7 +16,7 @@ public:
   void Close();
   void AddTimeStamps(bool stamp);
 
-  void AddLine(LogLevel level, std::string text);
+  void AddLine(LogLevel level, const std::string &text);
 
 
   void SetLoggingLevel(LogLevel val);

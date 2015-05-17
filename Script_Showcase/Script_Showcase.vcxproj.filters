@@ -192,6 +192,9 @@
     <ClCompile Include="src\VM\Compiler\Parser\TokenReader.cpp">
       <Filter>Source Files\VM\Compiler\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\VM\FFI\ConversionFunctions.h">
@@ -388,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="src\VM\Compiler\AST\NotNode.h">
       <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

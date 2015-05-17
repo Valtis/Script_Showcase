@@ -1,0 +1,23 @@
+(fn println (arg) 
+  (
+    (invokenative "printer" arg)
+  )
+)
+
+(fn tailrecursion (iterations sum)
+  (
+    (if (= iterations 0)
+      (
+        (return sum)
+      )
+    )
+    
+    (return (tailrecursion (- iterations 1) (+ sum iterations)))
+  )
+)
+
+(fn main (a b c) 
+  (
+    (tailrecursion 5000 0)
+  )
+)
