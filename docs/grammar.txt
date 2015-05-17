@@ -14,9 +14,9 @@ IF_STATEMENT = (if EXPRESSION (STATEMENTS) (STATEMENTS)|e)
 COND_STATEMENT(cond EXPRESSION_STATEMENT_PAIRS OPTIONAL_ELSE)
 EXPRESSION_STATEMENT_PAIRS ::= (EXPRESSION) STATEMENT EXPRESSION_STATEMENT_PAIRS | e
 OPTIONAL_ELSE ::= else expression | e
-ASSIGNMENT ::= setvalue identifier EXPRESSION
+ASSIGNMENT ::= (setvalue identifier EXPRESSION)
 EXPRESSION ::=  ARITHMETIC_EXPRESSION | NATIVE_INVOKATION | FUNCTION_CALL | LITERAL_OR_IDENTIFIER | COMPARISON_EXPRESSION | AND_OR_EXPRESSION | NOT_EXPRESSION
-ARITHMETIC_EXPRESSION ::= (+|-|*|/|mod ARGUMENT_LIST) | MODULO_EXPRESSION
+ARITHMETIC_EXPRESSION ::= (+|-|*|/|mod ARGUMENT_LIST)
 NATIVE_INVOKATION ::= (invokenative string|identifier ARGUMENT_LIST)
 FUNCTION_CALL ::= (identifier ARGUMENT_LIST)
 LITERAL_OR_IDENTIFIER ::= identifier|number|string|true|false
@@ -27,7 +27,7 @@ ARGUMENT_LIST ::= EXPRESSION ARGUMENT_LIST | e
 
 
 Identifier may start with lower or uppercase letter a - z or underscore. May contain the previous and numbers.
-String stars and ends with '"'-character. Escape sequences \n, \t, \\ and \" 
+String starts and ends with '"'-character. Escape sequences \n, \t, \\ and \" 
 
 
 Reserved words
