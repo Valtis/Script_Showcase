@@ -1,5 +1,6 @@
 #pragma once
 #include "VM/FFI/ConversionFunctions.h"
+#include "VM/Core/VMValue.h"
 // Following templates call given function where parameters are stored in a tuple
 // Thanks to user 'Johannes Schaub - litb' from Stack Overflow. Slightly modified to fit the existing code and naming scheme
 // http://stackoverflow.com/questions/7858817/unpacking-a-tuple-to-call-a-matching-function-pointer

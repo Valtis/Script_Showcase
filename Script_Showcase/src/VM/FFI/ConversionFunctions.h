@@ -1,6 +1,6 @@
 #pragma once
 #include "VM/Core/VMValue.h"
-
+#include "VM/Memory/MemoryManager.h"
 /*
   Conversions from VMValue into native types and native types into managed types. 
   Invalid managed-to-native conversion will throw if there is a type mismatch (for example, trying to convert double into integer)
