@@ -113,7 +113,28 @@ bool VMValue::operator>(const VMValue &rhs) const {
 
 bool VMValue::operator==(const VMValue &rhs) const {
   AssertSameType(*this, rhs);
-  return !std::memcmp(&m_value, &rhs.m_value, sizeof(m_value));
+  switch (m_type) {
+  case ValueType::INT:
+    return m_value.int_value == rhs.m_value.int_value;
+  case ValueType::FLOAT:
+    return m_value.float_value == rhs.m_value.float_value;
+  case ValueType::DOUBLE:
+    return m_value.double_value == rhs.m_value.double_value;
+  case ValueType::BOOL:
+    return m_value.bool_value == rhs.m_value.bool_value;
+  case ValueType::CHAR:
+    return m_value.char_value == rhs.m_value.char_value;
+  case ValueType::NATIVE_POINTER:
+    return m_value.native_pointer_value == rhs.m_value.native_pointer_value;
+  case ValueType::MANAGED_POINTER:
+    return m_value.managed_pointer_value == rhs.m_value.managed_pointer_value;
+  case ValueType::FUNCTION:
+    return m_value.function_value== rhs.m_value.function_value;
+  case ValueType::UNINITIALIZED:
+    return false;
+  default:
+    return "Invalid type tag for comparison.";
+  }
 }
 
 bool VMValue::operator<=(const VMValue &rhs) const {
@@ -184,7 +205,6 @@ std::string TypeToString(ValueType t) {
     return "Character";
   case ValueType::NATIVE_POINTER:
     return "Native pointer";
-    break;
   case ValueType::MANAGED_POINTER:
     return "Managed pointer";
   case ValueType::FUNCTION:

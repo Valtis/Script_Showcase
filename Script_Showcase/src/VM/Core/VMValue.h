@@ -19,7 +19,6 @@ class VMValue {
 public:
 
   VMValue() { m_type = ValueType::UNINITIALIZED; m_value.double_value = 0; }
-  VMValue(const VMValue &v) : m_type(v.m_type), m_value(v.m_value) { }
   explicit VMValue(const int32_t v) { SetInt(v); }
   explicit VMValue(const float v) { SetFloat(v); }
   explicit VMValue(const double v) { SetDouble(v); }
