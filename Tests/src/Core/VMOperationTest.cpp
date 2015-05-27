@@ -438,3 +438,163 @@ TEST(VMOperations, PushIntegerThrowsOnStackOverflow) {
 
   EXPECT_THROW(Op::PushInteger(stack, frames), std::runtime_error);
 }
+
+TEST(VMOperations, PushFloatPushesGivenFloatIntoStack) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  uint32_t value;
+  float float_value = 4.32f;
+  memcpy(&value, &float_value, sizeof(value));
+  f.AddByteCode(static_cast<ByteCode>(value));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::PushFloat(stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::FLOAT, stack[0].GetType());
+  ASSERT_EQ(4.32f, stack[0].AsFloat());
+}
+
+
+TEST(VMOperations, PushFloatThrowsOnStackOverflow) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  uint32_t value;
+  float float_value = 4.32f;
+  memcpy(&value, &float_value, sizeof(value));
+  f.AddByteCode(static_cast<ByteCode>(value));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  for (int i = 0; i < STACK_SIZE; ++i) {
+    Op::PushValue(VMValue(0), stack);
+  }
+
+  EXPECT_THROW(Op::PushFloat(stack, frames), std::runtime_error);
+}
+
+TEST(VMOperations, PushDoublePushesGivenDoubleIntoStack) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  uint32_t value[2];
+  double double_value = 4.3221;
+
+  memcpy(value, &double_value, sizeof(value));
+  
+  f.AddByteCode(static_cast<ByteCode>(value[1]));
+  f.AddByteCode(static_cast<ByteCode>(value[0]));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::PushDouble(stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::DOUBLE, stack[0].GetType());
+  ASSERT_EQ(4.3221, stack[0].AsDouble());
+}
+
+
+TEST(VMOperations, PushDoubleThrowsOnStackOverflow) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  uint32_t value[2];
+  double double_value = 4.3221;
+  memcpy(value, &double_value, sizeof(value));
+  f.AddByteCode(static_cast<ByteCode>(value[1]));
+  f.AddByteCode(static_cast<ByteCode>(value[0]));
+  VMFrame frame(&f);
+
+  frames.push_back(frame);
+
+  for (int i = 0; i < STACK_SIZE; ++i) {
+    Op::PushValue(VMValue(0), stack);
+  }
+
+  EXPECT_THROW(Op::PushDouble(stack, frames), std::runtime_error);
+}
+
+TEST(VMOperations, PushBooleanPushesTrueIntoStack) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(true));
+
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::PushBoolean(stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, PushBooleanPushesFalseIntoStack) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(false));
+
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::PushBoolean(stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, PushBooleanThrowsOnStackOverflow) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(false));
+  VMFrame frame(&f);
+
+  frames.push_back(frame);
+
+  for (int i = 0; i < STACK_SIZE; ++i) {
+    Op::PushValue(VMValue(0), stack);
+  }
+
+  EXPECT_THROW(Op::PushBoolean(stack, frames), std::runtime_error);
+}
+
+TEST(VMOperations, PushFunctionPushesGivenFunctionIdIntoStack) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(4u));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::PushFunction(stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::FUNCTION, stack[0].GetType());
+  ASSERT_EQ(4, stack[0].AsFunction());
+}
+
+
+TEST(VMOperations, PushFunctionThrowsOnStackOverflow) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(4u));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  for (int i = 0; i < STACK_SIZE; ++i) {
+    Op::PushValue(VMValue(0), stack);
+  }
+
+  EXPECT_THROW(Op::PushFunction(stack, frames), std::runtime_error);
+}
