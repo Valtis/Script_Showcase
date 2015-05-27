@@ -82,7 +82,7 @@ namespace Op {
 
 
   void PushValue(const VMValue &value, std::vector<VMValue> &stack) {
-    if (stack.size() == stackSize) {
+    if (stack.size() == STACK_SIZE) {
       throw std::runtime_error("Stack overflow");
     }
     stack.push_back(value);
@@ -278,14 +278,14 @@ namespace Op {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto function = state.GetFunction(index);
 
-    if (frames.size() == frameSize) {
+    if (frames.size() == FRAME_SIZE) {
       throw std::runtime_error("Maximum number of frames reached - stack overflow");
     }
     frames.push_back(function);
   }
 
   void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    if (frames.size() == frameSize) {
+    if (frames.size() == FRAME_SIZE) {
       throw std::runtime_error("Maximum number of frames reached - stack overflow");
     }
     

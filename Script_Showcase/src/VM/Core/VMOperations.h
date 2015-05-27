@@ -7,8 +7,8 @@ class VMState;
 class VMFrame;
 class VMValue;
 
-const uint32_t stackSize = 4096;
-const uint32_t frameSize = 1024;
+const uint32_t STACK_SIZE = 4096;
+const uint32_t FRAME_SIZE = 1024;
 /*
   Functions that actually perform the work required by the VM opcodes. 
 */

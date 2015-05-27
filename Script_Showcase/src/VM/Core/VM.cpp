@@ -4,8 +4,8 @@
 #include "Utility/LoggerManager.h"
 
 VM::VM() {
-  m_stack.reserve(stackSize);
-  m_frames.reserve(frameSize);
+  m_stack.reserve(STACK_SIZE);
+  m_frames.reserve(FRAME_SIZE);
 }
 
 VMValue VM::InvokeFunction(VMState &state, const std::string &functionName, std::vector<VMValue> arguments) {
