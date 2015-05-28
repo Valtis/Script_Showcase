@@ -125,15 +125,6 @@ void VM::Execute(VMState &state) {
     case ByteCode::JUMP_IF_FALSE: 
       Op::JumpIfFalse(state, m_stack, m_frames);
       break;
-    case ByteCode::JUMP_IF_ZERO:
-      Op::JumpIfZero(state, m_stack, m_frames);
-      break;
-    case ByteCode::JUMP_IF_NEGATIVE:
-      Op::JumpIfNegative(state, m_stack, m_frames);
-      break; 
-    case ByteCode::JUMP_IF_POSITIVE:
-      Op::JumpIfPositive(state, m_stack, m_frames);
-      break;
     case ByteCode::ADD:
       Op::Add(m_stack);
       break;
@@ -178,9 +169,6 @@ void VM::Execute(VMState &state) {
       break; 
     case ByteCode::ALLOCATE_OBJECT_ARRAY:
       Op::AllocateObjectArray(m_stack);
-      break;
-    case ByteCode::DOUBLE_TO_INTEGER:
-      Op::DoubleToInteger(m_stack);
       break;
     case ByteCode::RETURN:
       if (!Op::Return(m_frames)) {

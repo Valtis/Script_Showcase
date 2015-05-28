@@ -25,9 +25,6 @@ namespace ByteCodeOptimizer {
     byteCodeArgCount[ByteCode::JUMP] = 1;
     byteCodeArgCount[ByteCode::JUMP_IF_FALSE] = 1;
     byteCodeArgCount[ByteCode::JUMP_IF_TRUE] = 1;
-    byteCodeArgCount[ByteCode::JUMP_IF_NEGATIVE] = 1;
-    byteCodeArgCount[ByteCode::JUMP_IF_POSITIVE] = 1;
-    byteCodeArgCount[ByteCode::JUMP_IF_ZERO] = 1;
     byteCodeArgCount[ByteCode::PUSH_FUNCTION] = 1;
 
     for (auto &function : functions) {

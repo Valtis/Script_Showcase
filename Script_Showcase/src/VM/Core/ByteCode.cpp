@@ -39,10 +39,6 @@ const char *GetByteCodeName(ByteCode code) {
     case ByteCode::JUMP: return "JUMP";
     case ByteCode::JUMP_IF_TRUE: return "JUMP_IF_TRUE";
     case ByteCode::JUMP_IF_FALSE: return "JUMP_IF_FALSE";
-    case ByteCode::JUMP_IF_ZERO:  return "JUMP_IF_ZERO";
-    case ByteCode::JUMP_IF_NEGATIVE: return "JUMP_IF_NEGATIVE";
-    case ByteCode::JUMP_IF_POSITIVE: return "Jump_IF_POSITIVE";
-    case ByteCode::DOUBLE_TO_INTEGER: return "DOUBLE_TO_INTEGER";
     case ByteCode::ALLOCATE_INTEGER_ARRAY: return "ALLOCATE_INTEGER_ARRAY";
     case ByteCode::ALLOCATE_OBJECT_ARRAY: return "ALLOCATE_OBJECT_ARRAY";
     default:

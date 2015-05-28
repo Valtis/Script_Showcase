@@ -386,6 +386,31 @@ TEST(VMOperations, ModOperationWithZeroDivisorThrows) {
   EXPECT_THROW(Op::Mod(stack), std::runtime_error);
 }
 
+// tests for not
+
+TEST(VMOperations, NotOnTruePushesFalseIntoStack) {
+  std::vector<VMValue> stack = { VMValue(true) };
+  Op::Not(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, NotOnFalsePushesTrueIntoStack) {
+  std::vector<VMValue> stack = { VMValue(false) };
+  Op::Not(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, NotThrowsIfOperandIsNonBoolean) {
+  std::vector<VMValue> stack = { VMValue(4) };
+  EXPECT_THROW(Op::Not(stack), std::runtime_error);
+}
+
 
 // PUSH & POPS
 
@@ -749,3 +774,279 @@ TEST(VMOperations, ArrayLengthThrowsIfOperandIsNotAPointerToArray) {
   std::vector<VMValue> stack = { VMValue{} };
   EXPECT_THROW(Op::ArrayLength(stack), std::runtime_error);
 }
+
+
+// Comparisons
+
+TEST(VMOperations, IsGreaterPushesTrueWithIntegersIntoStackIfValueIsGreater) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(3) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterPushesFalseWithIntegersIntoStackIfValueIsEqual) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(4) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterPushesFalseWithIntegersIntoStackIfValueIsLesser) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(5) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterPushesTrueIntoStackWhenValueIsGreaterAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.2), VMValue(4) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterPushesFalseIntoStackWhenValueIsEqualAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.0f) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterPushesFalseIntoStackWhenValueIsLesserAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.1f) };
+  Op::IsGreater(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqualPushesTrueWithIntegersIntoStackIfValueIsGreater) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(3) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqPushesTrueWithIntegersIntoStackIfValueIsEqual) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(4) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqPushesFalseWithIntegersIntoStackIfValueIsLesser) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(5) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqPushesTrueIntoStackWhenValueIsGreaterAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.2), VMValue(4) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqPushesTrueIntoStackWhenValueIsEqualAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.0f) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsGreaterOrEqPushesFalseIntoStackWhenValueIsLesserAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.1f) };
+  Op::IsGreaterOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesFalseWithIntegersIntoStackIfValueIsGreater) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(3) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesTrueWithIntegersIntoStackIfValueIsEqual) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(4) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesFalseWithIntegersIntoStackIfValueIsLesser) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(5) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesFalseIntoStackWhenValueIsGreaterAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.2), VMValue(4) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesTrueIntoStackWhenValueIsEqualAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.0f) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsEqualPushesFalseIntoStackWhenValueIsLesserAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.1f) };
+  Op::IsEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesFalseWithIntegersIntoStackIfValueIsGreater) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(3) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesTrueWithIntegersIntoStackIfValueIsEqual) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(4) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesTrueWithIntegersIntoStackIfValueIsLesser) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(5) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesFalseIntoStackWhenValueIsGreaterAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.2), VMValue(4) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesTrueIntoStackWhenValueIsEqualAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.0f) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessOrEqualPushesTrueIntoStackWhenValueIsLesserAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.1f) };
+  Op::IsLessOrEq(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesFalseWithIntegersIntoStackIfValueIsGreater) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(3) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesFalseWithIntegersIntoStackIfValueIsEqual) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(4) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesTrueWithIntegersIntoStackIfValueIsLesser) {
+  std::vector<VMValue> stack = { VMValue(4), VMValue(5) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesFalseIntoStackWhenValueIsGreaterAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.2), VMValue(4) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesFalseIntoStackWhenValueIsEqualAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.0f) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(false, stack[0].AsBool());
+}
+
+TEST(VMOperations, IsLessPushesTrueIntoStackWhenValueIsLesserAndRequiresTypeConversion) {
+  std::vector<VMValue> stack = { VMValue(4.0), VMValue(4.1f) };
+  Op::IsLess(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::BOOL, stack[0].GetType());
+  ASSERT_EQ(true, stack[0].AsBool());
+}
+
+// Jumps
+

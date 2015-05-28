@@ -61,12 +61,6 @@ namespace Op {
   void Jump(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfFalse(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void JumpIfZero(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void JumpIfNegative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void JumpIfPositive(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-
-
-  void DoubleToInteger(std::vector<VMValue> &stack);
 
   void AllocateIntegerArray(std::vector<VMValue> &stack);
   void AllocateObjectArray(std::vector<VMValue> &stack);

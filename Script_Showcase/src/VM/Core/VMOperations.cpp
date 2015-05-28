@@ -335,32 +335,6 @@ namespace Op {
     }
   }
 
-  void JumpIfZero(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
-    auto value = PopValue(stack);
-
-    if (value.AsInt() == 0) {
-      frames.back().SetNextInstruction(jumpDestination);
-    }
-  }
-
-  void JumpIfNegative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
-    auto value = PopValue(stack);
-    if (value.AsInt() < 0) {
-      frames.back().SetNextInstruction(jumpDestination);
-    }
-  }
-
-  void JumpIfPositive(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
-    auto value = PopValue(stack);
-
-    if (value.AsInt() > 0) {
-      frames.back().SetNextInstruction(jumpDestination);
-    }
-  }
-
   void StoreLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
@@ -371,12 +345,6 @@ namespace Op {
   void LoadLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     PushValue(frames.back().GetLocalVariable(index), stack);
-  }
-
-  void DoubleToInteger(std::vector<VMValue> &stack) {
-    auto value = PopValue(stack);
-    value.SetInt(static_cast<int32_t>(value.AsDouble()));
-    PushValue(value, stack);
   }
 
   void AllocateIntegerArray(std::vector<VMValue> &stack) {
