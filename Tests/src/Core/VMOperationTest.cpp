@@ -3,7 +3,8 @@
 #include "VM/Core/VMOperations.h"
 #include "VM/Core/VMValue.h"
 #include "VM/Core/VMFrame.h"
-
+#include "VM/Core/VMState.h"
+#include "VM/Memory/MemoryManager.h"
 #include <cmath>
 #include <vector>
 
@@ -597,4 +598,154 @@ TEST(VMOperations, PushFunctionThrowsOnStackOverflow) {
   }
 
   EXPECT_THROW(Op::PushFunction(stack, frames), std::runtime_error);
+}
+
+TEST(VMOperations, PopReturnsTopmostValueFromStack) {
+  std::vector<VMValue> stack = { VMValue(5.0), VMValue('a') };
+  EXPECT_EQ('a', Op::PopValue(stack).AsChar());
+}
+
+TEST(VMOperations, PopThrowsOnEmptyStack) {
+  std::vector<VMValue> stack;
+  EXPECT_THROW(Op::PopValue(stack).AsChar(), std::runtime_error);
+}
+
+
+// loads & stores
+
+
+TEST(VMOperations, StoreLocalStoresValueIntoFrame) {
+  std::vector<VMValue> stack = { VMValue(123.45)};
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  f.SetLocalCount(3);
+  f.AddByteCode(static_cast<ByteCode>(2));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+  Op::StoreLocal(stack, frames);
+  ASSERT_EQ(ValueType::DOUBLE, frames[0].GetLocalVariable(2).GetType());
+  ASSERT_DOUBLE_EQ(123.45, frames[0].GetLocalVariable(2).AsDouble());
+}
+
+TEST(VMOperations, LoadLocalLoadValueFromFrame) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  VMFunction f;
+  f.SetLocalCount(3);
+  f.AddByteCode(static_cast<ByteCode>(2));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+  frames[0].SetLocalVariable(2, VMValue('y'));
+    
+  Op::LoadLocal(stack, frames);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::CHAR, stack[0].GetType());
+  ASSERT_EQ('y', stack[0].AsChar());
+}
+
+TEST(VMOperations, StoreStaticStoresValueIntoVMState) {
+  std::vector<VMValue> stack = { VMValue(123.45) };
+  std::vector<VMFrame> frames;  
+  VMState state;
+  auto index = state.AddStaticObject(VMValue{});
+  
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(index));
+  VMFrame frame(&f);
+  frames.push_back(frame);
+
+
+
+  Op::StoreStaticObject(state, stack, frames);
+  ASSERT_EQ(ValueType::DOUBLE, state.GetStaticObject(index).GetType());
+  ASSERT_DOUBLE_EQ(123.45, state.GetStaticObject(index).AsDouble());
+}
+
+TEST(VMOperations, LoadStaticLoadsValueFromVMState) {
+  std::vector<VMValue> stack;
+  std::vector<VMFrame> frames;
+  
+  VMState state;
+  auto index = state.AddStaticObject(VMValue{ 'y' });
+
+  VMFunction f;  
+  f.AddByteCode(static_cast<ByteCode>(index));
+
+  VMFrame frame(&f);
+  frames.push_back(frame);
+  
+  Op::LoadStaticObject(state, stack, frames);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::CHAR, stack[0].GetType());
+  ASSERT_EQ('y', stack[0].AsChar());
+}
+
+TEST(VMOperations, StoreArrayIndexStoresValueIntoArray) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 4 }, VMValue{ false } };
+  auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::BOOL, 5);
+
+
+  Op::StoreArrayIndex(stack);
+  
+  bool value;
+  MemMgrInstance().ReadFromArrayIndex(ptr, &value, 4, 1);
+  ASSERT_EQ(false, value);
+}
+
+TEST(VMOperations, StoreArrayIndexThrowsIfArrayAndVMValueTypesDoNotMatch) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 4 }, VMValue{ false } };
+  auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::INT, 5);
+
+  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+}
+
+TEST(VMOperations, StoreArrayIndexThrowsIfIndexIsOutOfBounds) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 20 }, VMValue{ false } };
+  auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::BOOL, 5);
+
+  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+}
+
+TEST(VMOperations, StoreArrayIndexThrowsIfNoPointerIsPresent) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 0 } };
+  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+}
+
+TEST(VMOperations, LoadArrayLoadsFromValueFromArrayIndex) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 4 } };
+  auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::FLOAT, 5);
+  auto value = 421.1f;
+  MemMgrInstance().WriteToArrayIndex(ptr, &value, 4, 1);
+    Op::LoadArrayIndex(stack);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::FLOAT, stack[0].GetType());
+  ASSERT_FLOAT_EQ(421.1f, stack[0].AsFloat());
+}
+
+TEST(VMOperations, LoadArrayThrowsIfIndexIsOutOfBounds) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 20 } };
+  auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::FLOAT, 5);
+  EXPECT_THROW(Op::LoadArrayIndex(stack), std::runtime_error);
+}
+
+TEST(VMOperations, LoadArrayThrowsIfNoPointerIsPresent) {
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 0 } };
+  EXPECT_THROW(Op::LoadArrayIndex(stack), std::runtime_error);
+}
+
+
+TEST(VMOperations, ArrayLengthPushesArrayLengthIntoStack) {
+  std::vector<VMValue> stack = { VMValue{} };
+  stack[0] = MemMgrInstance().AllocateArray(ValueType::FLOAT, 5);
+  Op::ArrayLength(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::INT, stack[0].GetType());
+  ASSERT_EQ(5, stack[0].AsInt());
+}
+
+TEST(VMOperations, ArrayLengthThrowsIfOperandIsNotAPointerToArray) {
+  std::vector<VMValue> stack = { VMValue{} };
+  EXPECT_THROW(Op::ArrayLength(stack), std::runtime_error);
 }

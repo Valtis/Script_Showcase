@@ -361,14 +361,14 @@ namespace Op {
     }
   }
 
-  void StoreLocal(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void StoreLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
 
     frames.back().SetLocalVariable(index, value);
   }
 
-  void LoadLocal(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void LoadLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     PushValue(frames.back().GetLocalVariable(index), stack);
   }

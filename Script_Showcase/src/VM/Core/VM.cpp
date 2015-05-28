@@ -81,10 +81,10 @@ void VM::Execute(VMState &state) {
       Op::PushFunction(m_stack, m_frames);
       break;
     case ByteCode::LOAD_LOCAL:
-      Op::LoadLocal(state, m_stack, m_frames);
+      Op::LoadLocal(m_stack, m_frames);
       break;
     case ByteCode::STORE_LOCAL:
-      Op::StoreLocal(state, m_stack, m_frames);
+      Op::StoreLocal(m_stack, m_frames);
       break;
     case ByteCode::LOAD_STATIC_OBJECT: 
       Op::LoadStaticObject(state, m_stack, m_frames);

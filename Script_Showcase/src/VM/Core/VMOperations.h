@@ -21,6 +21,9 @@ namespace Op {
   void PushDouble(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void PushBoolean(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
+  void StoreLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void LoadLocal(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+
   void LoadStaticObject(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void StoreStaticObject(VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
@@ -62,9 +65,6 @@ namespace Op {
   void JumpIfNegative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void JumpIfPositive(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
-
-  void StoreLocal(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void LoadLocal(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
   void DoubleToInteger(std::vector<VMValue> &stack);
 
