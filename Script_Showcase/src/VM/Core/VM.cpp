@@ -117,13 +117,13 @@ void VM::Execute(VMState &state) {
       Op::IsLess(m_stack);
       break;
     case ByteCode::JUMP:
-      Op::Jump(state, m_stack, m_frames);
+      Op::Jump(m_frames);
       break;
     case ByteCode::JUMP_IF_TRUE: 
-      Op::JumpIfTrue(state, m_stack, m_frames);
+      Op::JumpIfTrue(m_stack, m_frames);
       break;
     case ByteCode::JUMP_IF_FALSE: 
-      Op::JumpIfFalse(state, m_stack, m_frames);
+      Op::JumpIfFalse(m_stack, m_frames);
       break;
     case ByteCode::ADD:
       Op::Add(m_stack);
@@ -159,7 +159,7 @@ void VM::Execute(VMState &state) {
       Op::InvokeNative(state, m_stack);
       break;
     case ByteCode::INVOKE_MANAGED:
-      Op::InvokeManaged(state, m_stack, m_frames);
+      Op::InvokeManaged(state, m_frames);
       break;
     case ByteCode::INVOKE_MANAGED_INDIRECT:
       Op::InvokeManagedIndirect(state, m_stack, m_frames);

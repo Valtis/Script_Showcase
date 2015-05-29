@@ -82,7 +82,7 @@ namespace Op {
 
 
   void PushValue(const VMValue &value, std::vector<VMValue> &stack) {
-    if (stack.size() == STACK_SIZE) {
+    if (stack.size() >= STACK_SIZE) {
       throw std::runtime_error("Stack overflow");
     }
     stack.push_back(value);
@@ -274,18 +274,19 @@ namespace Op {
     binding(stack);
   }
 
-  void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void InvokeManaged(const VMState &state, std::vector<VMFrame> &frames) {
+    if (frames.size() >= FRAME_SIZE) {
+      throw std::runtime_error("Maximum number of frames reached - stack overflow");
+    }
+
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto function = state.GetFunction(index);
 
-    if (frames.size() == FRAME_SIZE) {
-      throw std::runtime_error("Maximum number of frames reached - stack overflow");
-    }
     frames.push_back(function);
   }
 
   void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
-    if (frames.size() == FRAME_SIZE) {
+    if (frames.size() >= FRAME_SIZE) {
       throw std::runtime_error("Maximum number of frames reached - stack overflow");
     }
     
@@ -310,13 +311,13 @@ namespace Op {
 
   }
 
-  void Jump(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void Jump(std::vector<VMFrame> &frames) {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     frames.back().SetNextInstruction(jumpDestination);
   }
 
 
-  void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void JumpIfTrue(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
 
@@ -326,7 +327,7 @@ namespace Op {
   }
 
 
-  void JumpIfFalse(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+  void JumpIfFalse(std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     auto jumpDestination = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto value = PopValue(stack);
 

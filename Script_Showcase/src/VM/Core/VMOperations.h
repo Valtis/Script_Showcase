@@ -46,7 +46,7 @@ namespace Op {
   void Not(std::vector<VMValue> &stack);
 
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
-  void InvokeManaged(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void InvokeManaged(const VMState &state, std::vector<VMFrame> &frames);
   void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
 
@@ -58,9 +58,9 @@ namespace Op {
   void IsLess(std::vector<VMValue> &stack);
 
 
-  void Jump(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void JumpIfTrue(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
-  void JumpIfFalse(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void Jump(std::vector<VMFrame> &frames);
+  void JumpIfTrue(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
+  void JumpIfFalse(std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 
   void AllocateIntegerArray(std::vector<VMValue> &stack);
   void AllocateObjectArray(std::vector<VMValue> &stack);

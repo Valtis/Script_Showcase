@@ -1050,3 +1050,126 @@ TEST(VMOperations, IsLessPushesTrueIntoStackWhenValueIsLesserAndRequiresTypeConv
 
 // Jumps
 
+TEST(VMOperations, UnconditionalJumpModifiesProgramCounter) {
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  Op::Jump(frames);
+   
+  ASSERT_EQ(1, frames.size());
+  ASSERT_EQ(5, frames[0].GetProgramCounter());
+}
+
+
+TEST(VMOperations,JumpIfTrueModifiesProgramCounterIfTrueIsInStack) {
+  std::vector<VMValue> stack = { VMValue{ true } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  Op::JumpIfTrue(stack, frames);
+
+  ASSERT_EQ(1, frames.size());
+  ASSERT_EQ(5, frames[0].GetProgramCounter());
+}
+
+TEST(VMOperations, JumpIfTrueDoesNotModifyProgramCounterIfFalseIsInStack) {
+  std::vector<VMValue> stack = { VMValue{ false } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  Op::JumpIfTrue(stack, frames);
+
+  ASSERT_EQ(1, frames.size());
+  ASSERT_EQ(1, frames[0].GetProgramCounter());
+}
+
+TEST(VMOperations, JumpIfTrueThrowsIfValueIsNonBoolean) {
+  std::vector<VMValue> stack = { VMValue{ 5 } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  EXPECT_THROW(Op::JumpIfTrue(stack, frames), std::runtime_error);
+}
+
+
+TEST(VMOperations, JumpIfFalseDoesNotModifyProgramCounterIfTrueIsInStack) {
+  std::vector<VMValue> stack = { VMValue{ true } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  Op::JumpIfFalse(stack, frames);
+
+  ASSERT_EQ(1, frames.size());
+  ASSERT_EQ(1, frames[0].GetProgramCounter());
+}
+
+TEST(VMOperations, JumpIfFalseModifiesProgramCounterIfFalseIsInStack) {
+  std::vector<VMValue> stack = { VMValue{ false } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  Op::JumpIfFalse(stack, frames);
+
+  ASSERT_EQ(1, frames.size());
+  ASSERT_EQ(5, frames[0].GetProgramCounter());
+}
+
+TEST(VMOperations, JumpIfFalseThrowsIfValueIsNonBoolean) {
+  std::vector<VMValue> stack = { VMValue{ 'y' } };
+
+  VMFunction f;
+  f.AddByteCode(static_cast<ByteCode>(5));
+  VMFrame frame(&f);
+  std::vector<VMFrame> frames = { frame };
+  EXPECT_THROW(Op::JumpIfFalse(stack, frames), std::runtime_error);
+}
+
+
+// function invocations
+
+TEST(VMOperations, InvokeMangedPushesFrameIntoStackWithCorrectFunctionAndInstructionCounterAtZero) {
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+
+  VMState state;
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(1));
+
+  std::vector<VMFrame> frames = { VMFrame{ &old_f } };
+    
+  Op::InvokeManaged(state, frames);
+  ASSERT_EQ(2, frames.size());
+  ASSERT_EQ(0, frames[1].GetProgramCounter());
+  ASSERT_EQ(new_f.GetName(), frames[1].GetFunctionName());
+}
+
+
+TEST(VMOperations, InvokeManagedThrowsIfFrameStackOverflows) {
+  VMFunction f;
+  VMState state;
+  state.AddFunction(f);
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(1));
+
+  std::vector<VMFrame> frames;
+  frames.resize(FRAME_SIZE);
+  EXPECT_THROW(Op::InvokeManaged(state, frames), std::runtime_error);
+}

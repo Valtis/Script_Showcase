@@ -3,7 +3,9 @@
 VMFrame::VMFrame() : VMFrame(nullptr) { }
 
 VMFrame::VMFrame(const VMFunction *function) : m_function(function), m_current_instruction(0) {
-  m_localVariables.resize(function->GetLocalCount());
+  if (function != nullptr) {
+    m_localVariables.resize(function->GetLocalCount());
+  }
 }
 
 ByteCode VMFrame::GetNextInstruction() {
