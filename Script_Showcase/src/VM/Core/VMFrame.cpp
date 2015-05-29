@@ -9,10 +9,16 @@ VMFrame::VMFrame(const VMFunction *function) : m_function(function), m_current_i
 }
 
 ByteCode VMFrame::GetNextInstruction() {
+  if (!m_function) {
+    throw std::runtime_error("No function is set");
+  }
   return m_function->GetByteCode(m_current_instruction++);
 }
 
 ByteCode VMFrame::GetPreviousInstruction() const {
+  if (!m_function) {
+    throw std::runtime_error("No function is set");
+  }
   return m_function->GetByteCode(m_current_instruction - 1);
 }
 
@@ -22,6 +28,9 @@ void VMFrame::SetNextInstruction(uint32_t instruction) {
 
 
 std::string VMFrame::GetFunctionName() const {
+  if (!m_function) {
+    throw std::runtime_error("No function is set");
+  }
   return m_function->GetName();
 }
 
