@@ -41,11 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\Script_Showcase\src;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\include;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\include;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\Script_Showcase\src;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\include;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\include;C:\Libs\GoogleTest_VS2013\gtest-1.7.0\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,8 +90,8 @@
     <ProjectReference Include="..\GoogleTest\GoogleTest.vcxproj">
       <Project>{89984353-3384-4b1e-88af-3fe61b2cf093}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Script_Showcase\Script_Showcase.vcxproj">
-      <Project>{76d37eb1-8dbf-461a-8fce-29193fae23ef}</Project>
+    <ProjectReference Include="..\VM\VM.vcxproj">
+      <Project>{f37fc6c5-3ed7-4763-84bf-edf599d1c797}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

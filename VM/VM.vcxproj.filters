@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\VM">
+      <UniqueIdentifier>{0b087912-486f-4279-8ad2-94944601ef27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\FFI">
+      <UniqueIdentifier>{8fbdab93-6c12-41e1-a2bc-12f401843335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Memory">
+      <UniqueIdentifier>{4ff72047-6d90-401b-bb1c-c02af0e8870b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Core">
+      <UniqueIdentifier>{848e4d85-4779-4eb7-8800-7c1b5145180f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler">
+      <UniqueIdentifier>{e4498dd8-d444-4ae3-a86a-7e8573700c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\Tokenizer">
+      <UniqueIdentifier>{a47913d9-47db-4e24-9280-0968d16dc530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\Tokens">
+      <UniqueIdentifier>{99816040-2d9d-45c5-996c-3bacdd6ac49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\Parser">
+      <UniqueIdentifier>{7b696ae4-c0ba-423f-88c9-8e36614e3bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\AST">
+      <UniqueIdentifier>{4e65bd09-12a5-4348-90ce-48efff341d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\CodeGen">
+      <UniqueIdentifier>{03371781-caed-492c-a223-b537619242c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\ByteCodePrinter">
+      <UniqueIdentifier>{ece6f289-a0d1-4d96-9584-8ba52e9b662f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Compiler\Optimizer">
+      <UniqueIdentifier>{aa9209b4-cda3-4cdf-9be1-406aa192841d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VM\Exceptions">
+      <UniqueIdentifier>{cfe82035-7334-40d1-88c9-a3bd825caa08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{948666dd-6d91-4232-b890-b118880afe6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM">
+      <UniqueIdentifier>{7c8f700f-9321-4db8-8746-67eebd22aa01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\FFI">
+      <UniqueIdentifier>{93e428aa-d37f-496a-92b3-ba00d90111c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Core">
+      <UniqueIdentifier>{7f64aba2-066c-4348-b1b5-fc59d094a725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Memory">
+      <UniqueIdentifier>{b6b1ec06-1403-4847-b289-cdfdaf8dd87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler">
+      <UniqueIdentifier>{a26d4a35-79b5-4608-b61c-fa5f3e325ca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\Tokenizer">
+      <UniqueIdentifier>{663e6bec-3999-4acd-8a8d-129f9448c94c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\Tokens">
+      <UniqueIdentifier>{3f1caf47-d40f-46a2-b0bd-3cc3c44e4126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\Parser">
+      <UniqueIdentifier>{3697e0ff-1c85-46bd-9632-c7a02338b5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\AST">
+      <UniqueIdentifier>{6ee80a85-acb1-482a-bad2-49f21f300f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\CodeGen">
+      <UniqueIdentifier>{d06f5703-eb21-4e1e-a664-ce31e9b3ee5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\ByteCodePrinter">
+      <UniqueIdentifier>{2ef93200-284f-466c-965a-aa169848658d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VM\Compiler\Optimizer">
+      <UniqueIdentifier>{ba3646a2-d9fd-46d8-b530-c76de20c2beb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{797201dc-9c09-453e-a789-2851195e3bf6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\VM\FFI\ConversionFunctions.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\NativeBinding.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h">
+      <Filter>Header Files\VM\FFI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\CheneyCollector.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\GarbageCollector.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\GCFactory.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\MemoryManager.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\RootSetProvider.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Memory\VMObjectFunctions.h">
+      <Filter>Header Files\VM\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\ByteCode.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VM.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMFrame.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMFunction.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMOperations.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMState.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Core\VMValue.h">
+      <Filter>Header Files\VM\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Compiler.h">
+      <Filter>Header Files\VM\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h">
+      <Filter>Header Files\VM\Compiler\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h">
+      <Filter>Header Files\VM\Compiler\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokens\Token.h">
+      <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h">
+      <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokens\Tokens.h">
+      <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenType.h">
+      <Filter>Header Files\VM\Compiler\Tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Parser\Parser.h">
+      <Filter>Header Files\VM\Compiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Parser\TokenReader.h">
+      <Filter>Header Files\VM\Compiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\AndNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ASTNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\BooleanNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\CondNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ElseNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FloatNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FunctionCallNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\IfNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\NotNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\OrNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\ReturnNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\RootNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\StringNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\WhileNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h">
+      <Filter>Header Files\VM\Compiler\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h">
+      <Filter>Header Files\VM\Compiler\CodeGen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h">
+      <Filter>Header Files\VM\Compiler\CodeGen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h">
+      <Filter>Header Files\VM\Compiler\ByteCodePrinter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h">
+      <Filter>Header Files\VM\Compiler\Optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h">
+      <Filter>Header Files\VM\Compiler\Optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Exceptions\Exceptions.h">
+      <Filter>Header Files\VM\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Logger.h">
+      <Filter>Header Files\VM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\LoggerManager.h">
+      <Filter>Header Files\VM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Logs.h">
+      <Filter>Header Files\VM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\StringUtility.h">
+      <Filter>Header Files\VM</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp">
+      <Filter>Source Files\VM\FFI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\ByteCode.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VM.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMFrame.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMFunction.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMOperations.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMState.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Core\VMValue.cpp">
+      <Filter>Source Files\VM\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\CheneyCollector.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\GarbageCollector.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\GCFactory.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\MemoryManager.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\RootSetProvider.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp">
+      <Filter>Source Files\VM\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Compiler.cpp">
+      <Filter>Source Files\VM\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp">
+      <Filter>Source Files\VM\Compiler\Tokenizer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp">
+      <Filter>Source Files\VM\Compiler\Tokenizer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp">
+      <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp">
+      <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp">
+      <Filter>Source Files\VM\Compiler\Tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp">
+      <Filter>Source Files\VM\Compiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Parser\TokenReader.cpp">
+      <Filter>Source Files\VM\Compiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp">
+      <Filter>Source Files\VM\Compiler\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp">
+      <Filter>Source Files\VM\Compiler\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp">
+      <Filter>Source Files\VM\Compiler\CodeGen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp">
+      <Filter>Source Files\VM\Compiler\CodeGen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp">
+      <Filter>Source Files\VM\Compiler\ByteCodePrinter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp">
+      <Filter>Source Files\VM\Compiler\Optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp">
+      <Filter>Source Files\VM\Compiler\Optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Logger.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\LoggerManager.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\StringUtility.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

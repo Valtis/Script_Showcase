@@ -13,107 +13,14 @@
   <ItemGroup>
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Utility\Logger.cpp" />
-    <ClCompile Include="src\Utility\LoggerManager.cpp" />
-    <ClCompile Include="src\Utility\StringUtility.cpp" />
-    <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
-    <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
-    <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp" />
-    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
-    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
-    <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
-    <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp" />
-    <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp" />
-    <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp" />
-    <ClCompile Include="src\VM\Compiler\Parser\TokenReader.cpp" />
-    <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp" />
-    <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
-    <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp" />
-    <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp" />
-    <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp" />
-    <ClCompile Include="src\VM\Core\ByteCode.cpp" />
-    <ClCompile Include="src\VM\Core\VM.cpp" />
-    <ClCompile Include="src\VM\Core\VMFrame.cpp" />
-    <ClCompile Include="src\VM\Core\VMFunction.cpp" />
-    <ClCompile Include="src\VM\Core\VMOperations.cpp" />
-    <ClCompile Include="src\VM\Core\VMState.cpp" />
-    <ClCompile Include="src\VM\Core\VMValue.cpp" />
-    <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp" />
-    <ClCompile Include="src\VM\Memory\CheneyCollector.cpp" />
-    <ClCompile Include="src\VM\Memory\GarbageCollector.cpp" />
-    <ClCompile Include="src\VM\Memory\GCFactory.cpp" />
-    <ClCompile Include="src\VM\Memory\MemoryManager.cpp" />
-    <ClCompile Include="src\VM\Memory\RootSetProvider.cpp" />
-    <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h" />
-    <ClInclude Include="src\Utility\Logger.h" />
-    <ClInclude Include="src\Utility\LoggerManager.h" />
-    <ClInclude Include="src\Utility\Logs.h" />
-    <ClInclude Include="src\Utility\StringUtility.h" />
-    <ClInclude Include="src\VM\Compiler\AST\AndNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
-    <ClInclude Include="src\VM\Compiler\AST\BooleanNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\CondNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ElseNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\FloatNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\FunctionCallNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\IfNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\NotNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\OrNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\ReturnNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\WhileNode.h" />
-    <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h" />
-    <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h" />
-    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
-    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
-    <ClInclude Include="src\VM\Compiler\Compiler.h" />
-    <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h" />
-    <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h" />
-    <ClInclude Include="src\VM\Compiler\Parser\Parser.h" />
-    <ClInclude Include="src\VM\Compiler\Parser\TokenReader.h" />
-    <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h" />
-    <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h" />
-    <ClInclude Include="src\VM\Compiler\Tokens\Token.h" />
-    <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h" />
-    <ClInclude Include="src\VM\Compiler\Tokens\Tokens.h" />
-    <ClInclude Include="src\VM\Compiler\Tokens\TokenType.h" />
-    <ClInclude Include="src\VM\Core\ByteCode.h" />
-    <ClInclude Include="src\VM\Core\VM.h" />
-    <ClInclude Include="src\VM\Core\VMFrame.h" />
-    <ClInclude Include="src\VM\Core\VMFunction.h" />
-    <ClInclude Include="src\VM\Core\VMOperations.h" />
-    <ClInclude Include="src\VM\Core\VMState.h" />
-    <ClInclude Include="src\VM\Core\VMValue.h" />
-    <ClInclude Include="src\VM\Exceptions\Exceptions.h" />
-    <ClInclude Include="src\VM\FFI\ConversionFunctions.h" />
-    <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h" />
-    <ClInclude Include="src\VM\FFI\NativeBinding.h" />
-    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h" />
-    <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h" />
-    <ClInclude Include="src\VM\Memory\CheneyCollector.h" />
-    <ClInclude Include="src\VM\Memory\GarbageCollector.h" />
-    <ClInclude Include="src\VM\Memory\GCFactory.h" />
-    <ClInclude Include="src\VM\Memory\MemoryManager.h" />
-    <ClInclude Include="src\VM\Memory\RootSetProvider.h" />
-    <ClInclude Include="src\VM\Memory\VMObjectFunctions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VM\VM.vcxproj">
+      <Project>{f37fc6c5-3ed7-4763-84bf-edf599d1c797}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{76D37EB1-8DBF-461A-8FCE-29193FAE23EF}</ProjectGuid>
@@ -121,13 +28,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -144,10 +51,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath);src/</IncludePath>
+    <IncludePath>$(IncludePath);src/;C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;src/</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;src/;C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

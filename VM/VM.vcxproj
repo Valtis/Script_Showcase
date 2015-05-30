@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F37FC6C5-3ED7-4763-84BF-EDF599D1C797}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VM</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Omistaja\Documents\Visual Studio 2013\Projects\Script_Showcase\VM\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Utility\Logger.h" />
+    <ClInclude Include="src\Utility\LoggerManager.h" />
+    <ClInclude Include="src\Utility\Logs.h" />
+    <ClInclude Include="src\Utility\StringUtility.h" />
+    <ClInclude Include="src\VM\Compiler\AST\AndNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ArithmeticNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ArrayLengthNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ASTNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ASTVisitor.h" />
+    <ClInclude Include="src\VM\Compiler\AST\BooleanNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ComparisonNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\CondNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\DoubleNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ElseNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FloatNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FunctionCallNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FunctionNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\FunctionParameterListNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IdentifierNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IfNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\IntegerNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\InvokeNativeNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\LocalsNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\NotNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\OrNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ReadArrayNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\ReturnNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\RootNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\SetValueNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\StaticsNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\StringNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\WhileNode.h" />
+    <ClInclude Include="src\VM\Compiler\AST\WriteArrayNode.h" />
+    <ClInclude Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.h" />
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGenerator.h" />
+    <ClInclude Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.h" />
+    <ClInclude Include="src\VM\Compiler\Compiler.h" />
+    <ClInclude Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.h" />
+    <ClInclude Include="src\VM\Compiler\Optimizer\TailCallOptimization.h" />
+    <ClInclude Include="src\VM\Compiler\Parser\Parser.h" />
+    <ClInclude Include="src\VM\Compiler\Parser\TokenReader.h" />
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Reader.h" />
+    <ClInclude Include="src\VM\Compiler\Tokenizer\Tokenizer.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\Token.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenFactory.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\Tokens.h" />
+    <ClInclude Include="src\VM\Compiler\Tokens\TokenType.h" />
+    <ClInclude Include="src\VM\Core\ByteCode.h" />
+    <ClInclude Include="src\VM\Core\VM.h" />
+    <ClInclude Include="src\VM\Core\VMFrame.h" />
+    <ClInclude Include="src\VM\Core\VMFunction.h" />
+    <ClInclude Include="src\VM\Core\VMOperations.h" />
+    <ClInclude Include="src\VM\Core\VMState.h" />
+    <ClInclude Include="src\VM\Core\VMValue.h" />
+    <ClInclude Include="src\VM\Exceptions\Exceptions.h" />
+    <ClInclude Include="src\VM\FFI\ConversionFunctions.h" />
+    <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h" />
+    <ClInclude Include="src\VM\FFI\NativeBinding.h" />
+    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h" />
+    <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h" />
+    <ClInclude Include="src\VM\Memory\CheneyCollector.h" />
+    <ClInclude Include="src\VM\Memory\GarbageCollector.h" />
+    <ClInclude Include="src\VM\Memory\GCFactory.h" />
+    <ClInclude Include="src\VM\Memory\MemoryManager.h" />
+    <ClInclude Include="src\VM\Memory\RootSetProvider.h" />
+    <ClInclude Include="src\VM\Memory\VMObjectFunctions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Utility\Logger.cpp" />
+    <ClCompile Include="src\Utility\LoggerManager.cpp" />
+    <ClCompile Include="src\Utility\StringUtility.cpp" />
+    <ClCompile Include="src\VM\Compiler\AST\ASTNode.cpp" />
+    <ClCompile Include="src\VM\Compiler\AST\ASTVisitor.cpp" />
+    <ClCompile Include="src\VM\Compiler\ByteCodePrinter\ByteCodePrinter.cpp" />
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGenerator.cpp" />
+    <ClCompile Include="src\VM\Compiler\CodeGen\CodeGeneratorVisitor.cpp" />
+    <ClCompile Include="src\VM\Compiler\Compiler.cpp" />
+    <ClCompile Include="src\VM\Compiler\Optimizer\ByteCodeOptimizer.cpp" />
+    <ClCompile Include="src\VM\Compiler\Optimizer\TailCallOptimization.cpp" />
+    <ClCompile Include="src\VM\Compiler\Parser\Parser.cpp" />
+    <ClCompile Include="src\VM\Compiler\Parser\TokenReader.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Reader.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\Token.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenFactory.cpp" />
+    <ClCompile Include="src\VM\Compiler\Tokens\TokenType.cpp" />
+    <ClCompile Include="src\VM\Core\ByteCode.cpp" />
+    <ClCompile Include="src\VM\Core\VM.cpp" />
+    <ClCompile Include="src\VM\Core\VMFrame.cpp" />
+    <ClCompile Include="src\VM\Core\VMFunction.cpp" />
+    <ClCompile Include="src\VM\Core\VMOperations.cpp" />
+    <ClCompile Include="src\VM\Core\VMState.cpp" />
+    <ClCompile Include="src\VM\Core\VMValue.cpp" />
+    <ClCompile Include="src\VM\FFI\ConversionFunctions.cpp" />
+    <ClCompile Include="src\VM\Memory\CheneyCollector.cpp" />
+    <ClCompile Include="src\VM\Memory\GarbageCollector.cpp" />
+    <ClCompile Include="src\VM\Memory\GCFactory.cpp" />
+    <ClCompile Include="src\VM\Memory\MemoryManager.cpp" />
+    <ClCompile Include="src\VM\Memory\RootSetProvider.cpp" />
+    <ClCompile Include="src\VM\Memory\VMObjectFunctions.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
