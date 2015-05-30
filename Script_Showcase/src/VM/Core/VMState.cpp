@@ -1,6 +1,7 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/ByteCode.h"
 #include "VM/Core/VM.h"
+#include "VM/Exceptions/Exceptions.h"
 
 VMState::VMState() {
   VMInstance().RegisterVMState(this);
@@ -45,11 +46,10 @@ size_t VMState::AddFunction(VMFunction function)
 
 const VMFunction *VMState::GetFunction(uint32_t index) const
 {
-  try {
-    return &m_functions.at(index);
-  } catch (const std::out_of_range &ex) {
-    throw std::logic_error("Internal error: No function with index " + std::to_string(index) + " found");
+  if (index >= m_functions.size()) {
+    throw InvalidFunctionIdError("No function with given id found");
   }
+  return &m_functions.at(index);
 }
 
 uint32_t VMState::GetFunctionID(const std::string& name) const {

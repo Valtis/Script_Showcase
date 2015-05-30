@@ -1,6 +1,6 @@
 #pragma once
+#include "VM/Exceptions/Exceptions.h"
 #include <cstdint>
-#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -132,7 +132,7 @@ private:
   void AssertType(const ValueType t) const {
     if (m_type != t) {
       std::string error = "TypeError: Expected " + TypeToString(t) + " but was " + TypeToString(m_type);
-      throw std::runtime_error(error);
+      throw TypeError(error);
     }
   }
 

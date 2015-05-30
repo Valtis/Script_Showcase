@@ -33,7 +33,10 @@ public:
   VMState &operator=(const VMState &) = delete;
   VMState &operator=(VMState &&);
   ~VMState();
-
+  /*
+    Important note: It is not safe to call this function once GetFunction is called, as the backing container is a vector and any outstanding pointers
+    might get invalidated. 
+  */
   size_t AddFunction(VMFunction function);
   const VMFunction *GetFunction(uint32_t index) const; 
   uint32_t GetFunctionID(const std::string &name) const;

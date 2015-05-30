@@ -1,4 +1,5 @@
 #include "VM/Core/VM.h"
+#include "VM/Exceptions/Exceptions.h"
 #include "VM/Memory/MemoryManager.h"
 #include "VM/Memory/GCFactory.h"
 #include "Utility/LoggerManager.h"
@@ -145,7 +146,7 @@ MemoryManager::ArrayReadWriteData MemoryManager::ArrayReadWriteShared(const VMVa
   if (index > arrayLength - readWriteLength || arrayLength == 0) {
     std::string err = "Out of bounds array access: Array length: " + std::to_string(arrayLength) + "   Index: "
       + std::to_string(index) + "   Access length: " + std::to_string(readWriteLength);
-    throw std::runtime_error(err);
+    throw ArrayIndexOutOfBoundsError(err);
   }
 
   // pointer to the beginning of data segment. Skips the header

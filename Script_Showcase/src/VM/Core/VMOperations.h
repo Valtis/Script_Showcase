@@ -1,6 +1,6 @@
 #pragma once
 #include "VM/Core/VMValue.h"
-
+#include "VM/Exceptions/Exceptions.h"
 #include <vector>
 
 class VMState;

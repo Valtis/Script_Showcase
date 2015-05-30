@@ -24,7 +24,7 @@ namespace Op {
       return ValueType::FLOAT;
     }
 
-    throw std::runtime_error("No conversion exists between " + TypeToString(second) + " and " + TypeToString(first));
+    throw InvalidConversionError("No conversion exists between " + TypeToString(second) + " and " + TypeToString(first));
   }
 
   VMValue ConvertToType(ValueType type, VMValue value) {
@@ -43,7 +43,7 @@ namespace Op {
       else if (value.GetType() == ValueType::INT) {
         return VMValue{ (double)value.AsInt() };
       }
-      throw std::runtime_error("TypeError: Could not convert " + TypeToString(value.GetType()) + " to " + TypeToString(type));
+      throw InvalidConversionError("No conversion exists between " + TypeToString(value.GetType()) + " and " + TypeToString(type));
 
       break;
     case ValueType::FLOAT:
@@ -54,7 +54,7 @@ namespace Op {
       else if (value.GetType() == ValueType::INT) {
         return VMValue{ (float)value.AsInt() };
       }
-      throw std::runtime_error("TypeError: Could not convert " + TypeToString(value.GetType()) + " to " + TypeToString(type));
+      throw InvalidConversionError("No conversion exists between " + TypeToString(value.GetType()) + " and " + TypeToString(type));
     case ValueType::INT:
 
       if (value.GetType() == ValueType::DOUBLE) {
@@ -63,7 +63,7 @@ namespace Op {
       else if (value.GetType() == ValueType::FLOAT) {
         return VMValue{ (int32_t )value.AsFloat() };
       }
-      throw std::runtime_error("TypeError: Could not convert " + TypeToString(value.GetType()) + " to " + TypeToString(type));
+      throw InvalidConversionError("No conversion exists between " + TypeToString(value.GetType()) + " and " + TypeToString(type));
     default:
       return value;
     }
@@ -83,14 +83,14 @@ namespace Op {
 
   void PushValue(const VMValue &value, std::vector<VMValue> &stack) {
     if (stack.size() >= STACK_SIZE) {
-      throw std::runtime_error("Stack overflow");
+      throw ValueStackOverFlowError("Stack overflow");
     }
     stack.push_back(value);
   }
 
   VMValue PopValue(std::vector<VMValue> &stack) {
     if (stack.size() == 0) {
-      throw std::runtime_error("Stack underflow");
+      throw ValueStackUnderFlowError("Stack underflow");
     }
     auto value = stack.back();
     stack.pop_back();
@@ -168,7 +168,7 @@ namespace Op {
     auto array = PopValue(stack);
     auto type = MemMgrInstance().GetArrayType(array);
     if (type != value.GetType()) {
-      throw std::runtime_error("Array type and value type mismatch: Array is of type " + TypeToString(type) + " and value is of type " +
+      throw TypeError("Array type and value type mismatch: Array is of type " + TypeToString(type) + " and value is of type " +
         TypeToString(value.GetType()));
     }
 
@@ -202,7 +202,7 @@ namespace Op {
   void DivInteger(std::vector<VMValue> &stack) {
     auto second = PopValue(stack).AsInt();
     if (second == 0) {
-      throw std::runtime_error("Division by zero");
+      throw DivisionByZeroError("Division by zero");
     }
 
     auto first = PopValue(stack).AsInt();
@@ -276,7 +276,7 @@ namespace Op {
 
   void InvokeManaged(const VMState &state, std::vector<VMFrame> &frames) {
     if (frames.size() >= FRAME_SIZE) {
-      throw std::runtime_error("Maximum number of frames reached - stack overflow");
+      throw FrameStackOverflowError("Maximum number of function frames reached");
     }
 
     auto index = static_cast<uint32_t>(frames.back().GetNextInstruction());
@@ -287,7 +287,7 @@ namespace Op {
 
   void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
     if (frames.size() >= FRAME_SIZE) {
-      throw std::runtime_error("Maximum number of frames reached - stack overflow");
+      throw FrameStackOverflowError("Maximum number of function frames reached");
     }
     
     auto index = PopValue(stack).AsFunction();
@@ -295,7 +295,7 @@ namespace Op {
 
     auto paramCount = PopValue(stack).AsInt();
     if (function->GetArgumentCount() != paramCount) {
-      throw std::runtime_error("Invalid argument count for function " + function->GetName() + ". " 
+      throw InvalidArgumentCountError("Invalid argument count for function " + function->GetName() + ". "
         + std::to_string(paramCount) + " were provided when " + std::to_string(function->GetArgumentCount()) + " were expected.");
     }
 
@@ -303,6 +303,9 @@ namespace Op {
   }
 
   bool Return(std::vector<VMFrame> &frames) {
+    if (frames.size() == 0) {
+      throw FrameStackUnderFlowError("No existing function frames in the stack");
+    }
     frames.pop_back();
     if (frames.empty())  {
       return false;

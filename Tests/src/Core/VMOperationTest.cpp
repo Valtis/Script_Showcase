@@ -62,7 +62,7 @@ TEST(VMOperations, AddOperationAddsTwoDoublesAndPushesDoubleIntoStack) {
 
 TEST(VMOperations, AddOperationWithInvalidOperandThrows) {
   std::vector<VMValue> stack = { VMValue(5), VMValue('c') };
-  EXPECT_THROW(Op::Add(stack), std::runtime_error);
+  EXPECT_THROW(Op::Add(stack), InvalidConversionError);
 }
 
 
@@ -78,7 +78,7 @@ TEST(VMOperations, IntegerAddOperationWithTwoIntegersPushesIntegerIntoStack) {
 
 TEST(VMOperations, IntegerAddOperationThrowsIfOperandIsNotInteger) {
   std::vector<VMValue> stack = { VMValue(2), VMValue(6.2f) };
-  EXPECT_THROW(Op::AddInteger(stack), std::runtime_error);
+  EXPECT_THROW(Op::AddInteger(stack), TypeError);
 
 }
 
@@ -135,7 +135,7 @@ TEST(VMOperations, SubOperationSubtractsTwoDoublesAndPushesDoubleIntoStack) {
 
 TEST(VMOperations, SubOperationWithInvalidOperandThrows) {
   std::vector<VMValue> stack = { VMValue(5), VMValue(false) };
-  EXPECT_THROW(Op::Sub(stack), std::runtime_error);
+  EXPECT_THROW(Op::Sub(stack), InvalidConversionError);
 }
 
 
@@ -151,7 +151,7 @@ TEST(VMOperations, IntegerSubOperationWithTwoIntegersPushesIntegerIntoStack) {
 
 TEST(VMOperations, IntegerSubOperationThrowsIfOperandIsNotInteger) {
   std::vector<VMValue> stack = { VMValue(2), VMValue(6.2) };
-  EXPECT_THROW(Op::SubInteger(stack), std::runtime_error);
+  EXPECT_THROW(Op::SubInteger(stack), TypeError);
 }
 
 // Tests for multiplication
@@ -211,7 +211,7 @@ TEST(VMOperations, MulOperationWithInvalidOperandThrows) {
   VMValue v;
   v.SetFunction(2);
   stack.push_back(v);
-  EXPECT_THROW(Op::Mul(stack), std::runtime_error);
+  EXPECT_THROW(Op::Mul(stack), InvalidConversionError);
 }
 
 
@@ -227,7 +227,7 @@ TEST(VMOperations, IntegerMulOperationWithTwoIntegersPushesIntegerIntoStack) {
 
 TEST(VMOperations, IntegerMulOperationThrowsIfOperandIsNotInteger) {
   std::vector<VMValue> stack = { VMValue(2), VMValue(6.2) };
-  EXPECT_THROW(Op::MulInteger(stack), std::runtime_error);
+  EXPECT_THROW(Op::MulInteger(stack), TypeError);
 }
 
 // Tests for division
@@ -282,7 +282,7 @@ TEST(VMOperations, DivisionBetweenTwoDoublesPushesIntegerIntoStack) {
 
 TEST(VMOperations, DivisionByZeroWithIntegersThrows) {
   std::vector<VMValue> stack = { VMValue(7), VMValue(0) };
-  EXPECT_THROW(Op::Div(stack), std::runtime_error);
+  EXPECT_THROW(Op::Div(stack), DivisionByZeroError);
 }
 
 TEST(VMOperations, DivisionByZeroWithFloatsResultsInInfinity) {
@@ -306,7 +306,7 @@ TEST(VMOperations, DivisionByZeroWithDoublesResultsInInfinity) {
 
 TEST(VMOperations, DividingZeroByZeroWithIntegersThrows) {
   std::vector<VMValue> stack = { VMValue(0), VMValue(0) };
-  EXPECT_THROW(Op::Div(stack), std::runtime_error);
+  EXPECT_THROW(Op::Div(stack), DivisionByZeroError);
 }
 
 TEST(VMOperations, DividingZeroByZeroWithFloatsResultsInNaN) {
@@ -329,7 +329,7 @@ TEST(VMOperations, DividingZeroByZeroWithDoublesResultsInNaN) {
 
 TEST(VMOperations, DividingWithInvalidOperandThrows) {
   std::vector<VMValue> stack = { VMValue(0.0), VMValue(&stack) };
-  EXPECT_THROW(Op::Div(stack), std::runtime_error);
+  EXPECT_THROW(Op::Div(stack), InvalidConversionError);
 }
 
 TEST(VMOperations, IntegerDivOperationWithTwoIntegersPushesIntegerIntoStack) {
@@ -343,12 +343,12 @@ TEST(VMOperations, IntegerDivOperationWithTwoIntegersPushesIntegerIntoStack) {
 
 TEST(VMOperations, IntegerDivOperationThrowsIfOperandIsNotInteger) {
   std::vector<VMValue> stack = { VMValue(2), VMValue(6.2) };
-  EXPECT_THROW(Op::DivInteger(stack), std::runtime_error);
+  EXPECT_THROW(Op::DivInteger(stack), TypeError);
 }
 
 TEST(VMOperations, IntegerDivOperationThrowsIfDivisorIsZero) {
   std::vector<VMValue> stack = { VMValue(2), VMValue(0) };
-  EXPECT_THROW(Op::DivInteger(stack), std::runtime_error);
+  EXPECT_THROW(Op::DivInteger(stack), DivisionByZeroError);
 }
 
 // tests for modulo
@@ -383,7 +383,7 @@ TEST(VMOperations, ModOperationWithNegativeDivisorAndPositiveDividendPushesPosit
 
 TEST(VMOperations, ModOperationWithZeroDivisorThrows) {
   std::vector<VMValue> stack = { VMValue(22), VMValue(0) };
-  EXPECT_THROW(Op::Mod(stack), std::runtime_error);
+  EXPECT_THROW(Op::Mod(stack), DivisionByZeroError);
 }
 
 // tests for not
@@ -408,7 +408,7 @@ TEST(VMOperations, NotOnFalsePushesTrueIntoStack) {
 
 TEST(VMOperations, NotThrowsIfOperandIsNonBoolean) {
   std::vector<VMValue> stack = { VMValue(4) };
-  EXPECT_THROW(Op::Not(stack), std::runtime_error);
+  EXPECT_THROW(Op::Not(stack), TypeError);
 }
 
 
@@ -431,7 +431,7 @@ TEST(VMOperations, PushValueThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushValue(VMValue{ 24.0f }, stack), std::runtime_error);
+  EXPECT_THROW(Op::PushValue(VMValue{ 24.0f }, stack), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PushIntegerPushesGivenIntegerIntoStack) {
@@ -462,7 +462,7 @@ TEST(VMOperations, PushIntegerThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushInteger(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::PushInteger(stack, frames), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PushFloatPushesGivenFloatIntoStack) {
@@ -499,7 +499,7 @@ TEST(VMOperations, PushFloatThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushFloat(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::PushFloat(stack, frames), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PushDoublePushesGivenDoubleIntoStack) {
@@ -541,7 +541,7 @@ TEST(VMOperations, PushDoubleThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushDouble(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::PushDouble(stack, frames), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PushBooleanPushesTrueIntoStack) {
@@ -591,7 +591,7 @@ TEST(VMOperations, PushBooleanThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushBoolean(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::PushBoolean(stack, frames), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PushFunctionPushesGivenFunctionIdIntoStack) {
@@ -622,7 +622,7 @@ TEST(VMOperations, PushFunctionThrowsOnStackOverflow) {
     Op::PushValue(VMValue(0), stack);
   }
 
-  EXPECT_THROW(Op::PushFunction(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::PushFunction(stack, frames), ValueStackOverFlowError);
 }
 
 TEST(VMOperations, PopReturnsTopmostValueFromStack) {
@@ -632,7 +632,7 @@ TEST(VMOperations, PopReturnsTopmostValueFromStack) {
 
 TEST(VMOperations, PopThrowsOnEmptyStack) {
   std::vector<VMValue> stack;
-  EXPECT_THROW(Op::PopValue(stack).AsChar(), std::runtime_error);
+  EXPECT_THROW(Op::PopValue(stack).AsChar(), ValueStackUnderFlowError);
 }
 
 
@@ -722,19 +722,19 @@ TEST(VMOperations, StoreArrayIndexThrowsIfArrayAndVMValueTypesDoNotMatch) {
   std::vector<VMValue> stack = { VMValue{}, VMValue{ 4 }, VMValue{ false } };
   auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::INT, 5);
 
-  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+  EXPECT_THROW(Op::StoreArrayIndex(stack), TypeError);
 }
 
 TEST(VMOperations, StoreArrayIndexThrowsIfIndexIsOutOfBounds) {
   std::vector<VMValue> stack = { VMValue{}, VMValue{ 20 }, VMValue{ false } };
   auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::BOOL, 5);
 
-  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+  EXPECT_THROW(Op::StoreArrayIndex(stack), ArrayIndexOutOfBoundsError);
 }
 
 TEST(VMOperations, StoreArrayIndexThrowsIfNoPointerIsPresent) {
-  std::vector<VMValue> stack = { VMValue{}, VMValue{ 0 } };
-  EXPECT_THROW(Op::StoreArrayIndex(stack), std::runtime_error);
+  std::vector<VMValue> stack = { VMValue{}, VMValue{ 0 }, VMValue{ false } };
+  EXPECT_THROW(Op::StoreArrayIndex(stack), TypeError);
 }
 
 TEST(VMOperations, LoadArrayLoadsFromValueFromArrayIndex) {
@@ -752,12 +752,12 @@ TEST(VMOperations, LoadArrayLoadsFromValueFromArrayIndex) {
 TEST(VMOperations, LoadArrayThrowsIfIndexIsOutOfBounds) {
   std::vector<VMValue> stack = { VMValue{}, VMValue{ 20 } };
   auto ptr = stack[0] = MemMgrInstance().AllocateArray(ValueType::FLOAT, 5);
-  EXPECT_THROW(Op::LoadArrayIndex(stack), std::runtime_error);
+  EXPECT_THROW(Op::LoadArrayIndex(stack), ArrayIndexOutOfBoundsError);
 }
 
 TEST(VMOperations, LoadArrayThrowsIfNoPointerIsPresent) {
   std::vector<VMValue> stack = { VMValue{}, VMValue{ 0 } };
-  EXPECT_THROW(Op::LoadArrayIndex(stack), std::runtime_error);
+  EXPECT_THROW(Op::LoadArrayIndex(stack), TypeError);
 }
 
 
@@ -772,7 +772,7 @@ TEST(VMOperations, ArrayLengthPushesArrayLengthIntoStack) {
 
 TEST(VMOperations, ArrayLengthThrowsIfOperandIsNotAPointerToArray) {
   std::vector<VMValue> stack = { VMValue{} };
-  EXPECT_THROW(Op::ArrayLength(stack), std::runtime_error);
+  EXPECT_THROW(Op::ArrayLength(stack), TypeError);
 }
 
 
@@ -1095,7 +1095,7 @@ TEST(VMOperations, JumpIfTrueThrowsIfValueIsNonBoolean) {
   f.AddByteCode(static_cast<ByteCode>(5));
   VMFrame frame(&f);
   std::vector<VMFrame> frames = { frame };
-  EXPECT_THROW(Op::JumpIfTrue(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::JumpIfTrue(stack, frames), TypeError);
 }
 
 
@@ -1132,7 +1132,7 @@ TEST(VMOperations, JumpIfFalseThrowsIfValueIsNonBoolean) {
   f.AddByteCode(static_cast<ByteCode>(5));
   VMFrame frame(&f);
   std::vector<VMFrame> frames = { frame };
-  EXPECT_THROW(Op::JumpIfFalse(stack, frames), std::runtime_error);
+  EXPECT_THROW(Op::JumpIfFalse(stack, frames), TypeError);
 }
 
 
@@ -1162,14 +1162,123 @@ TEST(VMOperations, InvokeMangedPushesFrameIntoStackWithCorrectFunctionAndInstruc
 
 
 TEST(VMOperations, InvokeManagedThrowsIfFrameStackOverflows) {
-  VMFunction f;
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+
   VMState state;
-  state.AddFunction(f);
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
 
   VMFunction old_f;
   old_f.AddByteCode(static_cast<ByteCode>(1));
 
   std::vector<VMFrame> frames;
   frames.resize(FRAME_SIZE);
-  EXPECT_THROW(Op::InvokeManaged(state, frames), std::runtime_error);
+  frames[FRAME_SIZE - 1] = VMFrame{ &old_f };
+  EXPECT_THROW(Op::InvokeManaged(state, frames), FrameStackOverflowError);
+}
+
+TEST(VMOperations, InvokeMangedIndirectPushesFrameIntoStackWithCorrectFunctionAndInstructionCounterAtZero) {
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+
+  VMState state;
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(0));
+
+  std::vector<VMValue> stack = { VMValue{ 0 } };
+  VMValue func;
+  func.SetFunction(1);
+  stack.push_back(func);
+
+  std::vector<VMFrame> frames = { VMFrame{ &old_f } };
+
+  Op::InvokeManagedIndirect(state, stack, frames);
+  ASSERT_EQ(2, frames.size());
+  ASSERT_EQ(0, frames[1].GetProgramCounter());
+  ASSERT_EQ(new_f.GetName(), frames[1].GetFunctionName());
+} 
+
+
+TEST(VMOperations, InvokeManagedIndirectThrowsIfFrameStackOverflows) {
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+
+  VMState state;
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(0));
+
+  std::vector<VMValue> stack = { VMValue{ 0 } };
+  VMValue func;
+  func.SetFunction(1);
+  stack.push_back(func);
+
+  std::vector<VMFrame> frames;
+  frames.resize(FRAME_SIZE);
+  frames[FRAME_SIZE - 1] = VMFrame{ &old_f };
+  EXPECT_THROW(Op::InvokeManagedIndirect(state, stack, frames), FrameStackOverflowError);
+}
+
+TEST(VMOperations, InvokeManagedIndirectThrowsIfFunctionIdIsInvalid) {
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+
+  VMState state;
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(0));
+
+  std::vector<VMValue> stack = { VMValue{ 0 } };
+  VMValue func;
+  func.SetFunction(21);
+  stack.push_back(func);
+
+  std::vector<VMFrame> frames = { VMFrame{ &old_f } };
+
+  EXPECT_THROW(Op::InvokeManagedIndirect(state, stack, frames), InvalidFunctionIdError);
+}
+
+TEST(VMOperations, InvokeManagedIndirectThrowsIfFunctionArgumentCountsDoNotMatch) {
+  VMFunction dummy_function;
+
+  VMFunction new_f;
+  new_f.SetName("test_name");
+  new_f.SetArgumentCount(4);
+
+  VMState state;
+  state.AddFunction(dummy_function);
+  state.AddFunction(new_f);
+
+
+  VMFunction old_f;
+  old_f.AddByteCode(static_cast<ByteCode>(0));
+
+  std::vector<VMValue> stack = { VMValue{ 2 } };
+  VMValue func;
+  func.SetFunction(1);
+  stack.push_back(func);
+
+  std::vector<VMFrame> frames = { VMFrame{ &old_f } };
+
+  EXPECT_THROW(Op::InvokeManagedIndirect(state, stack, frames), InvalidArgumentCountError);
 }

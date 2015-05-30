@@ -91,6 +91,9 @@
     <Filter Include="Source Files\VM\Compiler\Optimizer">
       <UniqueIdentifier>{cdded06f-f221-4611-9099-0c24c0cf2ebc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\VM\Exceptions">
+      <UniqueIdentifier>{c062f9ca-b0e2-485a-9da1-d12a0a766ac1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\Exceptions\Exceptions.h">
+      <Filter>Header Files\VM\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

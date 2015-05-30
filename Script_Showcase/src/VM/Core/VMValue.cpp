@@ -21,14 +21,14 @@ uint32_t TypeSize(ValueType type) {
   case ValueType::FUNCTION:
     return sizeof(uint32_t);
   default:
-    throw std::runtime_error("Invalid type specified in TypeSize");
+    throw std::logic_error("Invalid type specified in TypeSize");
   }
 }
 
 
 void AssertSameType(const VMValue &lhs, const VMValue& rhs) {
   if (lhs.GetType() != rhs.GetType()) {
-    throw std::runtime_error("TypeError: Expected types to be same but were " + TypeToString(lhs.GetType()) + " and " + TypeToString(rhs.GetType()));
+    throw TypeError("TypeError: Expected types to be same but were " + TypeToString(lhs.GetType()) + " and " + TypeToString(rhs.GetType()));
   }
 }
 
@@ -52,7 +52,7 @@ VMValue CommonNumberOperation(const VMValue &lhs, const VMValue &rhs) {
 // const char param in order to eliminate unnecessary allocation if operation succeeds
 void CheckOperationSuccess(const ValueType originaltType, const VMValue &value, const char *operationName) {
   if (value.GetType() == ValueType::UNINITIALIZED) {
-    throw std::runtime_error(std::string(operationName) + " is not implemented for " + TypeToString(originaltType));
+    throw TypeError(std::string(operationName) + " is not implemented for " + TypeToString(originaltType));
   }  
 }
 
@@ -77,7 +77,7 @@ VMValue VMValue::operator*(const VMValue& rhs) const {
 
 VMValue VMValue::operator/(const VMValue& rhs) const {
   if (m_type == ValueType::INT && rhs.m_value.int_value == 0) {
-    throw std::runtime_error("Division by zero");
+    throw DivisionByZeroError("Division by zero");
   }
 
   auto value = CommonNumberOperation<std::divides>(*this, rhs);
@@ -89,11 +89,11 @@ VMValue VMValue::operator/(const VMValue& rhs) const {
 VMValue VMValue::operator%(const VMValue &rhs) const {
   AssertSameType(*this, rhs);
   if (m_type != ValueType::INT) {
-    throw std::runtime_error("Modulo is only implemented for integer types");
+    throw TypeError("Modulo is only implemented for integer types");
   }
 
   if (rhs.m_value.int_value == 0) {
-    throw std::runtime_error("Division by zero");
+    throw DivisionByZeroError("Division by zero");
   }
 
   return VMValue{ m_value.int_value % rhs.m_value.int_value };
