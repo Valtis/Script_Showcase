@@ -27,5 +27,8 @@
     <ClCompile Include="src\Core\VMOperationTest.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\FFI\NativeBindingTest.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,7 +22,10 @@ void SetTupleValue(Tuple &t, std::vector<VMValue> &stack) {
   SetTupleValue<position + 1, decltype(t), RemainingParameterTypes...>(t, stack);
 
   // topmost value in stack is the last parameter , so pop only after everything else is handled
-  std::get<position>(t) = ToNativeType<ParameterType>(Op::PopValue(stack)); }
+  auto value = stack.back();
+  stack.pop_back();
+  std::get<position>(t) = ToNativeType<ParameterType>(value);
+}
 
 template<typename ...ParameterTypes>
 std::tuple<ParameterTypes...> ConstructParameterTuple(std::vector<VMValue> &stack) {

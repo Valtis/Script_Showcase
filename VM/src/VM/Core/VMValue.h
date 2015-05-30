@@ -134,7 +134,7 @@ private:
       std::string error = "TypeError: Expected " + TypeToString(t) + " but was " + TypeToString(m_type);
       throw TypeError(error);
     }
-  }
+   }
 
   ValueType m_type;
 

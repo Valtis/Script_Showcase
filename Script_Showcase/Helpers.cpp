@@ -32,9 +32,9 @@ float Random() {
 void AddBindings(std::vector<VMState> &states)  {
   for (auto &state : states) {
     state.AddNativeBinding("printer", CreateBinding(&printer));
-   /* state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
+    state.AddNativeBinding("memberFunction", CreateBinding(&ExampleClass::ExampleFunction));
     state.AddNativeBinding("getpointers", CreateBinding(&Container::GetPointers));
-    state.AddNativeBinding("getintegers", CreateBinding(&Container::GetIntegers));*/
+    state.AddNativeBinding("getintegers", CreateBinding(&Container::GetIntegers));
     state.AddNativeBinding("random", CreateBinding(&Random));
   }
 }

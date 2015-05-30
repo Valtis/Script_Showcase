@@ -1,7 +1,5 @@
 #pragma once
-#include "VM/Core/VMOperations.h"
 #include "VM/Core/VMValue.h"
-#include "VM/FFI/ConversionFunctions.h"
 #include "VM/FFI/VariadicFunctionCallTemplates.h"
 #include "VM/FFI/FunctionArgumentTupleTemplates.h"
 #include "VM/FFI/NativeBindingTypedef.h"
@@ -20,7 +18,7 @@ template <typename ReturnType, typename... Args>
 NativeBinding CreateBinding(ReturnType(*ptr)(Args...)) {
   return [=](std::vector<VMValue> &stack) {
     auto parameterTuple = ConstructParameterTuple<Args...>(stack);
-    CallFreeFunction<ReturnType, decltype(ptr), decltype(parameterTuple), Args...>(
+    CallFunction<ReturnType, decltype(ptr), decltype(parameterTuple), Args...>(
       stack, ptr, parameterTuple);
   };
 }
@@ -32,10 +30,8 @@ NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
   return [=](std::vector<VMValue> &stack) {
     auto functionPtr = std::mem_fn(ptr);
     auto parameterTuple = ConstructParameterTuple<Class *, Args...>(stack);
-
-    auto classObjectPointer = ToNativeType<Class *>(Op::PopValue(stack));
- 
-    CallFreeFunction<ReturnType, decltype(functionPtr), decltype(parameterTuple), Class *, Args...>(
+     
+    CallFunction<ReturnType, decltype(functionPtr), decltype(parameterTuple), Class *, Args...>(
       stack, functionPtr, parameterTuple);
   };
 }
