@@ -25,7 +25,6 @@ NativeBinding CreateBinding(ReturnType(*ptr)(Args...)) {
   };
 }
 
-
 // binding for member functions
 template <typename Class, typename ReturnType, typename... Args>
 NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
@@ -35,11 +34,8 @@ NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
     auto parameterTuple = ConstructParameterTuple<Class *, Args...>(stack);
 
     auto classObjectPointer = ToNativeType<Class *>(Op::PopValue(stack));
-
+ 
     CallFreeFunction<ReturnType, decltype(functionPtr), decltype(parameterTuple), Class *, Args...>(
       stack, functionPtr, parameterTuple);
-  
-    /*CallMemberFunction<ReturnType, decltype(functionPtr), decltype(classObjectPointer), decltype(parameterTuple), Args...>(stack, functionPtr, 
-      classObjectPointer, parameterTuple);*/
   };
 }

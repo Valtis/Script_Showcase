@@ -132,7 +132,7 @@ TEST(NativeBinding, NonVoidStaticMemberFunctionIsCreatedAndIsCallable) {
 
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 7.0f } };
   auto binding = CreateBinding(&TestClass::non_void_static_member_function);
-  binding(stack);
+  binding(stack); 
 
   ASSERT_EQ(1, stack.size());
   ASSERT_EQ(ValueType::DOUBLE, stack[0].GetType());

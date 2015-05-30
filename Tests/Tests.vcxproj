@@ -84,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\VMOperationTest.cpp" />
-    <ClCompile Include="src\FFI\NativeBindingTest.cpp" />
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -43,7 +43,7 @@ template<typename ReturnType, typename Function, typename Tuple, int ...S,
 void CallFreeFunctionImpl(std::vector<VMValue> &stack, Function f, Tuple params, seq<S...>) {
   f(std::get<S>(params) ...);
 }
-
+ 
 // non-void version for free functions - pushes the return value into stack
 template<typename ReturnType, typename Function, typename Tuple, int ...S,
   typename std::enable_if<!std::is_void<ReturnType>::value>::type* = nullptr>
