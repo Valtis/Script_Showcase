@@ -32,10 +32,14 @@ NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
 
   return [=](std::vector<VMValue> &stack) {
     auto functionPtr = std::mem_fn(ptr);
-    auto parameterTuple = ConstructParameterTuple<Args...>(stack);
+    auto parameterTuple = ConstructParameterTuple<Class *, Args...>(stack);
+
     auto classObjectPointer = ToNativeType<Class *>(Op::PopValue(stack));
 
-    CallMemberFunction<ReturnType, decltype(functionPtr), decltype(classObjectPointer), decltype(parameterTuple), Args...>(stack, functionPtr, 
-      classObjectPointer, parameterTuple);
+    CallFreeFunction<ReturnType, decltype(functionPtr), decltype(parameterTuple), Class *, Args...>(
+      stack, functionPtr, parameterTuple);
+  
+    /*CallMemberFunction<ReturnType, decltype(functionPtr), decltype(classObjectPointer), decltype(parameterTuple), Args...>(stack, functionPtr, 
+      classObjectPointer, parameterTuple);*/
   };
 }
