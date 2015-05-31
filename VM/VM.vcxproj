@@ -139,7 +139,7 @@
     <ClInclude Include="src\VM\FFI\ConversionFunctions.h" />
     <ClInclude Include="src\VM\FFI\FunctionArgumentTupleTemplates.h" />
     <ClInclude Include="src\VM\FFI\NativeBinding.h" />
-    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h" />
+    <ClInclude Include="src\VM\FFI\NativeBindingStruct.h" />
     <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h" />
     <ClInclude Include="src\VM\Memory\CheneyCollector.h" />
     <ClInclude Include="src\VM\Memory\GarbageCollector.h" />

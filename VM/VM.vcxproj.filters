@@ -108,9 +108,6 @@
     <ClInclude Include="src\VM\FFI\NativeBinding.h">
       <Filter>Header Files\Utility\VM\FFI</Filter>
     </ClInclude>
-    <ClInclude Include="src\VM\FFI\NativeBindingTypedef.h">
-      <Filter>Header Files\Utility\VM\FFI</Filter>
-    </ClInclude>
     <ClInclude Include="src\VM\FFI\VariadicFunctionCallTemplates.h">
       <Filter>Header Files\Utility\VM\FFI</Filter>
     </ClInclude>
@@ -296,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="src\Utility\StringUtility.h">
       <Filter>Header Files\Utility\VM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VM\FFI\NativeBindingStruct.h">
+      <Filter>Header Files\Utility\VM\FFI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

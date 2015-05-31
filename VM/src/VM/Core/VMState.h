@@ -2,11 +2,10 @@
 
 #include "VM/Core/VMValue.h"
 #include "VM/Core/VMFunction.h"
+#include "VM/FFI/NativeBindingStruct.h"
 #include <unordered_map>
 #include <vector>
 #include <string>
-
-#include "VM/FFI/NativeBindingTypedef.h"
 
 class VMFunction;
 

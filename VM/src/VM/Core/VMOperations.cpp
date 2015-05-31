@@ -271,7 +271,7 @@ namespace Op {
   void InvokeNative(const VMState &state, std::vector<VMValue> &stack) {
     auto ptrToStr = PopValue(stack);
     auto binding = state.GetNativeBinding(ToNativeType<std::string>(ptrToStr));
-    binding(stack);
+    binding.function(stack);
   }
 
   void InvokeManaged(const VMState &state, std::vector<VMFrame> &frames) {

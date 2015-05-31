@@ -42,32 +42,42 @@ TEST(NativeBinding, VoidFreeFunctionIsCreatedAndIsCallable) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 7.0f } };
   void_free_function_value = 0.0f;
   auto binding = CreateBinding(&void_free_function);
-  binding(stack);
+  binding.function(stack);
   ASSERT_EQ(0, stack.size());
   ASSERT_FLOAT_EQ(19.0f, void_free_function_value);
+}
+
+TEST(NativeBinding, VoidFreeFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&void_free_function);
+  ASSERT_EQ(2, binding.parameterCount);
 }
 
 TEST(NativeBinding, VoidFreeFunctionThrowsOnTypeError) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 'c' } };
   void_free_function_value = 0.0f;
   auto binding = CreateBinding(&void_free_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
 TEST(NativeBinding, NonVoidFreeFunctionIsCreatedAndIsCallable) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 7.0f } };
   auto binding = CreateBinding(&non_void_free_function);
-  binding(stack);
+  binding.function(stack);
  
   ASSERT_EQ(1, stack.size());
   ASSERT_EQ(ValueType::DOUBLE, stack[0].GetType());
   ASSERT_DOUBLE_EQ(19.0, stack[0].AsDouble());
 }
 
+TEST(NativeBinding, NonVoidFreeFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&non_void_free_function);
+  ASSERT_EQ(2, binding.parameterCount);
+}
+
 TEST(NativeBinding, NonVoidFreeFunctionThrowsOnTypeError) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 'c' } };
   auto binding = CreateBinding(&non_void_free_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
 TEST(NativeBinding, VoidMemberFunctionIsCreatedAndIsCallable) {
@@ -76,9 +86,14 @@ TEST(NativeBinding, VoidMemberFunctionIsCreatedAndIsCallable) {
   std::vector<VMValue> stack = { VMValue{ &instance }, VMValue{ 5 }, VMValue{ 7.0f } };
   void_member_function_value = 0.0f;
   auto binding = CreateBinding(&TestClass::void_member_function);
-  binding(stack);
+  binding.function(stack);
   ASSERT_EQ(0, stack.size());
   ASSERT_FLOAT_EQ(40.0f, void_member_function_value);
+}
+
+TEST(NativeBinding, VoidMemberFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&TestClass::void_member_function);
+  ASSERT_EQ(2, binding.parameterCount);
 }
 
 TEST(NativeBinding, VoidMemberFunctionThrowsOnTypeError) {
@@ -87,7 +102,7 @@ TEST(NativeBinding, VoidMemberFunctionThrowsOnTypeError) {
   std::vector<VMValue> stack = { VMValue{ &instance }, VMValue{ 5 }, VMValue{ 'c' } };
   void_member_function_value = 0.0f;
   auto binding = CreateBinding(&TestClass::void_member_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
 TEST(NativeBinding, NonVoidMemberFunctionIsCreatedAndIsCallable) {
@@ -95,11 +110,16 @@ TEST(NativeBinding, NonVoidMemberFunctionIsCreatedAndIsCallable) {
   instance.value = 7;
   std::vector<VMValue> stack = { VMValue{ &instance }, VMValue{ 5 }, VMValue{ 7.0f } };
   auto binding = CreateBinding(&TestClass::non_void_member_function);
-  binding(stack);
+  binding.function(stack);
 
   ASSERT_EQ(1, stack.size());
   ASSERT_EQ(ValueType::DOUBLE, stack[0].GetType());
   ASSERT_DOUBLE_EQ(40.0, stack[0].AsDouble());
+}
+
+TEST(NativeBinding, NonVoidMemberFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&TestClass::non_void_member_function);
+  ASSERT_EQ(2, binding.parameterCount);
 }
 
 TEST(NativeBinding, NonVoidMemberFunctionThrowsOnTypeError) {
@@ -107,7 +127,7 @@ TEST(NativeBinding, NonVoidMemberFunctionThrowsOnTypeError) {
   instance.value = 7;
   std::vector<VMValue> stack = { VMValue{ &instance }, VMValue{ 5 }, VMValue{ 'c' } };
   auto binding = CreateBinding(&TestClass::non_void_member_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
 TEST(NativeBinding, VoidStaticMemberFunctionIsCreatedAndIsCallable) {
@@ -115,9 +135,14 @@ TEST(NativeBinding, VoidStaticMemberFunctionIsCreatedAndIsCallable) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 7.0f } };
   void_static_member_function_value = 0.0f;
   auto binding = CreateBinding(&TestClass::void_static_member_function);
-  binding(stack);
+  binding.function(stack);
   ASSERT_EQ(0, stack.size());
   ASSERT_FLOAT_EQ(19.0f, void_static_member_function_value);
+}
+
+TEST(NativeBinding, VoidStaticMemberFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&TestClass::void_static_member_function);
+  ASSERT_EQ(2, binding.parameterCount);
 }
 
 TEST(NativeBinding, VoidStaticMemberFunctionThrowsOnTypeError) {
@@ -125,24 +150,29 @@ TEST(NativeBinding, VoidStaticMemberFunctionThrowsOnTypeError) {
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 'c' } };
   void_static_member_function_value = 0.0f;
   auto binding = CreateBinding(&TestClass::void_static_member_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
 TEST(NativeBinding, NonVoidStaticMemberFunctionIsCreatedAndIsCallable) {
 
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 7.0f } };
   auto binding = CreateBinding(&TestClass::non_void_static_member_function);
-  binding(stack); 
+  binding.function(stack);
 
   ASSERT_EQ(1, stack.size());
   ASSERT_EQ(ValueType::DOUBLE, stack[0].GetType());
   ASSERT_DOUBLE_EQ(19, stack[0].AsDouble());
 }
 
+TEST(NativeBinding, NonVoidStaticMemberFunctionHasCorrectParameterCount) {
+  auto binding = CreateBinding(&TestClass::non_void_static_member_function);
+  ASSERT_EQ(2, binding.parameterCount);
+}
+
 TEST(NativeBinding, NonVoidStaticMemberFunctionThrowsOnTypeError) {
 
   std::vector<VMValue> stack = { VMValue{ 5 }, VMValue{ 'c' } };
   auto binding = CreateBinding(&TestClass::non_void_member_function);
-  ASSERT_THROW(binding(stack), TypeError);
+  ASSERT_THROW(binding.function(stack), TypeError);
 }
 
