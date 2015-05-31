@@ -1188,6 +1188,7 @@ TEST(VMOperations, InvokeMangedIndirectPushesFrameIntoStackWithCorrectFunctionAn
 
   VMFunction new_f;
   new_f.SetName("test_name");
+  new_f.SetArgumentCount(2);
 
   VMState state;
   state.AddFunction(dummy_function);
@@ -1195,7 +1196,7 @@ TEST(VMOperations, InvokeMangedIndirectPushesFrameIntoStackWithCorrectFunctionAn
 
 
   VMFunction old_f;
-  old_f.AddByteCode(static_cast<ByteCode>(0));
+  old_f.AddByteCode(static_cast<ByteCode>(2));
 
   std::vector<VMValue> stack = { VMValue{ 0 } };
   VMValue func;
@@ -1275,7 +1276,7 @@ TEST(VMOperations, InvokeManagedIndirectThrowsIfFunctionArgumentCountsDoNotMatch
   VMFunction old_f;
   old_f.AddByteCode(static_cast<ByteCode>(0));
 
-  std::vector<VMValue> stack = { VMValue{ 2 } };
+  std::vector<VMValue> stack = { VMValue{ 0 } };;
   VMValue func;
   func.SetFunction(1);
   stack.push_back(func);
@@ -1322,4 +1323,32 @@ TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatch) {
   std::vector<VMFrame> frames = { VMFrame{ &function } };
 
   EXPECT_THROW(Op::InvokeNative(state, stack, frames), InvalidArgumentCountError);
+}
+
+TEST(VMOperations, InvokeNativeThrowsIfNoNativeBindingIsFound) {
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name + "abcdefgh", CreateBinding(&test_func));
+
+  std::vector<VMValue> stack = { VMValue{ 4 }, VMValue{ 5 }, ToManagedType(name) };
+
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(2)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };
+
+  EXPECT_THROW(Op::InvokeNative(state, stack, frames), NoSuchNativeBindingError);
+}
+
+TEST(VMOperations, InvokeNativeThrowsOnTypeError) {
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&test_func));
+
+  std::vector<VMValue> stack = { VMValue{ 4.2f }, VMValue{ 5 }, ToManagedType(name) };
+  VMFunction function;
+  
+  function.AddByteCode(static_cast<ByteCode>(2)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };
+
+  EXPECT_THROW(Op::InvokeNative(state, stack, frames), TypeError);
 }

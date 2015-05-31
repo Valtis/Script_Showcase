@@ -24,4 +24,5 @@
   EXCEPTION_CLASS(DivisionByZeroError, std::runtime_error)
 
 
+  EXCEPTION_CLASS(NoSuchNativeBindingError, std::runtime_error) 
   EXCEPTION_CLASS(InvalidFunctionIdError, std::logic_error) // this should not happen without either compiler bug or user manually messing with ids

@@ -273,8 +273,8 @@ namespace Op {
     auto ptrToStr = PopValue(stack);
     auto binding = state.GetNativeBinding(ToNativeType<std::string>(ptrToStr));
     if (binding.parameterCount != paramCount) {
-      throw InvalidArgumentCountError("Invalid argument count for native invocation: Expected " + std::to_string(binding.parameterCount) 
-        + " but was " + std::to_string(paramCount));
+      throw InvalidArgumentCountError("Invalid argument count for native invocation '" + ToNativeType<std::string>(ptrToStr) + 
+        "': Expected " + std::to_string(binding.parameterCount) + " but was " + std::to_string(paramCount));
     }
     binding.function(stack);
   }
@@ -294,11 +294,11 @@ namespace Op {
     if (frames.size() >= FRAME_SIZE) {
       throw FrameStackOverflowError("Maximum number of function frames reached");
     }
+    auto paramCount = static_cast<uint32_t>(frames.back().GetNextInstruction());
     
     auto index = PopValue(stack).AsFunction();
     auto function = state.GetFunction(index);
 
-    auto paramCount = PopValue(stack).AsInt();
     if (function->GetArgumentCount() != paramCount) {
       throw InvalidArgumentCountError("Invalid argument count for function " + function->GetName() + ". "
         + std::to_string(paramCount) + " were provided when " + std::to_string(function->GetArgumentCount()) + " were expected.");

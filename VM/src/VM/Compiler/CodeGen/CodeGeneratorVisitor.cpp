@@ -81,7 +81,7 @@ namespace Compiler {
   void CodeGeneratorVisitor::Visit(ArithmeticNode *node)
   {
     auto children = node->GetChildren();
-    if (children.size() < 2) {
+    if (children.size() < 2) { 
       throw std::runtime_error("Too few parameters for arithmetic node at " + node->GetPositionInfo());
     }
     ByteCode operation;
@@ -279,9 +279,6 @@ namespace Compiler {
           child->Accept(*this);
         }
 
-        // push argument count so that this can be verified at runtime
-        m_current_function->AddByteCode(ByteCode::PUSH_INTEGER);
-        m_current_function->AddByteCode(static_cast<ByteCode>(children.size()));
 
         if (m_localsNameMap.find(node->GetName()) != m_localsNameMap.end()) {
           id = m_localsNameMap[node->GetName()];
@@ -296,6 +293,8 @@ namespace Compiler {
 
         }
         m_current_function->AddByteCode(ByteCode::INVOKE_MANAGED_INDIRECT);
+        // argument count so that this can be verified at runtime
+        m_current_function->AddByteCode(static_cast<ByteCode>(children.size()));
         return;
       }
     }

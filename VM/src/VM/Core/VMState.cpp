@@ -99,7 +99,7 @@ size_t VMState::AddStaticObject(VMValue value) {
 NativeBinding VMState::GetNativeBinding(const std::string &name) const {
   auto bindIter = m_native_bindings.find(name);
   if (bindIter == m_native_bindings.end()) {
-    throw std::runtime_error(std::string("No native binding with name ") + name + " has been registered");
+    throw NoSuchNativeBindingError(std::string("No native binding with name ") + name + " has been registered");
   }
   return bindIter->second;
 }
