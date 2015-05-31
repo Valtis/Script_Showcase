@@ -268,9 +268,14 @@ namespace Op {
     AritmeticOperationWithTypeConversion<std::less>(stack);
   }
 
-  void InvokeNative(const VMState &state, std::vector<VMValue> &stack) {
+  void InvokeNative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames) {
+    auto paramCount = static_cast<uint32_t>(frames.back().GetNextInstruction());
     auto ptrToStr = PopValue(stack);
     auto binding = state.GetNativeBinding(ToNativeType<std::string>(ptrToStr));
+    if (binding.parameterCount != paramCount) {
+      throw InvalidArgumentCountError("Invalid argument count for native invocation: Expected " + std::to_string(binding.parameterCount) 
+        + " but was " + std::to_string(paramCount));
+    }
     binding.function(stack);
   }
 

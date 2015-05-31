@@ -4,6 +4,8 @@
 #include "VM/Core/VMValue.h"
 #include "VM/Core/VMFrame.h"
 #include "VM/Core/VMState.h"
+#include "VM/FFI/NativeBinding.h"
+#include "VM/FFI/ConversionFunctions.h"
 #include "VM/Memory/MemoryManager.h"
 #include <cmath>
 #include <vector>
@@ -1281,4 +1283,43 @@ TEST(VMOperations, InvokeManagedIndirectThrowsIfFunctionArgumentCountsDoNotMatch
   std::vector<VMFrame> frames = { VMFrame{ &old_f } };
 
   EXPECT_THROW(Op::InvokeManagedIndirect(state, stack, frames), InvalidArgumentCountError);
+}
+
+
+int test_func(int a, int b) {
+  return a + 2 * b;
+}
+
+TEST(VMOperations, InvokeNativeCallsTheNativeFunction) {
+
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&test_func));
+
+  std::vector<VMValue> stack = { VMValue{ 4 }, VMValue{ 5 }, ToManagedType(name) };
+  
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(2)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame {&function } };
+  
+  Op::InvokeNative(state, stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::INT, stack[0].GetType());
+  ASSERT_EQ(14, stack[0].AsInt());
+}
+
+TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatch) {
+
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&test_func));
+
+  std::vector<VMValue> stack = { VMValue{ 4 }, VMValue{ 5 }, ToManagedType(name) };
+
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(4)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };
+
+  EXPECT_THROW(Op::InvokeNative(state, stack, frames), InvalidArgumentCountError);
 }

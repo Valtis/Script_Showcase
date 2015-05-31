@@ -448,6 +448,7 @@ namespace Compiler {
     children[0]->Accept(*this);
 
     m_current_function->AddByteCode(ByteCode::INVOKE_NATIVE);
+    m_current_function->AddByteCode(static_cast<ByteCode>(children.size() - 1));
   }
 
 

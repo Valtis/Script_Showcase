@@ -4,6 +4,7 @@
 #include "VM/Core/VMState.h"
 #include "VM/Core/VMValue.h"
 #include "VM/Compiler/Compiler.h"
+#include "VM/Exceptions/Exceptions.h"
 #include <vector>
 
 #include <windows.h>
@@ -62,7 +63,8 @@ int main() {
 
     std::cout << "Time taken: " << ElapsedMicroseconds.QuadPart / 1000 << " milliseconds " << "\n";
 
-  } catch (const std::exception &ex) {
+  }
+  catch (const std::exception &ex) {
     std::cout << "Exception:\n" << ex.what() << "\n";
   }
 

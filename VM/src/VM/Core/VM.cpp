@@ -156,7 +156,7 @@ void VM::Execute(VMState &state) {
       Op::DivInteger(m_stack);
       break;
     case ByteCode::INVOKE_NATIVE:
-      Op::InvokeNative(state, m_stack);
+      Op::InvokeNative(state, m_stack, m_frames);
       break;
     case ByteCode::INVOKE_MANAGED:
       Op::InvokeManaged(state, m_frames);

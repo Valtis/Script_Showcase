@@ -76,6 +76,7 @@ void ByteCodePrinter::HandleArguments(const VMFunction &function) {
   case ByteCode::LOAD_LOCAL:
   case ByteCode::STORE_LOCAL:
   case ByteCode::INVOKE_MANAGED:
+  case ByteCode::INVOKE_NATIVE:
   case ByteCode::JUMP:
   case ByteCode::JUMP_IF_FALSE:
   case ByteCode::JUMP_IF_TRUE:

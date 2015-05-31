@@ -45,7 +45,7 @@ namespace Op {
   void Mod(std::vector<VMValue> &stack);
   void Not(std::vector<VMValue> &stack);
 
-  void InvokeNative(const VMState &state, std::vector<VMValue> &stack);
+  void InvokeNative(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
   void InvokeManaged(const VMState &state, std::vector<VMFrame> &frames);
   void InvokeManagedIndirect(const VMState &state, std::vector<VMValue> &stack, std::vector<VMFrame> &frames);
 

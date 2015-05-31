@@ -22,6 +22,7 @@ namespace ByteCodeOptimizer {
     byteCodeArgCount[ByteCode::LOAD_LOCAL] = 1;
     byteCodeArgCount[ByteCode::STORE_LOCAL] = 1;
     byteCodeArgCount[ByteCode::INVOKE_MANAGED] = 1;
+    byteCodeArgCount[ByteCode::INVOKE_NATIVE] = 1;
     byteCodeArgCount[ByteCode::JUMP] = 1;
     byteCodeArgCount[ByteCode::JUMP_IF_FALSE] = 1;
     byteCodeArgCount[ByteCode::JUMP_IF_TRUE] = 1;
