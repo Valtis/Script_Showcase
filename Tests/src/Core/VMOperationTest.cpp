@@ -1393,3 +1393,21 @@ TEST(VMOperations, InvokeNativeThrowsOnTypeError) {
 
   EXPECT_THROW(Op::InvokeNative(state, stack, frames), TypeError);
 }
+
+class Bar {
+  
+};
+
+TEST(VMOperations, InvokeNativeWithMemberFunctionThrowsTypeErrorIfPointerIsOfWrongType) {
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&Foo::Bar));
+  Bar bar;
+  std::vector<VMValue> stack = { VMValue{ &bar }, ToManagedType(name) };
+
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(1)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };
+
+  EXPECT_THROW(Op::InvokeNative(state, stack, frames), TypeError);
+}

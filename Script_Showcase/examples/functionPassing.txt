@@ -27,7 +27,7 @@
 
 (fn main (a b c)
   (
-    (invokenative "getpointers" c)
+    (invokenative "getpointers" b)
     (caller aFunc)
     (caller anotherFunc)
   )

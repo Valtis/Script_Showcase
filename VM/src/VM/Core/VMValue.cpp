@@ -125,7 +125,7 @@ bool VMValue::operator==(const VMValue &rhs) const {
   case ValueType::CHAR:
     return m_value.char_value == rhs.m_value.char_value;
   case ValueType::NATIVE_POINTER:
-    return m_value.native_pointer_value == rhs.m_value.native_pointer_value;
+    return m_value.native_pointer_value.pointer == rhs.m_value.native_pointer_value.pointer;
   case ValueType::MANAGED_POINTER:
     return m_value.managed_pointer_value == rhs.m_value.managed_pointer_value;
   case ValueType::FUNCTION:
@@ -169,9 +169,9 @@ std::string VMValue::ToString() const {
    case ValueType::NATIVE_POINTER:
    {
      std::ostringstream stream;
-     stream << "0x"
+     stream << "(" << m_value.native_pointer_value.class_name <<  ") 0x"
        << std::setfill('0') << std::setw(sizeof(void *) * 2)
-       << std::hex << m_value.native_pointer_value;
+       << std::hex << m_value.native_pointer_value.pointer;
      str += stream.str();
 
    }

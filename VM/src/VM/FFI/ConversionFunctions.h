@@ -11,7 +11,11 @@
 template<typename T>
 T ToNativeType(VMValue obj) {
   static_assert ( std::is_pointer<T>::value, "This type of conversion is not implemented");
-  return (T)obj.AsNativePointer();
+  if (strcmp(typeid(T).name(), obj.AsNativePointer().class_name)) {
+    throw TypeError(std::string("Native pointer type mismatch: Expected pointer to class with typeid '") 
+      + typeid(T).name() + "' but was pointer with typeid '" + obj.AsNativePointer().class_name  + "'");
+  }
+  return static_cast<T>(obj.AsNativePointer().pointer);
 }
 
 template<>

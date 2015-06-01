@@ -15,6 +15,11 @@ std::string TypeToString(ValueType t);
   AsX-functions throw if there is type mismatch.
 */
 
+struct NativePointer {
+  void * pointer;
+  const char * class_name; // used for runtime type checks
+};
+
 class VMValue {
 public:
 
@@ -24,7 +29,10 @@ public:
   explicit VMValue(const double v) { SetDouble(v); }
   explicit VMValue(const bool v) { SetBool(v); }
   explicit VMValue(const char v) { SetChar(v); }
-  explicit VMValue(void * const v) { SetNativePointer(v); }
+  
+  template <typename T>
+  explicit VMValue(T *v) { SetNativePointer(v); }
+  
   explicit VMValue(ValueType type) { m_type = type; memset(&m_value, 0, sizeof(m_value)); }
 
   VMValue operator+(const VMValue &rhs) const;
@@ -63,10 +71,12 @@ public:
     m_type = ValueType::CHAR;
     m_value.char_value = v;
   }
-  
-  void SetNativePointer(void * const v) {
+
+  template <typename T>
+  void SetNativePointer(T *v) {
     m_type = ValueType::NATIVE_POINTER;
-    m_value.native_pointer_value = v;
+
+    m_value.native_pointer_value = NativePointer { v, typeid(v).name() };
   }
 
   void SetManagedPointer(uint32_t v) {
@@ -104,7 +114,7 @@ public:
     return m_value.char_value;
   }
 
-  void *AsNativePointer() const {
+  NativePointer AsNativePointer() const {
     AssertType(ValueType::NATIVE_POINTER);
     return m_value.native_pointer_value;
   }
@@ -146,6 +156,7 @@ private:
     char char_value;
     uint32_t managed_pointer_value;
     uint32_t function_value;
-    void *native_pointer_value;
+    NativePointer native_pointer_value;
+  //  void *native_pointer_value;
   } m_value;
 };
