@@ -26,6 +26,10 @@ std::vector<VMState> LoadScripts() {
   return states;
 }
 
+class Foo {
+  
+};
+
 
 int main() {
 
@@ -41,6 +45,7 @@ int main() {
     int counter = 1;
 
     Container container;
+    Foo foo;
     LARGE_INTEGER StartingTime;
     LARGE_INTEGER EndingTime;
     LARGE_INTEGER ElapsedMicroseconds;
@@ -50,7 +55,7 @@ int main() {
     QueryPerformanceCounter(&StartingTime);
     for (auto &state : states) {
       std::cout << "Example " << counter++ << "\n\n";
-      auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1 }, VMValue{ 2 }, VMValue{ &container } });
+      auto value = VMInstance().InvokeFunction(state, "main", { VMValue{ 1 }, VMValue{ &foo }, VMValue{ &container } });
       std::cout << "\nReturn value was: ";
       printer(value);
       std::cout << "\n\n";

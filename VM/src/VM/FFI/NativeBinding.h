@@ -32,7 +32,7 @@ NativeBinding CreateBinding(ReturnType(*ptr)(Args...)) {
 template <typename Class, typename ReturnType, typename... Args>
 NativeBinding CreateBinding(ReturnType (Class::*ptr)(Args...)) {
   NativeBinding binding;
-  binding.parameterCount = sizeof...(Args);
+  binding.parameterCount = sizeof...(Args) + 1; // + 1 for the class object pointer
 
   binding.function = [=](std::vector<VMValue> &stack) {
     auto functionPtr = std::mem_fn(ptr);

@@ -1291,7 +1291,7 @@ int test_func(int a, int b) {
   return a + 2 * b;
 }
 
-TEST(VMOperations, InvokeNativeCallsTheNativeFunction) {
+TEST(VMOperations, InvokeNativeCallsTheNativeFunctionForFreeFunction) {
 
   VMState state;
   const std::string name = "testfunction";
@@ -1310,7 +1310,31 @@ TEST(VMOperations, InvokeNativeCallsTheNativeFunction) {
   ASSERT_EQ(14, stack[0].AsInt());
 }
 
-TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatch) {
+class Foo {
+public:
+  int Bar() { return 4;  }
+};
+
+TEST(VMOperations, InvokeNativeCallsTheNativeFunctionForMemberFunction) {
+
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&Foo::Bar));
+  Foo foo;
+  std::vector<VMValue> stack = { VMValue{ &foo }, ToManagedType(name) };
+
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(1)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };  
+  
+  Op::InvokeNative(state, stack, frames);
+
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::INT, stack[0].GetType());
+  ASSERT_EQ(4, stack[0].AsInt());
+}
+
+TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatchForFreeFunction) {
 
   VMState state;
   const std::string name = "testfunction";
@@ -1320,6 +1344,23 @@ TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatch) {
 
   VMFunction function;
   function.AddByteCode(static_cast<ByteCode>(4)); // arg count for native function
+  std::vector<VMFrame> frames = { VMFrame{ &function } };
+
+  EXPECT_THROW(Op::InvokeNative(state, stack, frames), InvalidArgumentCountError);
+}
+
+
+
+TEST(VMOperations, InvokeNativeThrowsIfThereIsArgumentCountsDoNotMatchForMemberFunction) {
+
+  VMState state;
+  const std::string name = "testfunction";
+  state.AddNativeBinding(name, CreateBinding(&Foo::Bar));
+  Foo foo;
+  std::vector<VMValue> stack = { VMValue { &foo }, ToManagedType(name) };
+
+  VMFunction function;
+  function.AddByteCode(static_cast<ByteCode>(2)); // arg count for native function
   std::vector<VMFrame> frames = { VMFrame{ &function } };
 
   EXPECT_THROW(Op::InvokeNative(state, stack, frames), InvalidArgumentCountError);

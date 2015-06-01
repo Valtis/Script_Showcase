@@ -93,7 +93,7 @@ TEST(NativeBinding, VoidMemberFunctionIsCreatedAndIsCallable) {
 
 TEST(NativeBinding, VoidMemberFunctionHasCorrectParameterCount) {
   auto binding = CreateBinding(&TestClass::void_member_function);
-  ASSERT_EQ(2, binding.parameterCount);
+  ASSERT_EQ(3, binding.parameterCount);
 }
 
 TEST(NativeBinding, VoidMemberFunctionThrowsOnTypeError) {
@@ -119,7 +119,7 @@ TEST(NativeBinding, NonVoidMemberFunctionIsCreatedAndIsCallable) {
 
 TEST(NativeBinding, NonVoidMemberFunctionHasCorrectParameterCount) {
   auto binding = CreateBinding(&TestClass::non_void_member_function);
-  ASSERT_EQ(2, binding.parameterCount);
+  ASSERT_EQ(3, binding.parameterCount);
 }
 
 TEST(NativeBinding, NonVoidMemberFunctionThrowsOnTypeError) {
