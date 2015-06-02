@@ -18,7 +18,7 @@ namespace VMObjectFunction {
   uint32_t ArrayHeaderSize();
 
   // aligns size into multiple of ALIGN bytes. For example, given align of 4 and size of 14, size is increased to 16 bytes.
-  uint32_t AlignSize(uint32_t size);
+  uint64_t AlignSize(uint64_t size);
 
   // gets type field from object. 
   uint32_t GetTypeField(VMValue object, uint8_t *memoryArea);

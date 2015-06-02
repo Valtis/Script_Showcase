@@ -5,7 +5,7 @@ namespace VMObjectFunction {
     return TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE + ARRAY_LENGTH_FIELD_SIZE;
   }
 
-  uint32_t AlignSize(uint32_t size) {
+  uint64_t AlignSize(uint64_t size) {
     return size + ((ALIGN - size % ALIGN) % ALIGN); // ensure alignment
   }
 

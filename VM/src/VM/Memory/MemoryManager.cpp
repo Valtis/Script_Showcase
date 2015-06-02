@@ -47,10 +47,20 @@ MemoryManager::~MemoryManager() {
 // |1 bit          |  31 bits   | 32 bits         | 32 bits      | rest       |
 // |array mark bit | array type | forward pointer | array length | array data |
 // so 12 byte header containing bookkeeping information and length * sizeof(array type) bytes for array itself
-VMValue MemoryManager::AllocateArray(const ValueType objectType, const uint32_t length) {
+VMValue MemoryManager::AllocateArray(const ValueType objectType, const int64_t length) {
+  if (length < 0) {
+    throw InvalidArrayLengthError(std::string("Array length cannot be negative (") + std::to_string(length) + ")");
+  } 
   
-  auto requiredSpace = length*TypeSize(objectType) + VMObjectFunction::ArrayHeaderSize();
+  if (length > UINT32_MAX) {
+    throw InvalidArrayLengthError(std::string("Array length too large: Max is ") + std::to_string(UINT32_MAX) + " but was " + std::to_string(length));
+  }
 
+  uint64_t requiredSpace = static_cast<uint32_t>(length)*TypeSize(objectType) + VMObjectFunction::ArrayHeaderSize();
+  if (requiredSpace > UINT32_MAX) {
+    throw RequiredHeapSpaceTooLarge("Allocation of " + std::to_string(requiredSpace) 
+      + " bytes requested but " + std::to_string(UINT32_MAX) + " is maximum allowed allocation size");
+  }
   // align the memory (for example, if aligning to 4 bytes, 14 bytes becomes 16 bytes). Reduces unaligned memory accesses
   // which can potentially be slow (or cause 
   requiredSpace = VMObjectFunction::AlignSize(requiredSpace);

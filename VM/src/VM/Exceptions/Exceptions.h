@@ -20,7 +20,9 @@
   EXCEPTION_CLASS(TypeError, std::runtime_error)
   EXCEPTION_CLASS(InvalidConversionError, TypeError)
   EXCEPTION_CLASS(InvalidArgumentCountError, std::runtime_error)
-
+  EXCEPTION_CLASS(InvalidArrayLengthError, std::runtime_error)
+  EXCEPTION_CLASS(RequiredHeapSpaceTooLarge, std::runtime_error)
+  
   EXCEPTION_CLASS(DivisionByZeroError, std::runtime_error)
 
 

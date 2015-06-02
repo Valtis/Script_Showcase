@@ -36,7 +36,8 @@ public:
   MemoryManager &operator=(MemoryManager &&);
   ~MemoryManager();
 
-  VMValue AllocateArray(const ValueType objectType, const uint32_t length);
+  // valid values for length is 0 - uint32_t::max. it uses signed 64 bit integer so that negative values are caught
+  VMValue AllocateArray(const ValueType objectType, const int64_t length);
   void WriteToArrayIndex(const VMValue object, const void *value, const uint32_t index, const uint32_t length);
   void ReadFromArrayIndex(const VMValue object, void *value, const uint32_t index, const uint32_t length) const;
   

@@ -1411,3 +1411,145 @@ TEST(VMOperations, InvokeNativeWithMemberFunctionThrowsTypeErrorIfPointerIsOfWro
 
   EXPECT_THROW(Op::InvokeNative(state, stack, frames), TypeError);
 }
+
+
+// Allocations
+
+TEST(VMOperations, AllocateIntegerArrayPushesArrayIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };
+  Op::AllocateIntegerArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::MANAGED_POINTER, stack[0].GetType());
+  ASSERT_TRUE(MemMgrInstance().IsArray(stack[0]));
+}
+
+TEST(VMOperations, AllocateIntegerArrayPushesArrayWithValidTypeIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };;
+  Op::AllocateIntegerArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::INT, MemMgrInstance().GetArrayType(stack[0]));
+}
+
+TEST(VMOperations, AllocateIntegerArrayPushesArrayWithValidLengthIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };;
+  Op::AllocateIntegerArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(5, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+TEST(VMOperations, AllocateIntegerArrayThrowsIfArrayLengthIsNotInteger) {
+  std::vector<VMValue> stack = { VMValue(5.2) };;
+  EXPECT_THROW(Op::AllocateIntegerArray(stack), TypeError);
+}
+
+TEST(VMOperations, AllocateIntegerArrayThrowsIfStackIsEmpty) {
+  std::vector<VMValue> stack;
+  EXPECT_THROW(Op::AllocateIntegerArray(stack), ValueStackUnderFlowError);
+}
+
+TEST(VMOperations, AllocateIntegerArrayThrowsIfLengthIsNegative) {
+  std::vector<VMValue> stack = { VMValue(-1) };
+  EXPECT_THROW(Op::AllocateIntegerArray(stack), InvalidArrayLengthError);
+}
+
+// edge case tests
+TEST(VMOperations, AllocateIntegerArraySucceedsIfLengthIsZero) {
+  std::vector<VMValue> stack = { VMValue(0) };
+  Op::AllocateIntegerArray(stack); 
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(0, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+TEST(VMOperations, AllocateIntegerArraySucceedsIfLengthIsOne) {
+  std::vector<VMValue> stack = { VMValue(1) };
+  Op::AllocateIntegerArray(stack); 
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(1, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+TEST(VMOperations, AllocateObjectArrayPushesArrayIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };
+  Op::AllocateObjectArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::MANAGED_POINTER, stack[0].GetType());
+  ASSERT_TRUE(MemMgrInstance().IsArray(stack[0]));
+}
+
+TEST(VMOperations, AllocateObjectArrayPushesArrayWithValidTypeIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };;
+  Op::AllocateObjectArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(ValueType::MANAGED_POINTER, MemMgrInstance().GetArrayType(stack[0]));
+}
+
+TEST(VMOperations, AllocateObjectArrayPushesArrayWithValidLengthIntoStack) {
+  std::vector<VMValue> stack = { VMValue(5) };;
+  Op::AllocateObjectArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(5, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+TEST(VMOperations, AllocateObjectArrayThrowsIfArrayLengthIsNotInteger) {
+  std::vector<VMValue> stack = { VMValue(5.2) };;
+  EXPECT_THROW(Op::AllocateObjectArray(stack), TypeError);
+}
+
+TEST(VMOperations, AllocateObjectArrayThrowsIfStackIsEmpty) {
+  std::vector<VMValue> stack;
+  EXPECT_THROW(Op::AllocateObjectArray(stack), ValueStackUnderFlowError);
+}
+
+TEST(VMOperations, AllocateObjectArrayThrowsIfLengthIsNegative) {
+  std::vector<VMValue> stack = { VMValue(-1) };
+  EXPECT_THROW(Op::AllocateObjectArray(stack), InvalidArrayLengthError);
+}
+
+// edge case tests
+TEST(VMOperations, AllocateObjectArraySucceedsIfLengthIsZero) {
+  std::vector<VMValue> stack = { VMValue(0) };
+  Op::AllocateObjectArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(0, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+TEST(VMOperations, AllocateObjectArraySucceedsIfLengthIsOne) {
+  std::vector<VMValue> stack = { VMValue(1) };
+  Op::AllocateObjectArray(stack);
+  ASSERT_EQ(1, stack.size());
+  ASSERT_EQ(1, MemMgrInstance().GetArrayLength(stack[0]));
+}
+
+// return 
+
+TEST(VMOperations, ReturnRetunsFalseIfThereAreFramesLeftInstackAfterReturning) {
+  std::vector<VMFrame> frames;
+  frames.resize(2);
+  ASSERT_TRUE(Op::Return(frames));
+}
+
+TEST(VMOperations, ReturnRetunsFalseIfThereAreNoFramesAfterReturning) {
+  std::vector<VMFrame> frames;
+  frames.resize(1);
+  ASSERT_FALSE(Op::Return(frames));
+}
+
+TEST(VMOperations, FrameIsRemovedFromStackIfThereWereMultipleFrames) {
+  std::vector<VMFrame> frames;
+  frames.resize(2);
+  Op::Return(frames);
+  ASSERT_EQ(1, frames.size());
+}
+
+TEST(VMOperations, FrameIsRemovedFromStackIfThereWasSingleFrame) {
+  std::vector<VMFrame> frames;
+  frames.resize(1);
+  Op::Return(frames);
+  ASSERT_EQ(0, frames.size());
+}
+
+
+TEST(VMOperations, ReturnThrowsIfFrameStackIsEmpty) {
+  std::vector<VMFrame> frames;
+  EXPECT_THROW(Op::Return(frames), FrameStackUnderFlowError);
+}
+
