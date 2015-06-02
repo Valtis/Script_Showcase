@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{16793ca1-b0f3-4ce4-8e67-912c4850d169}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FFI">
+      <UniqueIdentifier>{85af3cfb-e509-4f62-a72c-f157f9df7ad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -28,7 +31,10 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\FFI\NativeBindingTest.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Source Files\FFI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FFI\FunctionArgumentTupleTemplatesTest.cpp">
+      <Filter>Source Files\FFI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

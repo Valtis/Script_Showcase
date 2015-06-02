@@ -65,10 +65,10 @@ VMValue MemoryManager::AllocateArray(const ValueType objectType, const int64_t l
   // which can potentially be slow (or cause 
   requiredSpace = VMObjectFunction::AlignSize(requiredSpace);
   
-  EnsureFreeMemory(requiredSpace);
+  EnsureFreeMemory(static_cast<uint32_t>(requiredSpace));
 
   // zero-initialization of memory before handing it over
-  memset(m_memory + m_freeSpacePointer, 0, requiredSpace);
+  memset(m_memory + m_freeSpacePointer, 0, static_cast<uint32_t>(requiredSpace));
 
   VMValue object;
   object.SetManagedPointer(m_freeSpacePointer);
@@ -80,10 +80,10 @@ VMValue MemoryManager::AllocateArray(const ValueType objectType, const int64_t l
 
   // same operation as above, but now writing to array length field.
   auto lengthField = reinterpret_cast<uint32_t *>(m_memory + m_freeSpacePointer + TYPE_POINTER_SIZE + FORWARD_POINTER_SIZE);
-  *lengthField = length;
+  *lengthField = static_cast<uint32_t>(length);
 
   // bump the free space pointer
-  m_freeSpacePointer += requiredSpace; 
+  m_freeSpacePointer += static_cast<uint32_t>(requiredSpace); 
   return object;
 }
 

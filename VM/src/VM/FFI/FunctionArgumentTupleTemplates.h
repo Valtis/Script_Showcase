@@ -1,5 +1,6 @@
 #pragma once
 #include "VM/Core/VMValue.h"
+#include "VM/FFI/ConversionFunctions.h"
 #include <vector>
 #include <tuple>
 
